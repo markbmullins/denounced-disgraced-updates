@@ -1,0 +1,24 @@
+.hero-text {
+  color: white;
+  font-size: 3rem;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+}
+
+.img-container {
+  width: 70vw;
+  height: 50vh;
+  position: relative;
+}
+
+.html {
+  background-color: black;
+}
