@@ -1,11 +1,45 @@
 import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const font = localFont({ src: "./BrunoAceSC-Regular.ttf" });
 
+const debounce = (callback, wait) => {
+  let timeoutId = null;
+  return (...args) => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback.apply(null, args);
+    }, wait);
+  };
+};
+
 export default function Home() {
+  const [windowSize, setWindowSize] = useState(null);
+
+  useEffect(() => {
+    console.log("useeffect");
+    const handleResize = () => {
+      // debounce(() => {
+
+      // }, 100);
+
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
+
+  console.log({ windowSize });
+
   return (
     <>
       <Head>
@@ -17,7 +51,12 @@ export default function Home() {
       <main>
         <div className="flex-container">
           <div className="img-container">
-            <Image src="/ddLogo.png" alt="Denounced Disgraced" fill />
+            {windowSize?.width < 500 ? (
+              <Image src="/ddLogoSquare.png" alt="Denounced Disgraced" fill />
+            ) : (
+              <Image src="/ddLogo.png" alt="Denounced Disgraced" fill />
+            )}
+            {/* <Image src="/ddLogoSquare.png" alt="Denounced Disgraced" fill /> */}
           </div>
           <div className={`${font.className} hero-text`}>Coming Soon...</div>
         </div>
