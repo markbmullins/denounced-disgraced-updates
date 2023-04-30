@@ -15,7 +15,7 @@ const debounce = (callback, wait) => {
   };
 };
 
-export default function Home() {
+export default function Home({ isMobile }) {
   const [windowSize, setWindowSize] = useState(null);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function Home() {
       <main>
         <div className="flex-container">
           <div className="img-container">
-            {windowSize?.width < 500 ? (
+            {isMobile ? (
               <Image src="/ddLogoSquare.png" alt="Denounced Disgraced" fill />
             ) : (
               <Image src="/ddLogo.png" alt="Denounced Disgraced" fill />
@@ -64,3 +64,21 @@ export default function Home() {
     </>
   );
 }
+
+Home.getInitialProps = ({ req }) => {
+  let userAgent;
+  if (req) {
+    // if you are on the server and you get a 'req' property from your context
+    userAgent = req.headers["user-agent"]; // get the user-agent from the headers
+  } else {
+    userAgent = navigator.userAgent; // if you are on the client you can access the navigator from the window object
+  }
+
+  let isMobile = Boolean(
+    userAgent.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
+
+  return { isMobile };
+};
