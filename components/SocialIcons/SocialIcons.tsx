@@ -11,7 +11,9 @@ export const SocialIcons = () => {
   return (
     <div className="social-icons">
       {socials.map((url) => (
-        <SocialIcon url={url} bgColor="#e4e6eb" />
+        <React.Fragment key={url}>
+          <SocialIcon url={url} bgColor="#e4e6eb" />
+        </React.Fragment>
       ))}
     </div>
   );
