@@ -4,7 +4,6 @@ main {
 }
 
 .hero-text {
-  color: white;
   font-size: calc(1rem + 5vw);
 }
 
@@ -14,17 +13,12 @@ main {
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: black;
 }
 
 .img-container {
   width: 80vw;
   height: 50vh;
   position: relative;
-}
-
-.html {
-  background-color: black;
 }
 
 .img-container > .mobile {
