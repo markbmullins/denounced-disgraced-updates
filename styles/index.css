@@ -27,6 +27,13 @@ main {
   background-color: black;
 }
 
+.img-container > .mobile {
+  display: block;
+}
+.img-container > .desktop {
+  display: none;
+}
+
 @media (min-width: 500px) {
   .img-container {
     width: 70vw;
@@ -39,5 +46,21 @@ main {
 
   .flex-container {
     justify-content: center;
+  }
+
+  .img-container > .mobile {
+    display: none;
+  }
+  .img-container > .desktop {
+    display: block;
+  }
+}
+
+@media only screen and (orientation: landscape) {
+  .img-container > .mobile {
+    display: none;
+  }
+  .img-container > .desktop {
+    display: block;
   }
 }
