@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-export const ComingSoon = ({ isMobile, font }) => {
+export const ComingSoon = ({ font }) => {
   return (
     <main>
       <div className="flex-container">
