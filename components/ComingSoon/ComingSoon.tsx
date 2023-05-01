@@ -1,18 +1,23 @@
-import Image from "next/image";
 import React from "react";
+import styled from "styled-components";
+
+const HeroText = styled.span`
+  font-size: calc(0.9rem + 5vw);
+  margin-top: 5%;
+
+  @media (min-width: 500px) {
+    margin-top: 2%;
+  }
+
+  @media only screen and (orientation: landscape) {
+    margin-top: 2%;
+  }
+`;
 
 export const ComingSoon = ({ font }) => {
   return (
-    <div className="flex-container">
-      <div className="img-container">
-        <div className="mobile">
-          <Image src="/ddLogoSquare.png" alt="Denounced Disgraced" fill />
-        </div>
-        <div className="desktop">
-          <Image src="/ddLogo.png" alt="Denounced Disgraced" fill />
-        </div>
-      </div>
-      <div className={`${font.className} hero-text`}>Coming Soon...</div>
-    </div>
+    <HeroText>
+      <span className={font.className}>Coming Soon...</span>
+    </HeroText>
   );
 };
