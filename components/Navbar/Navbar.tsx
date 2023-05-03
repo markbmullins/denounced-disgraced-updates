@@ -91,7 +91,7 @@ export const Navbar: FunctionComponent<NavbarProps> = () => {
 
       <Links>
         {Object.entries(Pages).map(([pageName, url]) => (
-          <Link>
+          <Link key="url">
             <NextLink href={url}>{pageName}</NextLink>
           </Link>
         ))}
