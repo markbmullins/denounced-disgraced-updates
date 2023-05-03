@@ -8,6 +8,13 @@ import { LogoLarge } from "@/components/Logos";
 
 const font = localFont({ src: "./BrunoAceSC-Regular.ttf" });
 
+/**
+ * Possible Content:
+ * Band introduction
+ * Latest news and updates
+ * Featured music or video
+ * Links to social media profiles
+ */
 export default function Home() {
   return (
     <main>
