@@ -8,8 +8,10 @@ const ZIndex = styled.div`
 `;
 
 const Hero = styled.div`
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url(${(props) => props.src});
+  background-image: linear-gradient(
+      ${({ opacity }) => `rgba(0, 0, 0, ${opacity}), rgba(0, 0, 0, ${opacity})`}
+    ),
+    url(${({ src }) => src});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -21,10 +23,10 @@ const Hero = styled.div`
   z-index: 0;
 `;
 
-export const HeroImage = ({ children }) => {
+export const HeroImage = ({ children, opacity = "0.7" }) => {
   return (
     <>
-      <Hero src="pyramid.png" />
+      <Hero src="pyramid.png" opacity={opacity} />
       <ZIndex>{children}</ZIndex>
     </>
   );

@@ -5,7 +5,9 @@ import Hamburger from "hamburger-react";
 import { TransparentLogo as TransparentLogo } from "../Logos";
 import { desktopAndLandscape } from "../../utils/mediaQueries";
 
-interface NavbarProps {}
+interface NavbarProps {
+  height: number;
+}
 
 const Pages = {
   Home: "/",
@@ -20,6 +22,7 @@ const Nav = styled.nav`
   position: fixed;
   top: 0%;
   width: 100%;
+  height: ${(props) => props.height + "px"}
   background-color: transparent;
   z-index: 100;
   padding: 1vh;
@@ -60,8 +63,8 @@ const Link = styled.li`
 `;
 
 const NavLogoContainer = styled.div`
-  width: 150px;
-  height: 30px;
+  width: 200px;
+  height: 70px;
   position: relative;
   margin-right: auto;
   margin-left: 5%;
@@ -80,11 +83,11 @@ const HamburgerContainer = styled.div`
   }
 `;
 
-export const Navbar: FunctionComponent<NavbarProps> = () => {
+export const Navbar: FunctionComponent<NavbarProps> = ({ height }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Nav>
+    <Nav height={height}>
       <NavLogoContainer>
         <TransparentLogo />
       </NavLogoContainer>

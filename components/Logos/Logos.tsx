@@ -1,6 +1,7 @@
 import { desktopAndLandscape } from "../../utils/mediaQueries";
 import Image from "next/image";
 import styled from "styled-components";
+import config from "../../utils/config";
 
 const ImageContainer = styled.div`
   position: relative;
@@ -35,18 +36,14 @@ export const ResponsiveLogoSwitcher = ({ sources }) => {
   );
 };
 
-const sources = {
-  mobile: "/ddLogoSquare.png",
-  desktop: "/ddLogo.png",
-};
-
-const noBgSources = {
-  mobile: "/ddLogoSquare-transformed.png",
-  desktop: "/ddLogo-removebg.png",
-};
-
 export const TransparentLogo = () => {
-  return <Image src={noBgSources.desktop} alt="Denounced Disgraced" fill />;
+  return (
+    <Image
+      src={config.logos.transparentBg.desktop}
+      alt="Denounced Disgraced"
+      fill
+    />
+  );
 };
 
 const LogoLargeContainer = styled.div`
