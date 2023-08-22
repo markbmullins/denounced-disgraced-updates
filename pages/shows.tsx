@@ -6,6 +6,7 @@ import styled from "styled-components";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
 import localFont from "next/font/local";
+import {desktopAndLandscape} from "@/utils/mediaQueries";
 
 const font = localFont({src: "./BrunoAceSC-Regular.ttf"});
 
@@ -24,17 +25,15 @@ const StyledLinksContainer = styled.div`
 `
 
 const Header = styled.h1`
-  font-size: 3rem;
+  font-size: 2rem;
   margin-top: 10vh;
   margin-bottom: 5vh;
+  white-space: nowrap;
+
+  ${desktopAndLandscape} {
+    font-size: 3rem;
+  }
 `
-/**
- * Possible Content:
- * Upcoming tour dates and events
- * Past show photos and videos
- * Ticket purchasing information
- * Contact for booking inquiries
- */
 const Shows: FunctionComponent<ShowsProps> = () => {
 
     const shows = [

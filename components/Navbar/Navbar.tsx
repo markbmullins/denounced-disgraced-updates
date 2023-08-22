@@ -72,22 +72,16 @@ const SideDrawer = styled.div<{ isOpen: boolean }>`
   right: ${(props) => (props.isOpen ? "0" : "-100%")};
   width: 40%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 99;
   transition: right 0.3s ease-in-out;
   padding: 1rem;
+  padding-top: 10vh;
 
-  ${Link} {
-    margin: 1rem 0;
+  li {
+    margin-top: 2rem;
   }
 `;
-
-const SidebarDrawerHamburgerContainer = styled.div`
-  width: 20px;
-  margin-right: auto;
-  margin-left: auto;
-  margin-bottom: 6vh;
-`
 
 export const Navbar: FunctionComponent<NavbarProps> = ({height, font, pages}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -126,9 +120,6 @@ export const Navbar: FunctionComponent<NavbarProps> = ({height, font, pages}) =>
                 />
             </HamburgerContainer>
             <SideDrawer isOpen={isOpen} ref={drawerRef}>
-                <SidebarDrawerHamburgerContainer>
-
-                </SidebarDrawerHamburgerContainer>
                 <ColumnCentered>
                     {links}
                 </ColumnCentered>
