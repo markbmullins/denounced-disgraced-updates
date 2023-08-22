@@ -6,7 +6,8 @@ interface FooterProps {
 }
 
 const FooterContainer = styled.div`
-  margin-top: auto;
+  position: absolute;
+  bottom: 0;
 `;
 
 export const Footer: FunctionComponent<FooterProps> = ({ children }) => {

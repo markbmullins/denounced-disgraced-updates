@@ -5,13 +5,10 @@ import { Navbar } from "../components/Navbar";
 import styled from "styled-components";
 
 import "../styles/globals.css";
-import "../styles/index.css";
 import localFont from "next/font/local";
 
 const navbarHeight = 80;
-const Content = styled.div`
-  margin-top: ${navbarHeight}px;
-`;
+
 const font = localFont({ src: "./BrunoAceSC-Regular.ttf" });
 
 
@@ -24,10 +21,14 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar height={navbarHeight} font={font}/>
-      <Content>
+      <Navbar height={navbarHeight} font={font} pages={{
+          Home: "/",
+          Store: "/store",
+          Shows: "/shows",
+          Press: "/press",
+          Contact: "/contact",
+      }}/>
         <Component {...pageProps} />
-      </Content>
     </>
   );
 }

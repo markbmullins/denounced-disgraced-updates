@@ -1,7 +1,6 @@
-import React, { ReactNode } from "react";
+import React, {ReactNode} from "react";
 import styled from "styled-components";
-import { desktopAndLandscape } from "../../utils/mediaQueries";
-import { NextFont } from "next/dist/compiled/@next/font";
+import {desktopAndLandscape} from "../../utils/mediaQueries";
 
 const HeroTextContainer = styled.span`
   font-size: calc(0.9rem + 5vw);
@@ -12,18 +11,14 @@ const HeroTextContainer = styled.span`
   }
 `;
 
-type HeroTextBasic = {
-  font: NextFont;
-};
-
-interface HeroTextWithChildren extends HeroTextBasic {
-  children: ReactNode;
-  text?: never;
+interface HeroTextWithChildren {
+    children: ReactNode;
+    text?: never;
 }
 
-interface HeroTextWithOutChildren extends HeroTextBasic {
-  children?: never;
-  text: ReactNode;
+interface HeroTextWithOutChildren {
+    children?: never;
+    text: ReactNode;
 }
 
 type HeroTextProps = HeroTextWithChildren | HeroTextWithOutChildren;
@@ -31,10 +26,10 @@ type HeroTextProps = HeroTextWithChildren | HeroTextWithOutChildren;
 /**
  * Accepts either children or text property for text
  */
-export const HeroText = ({ font, children, text }: HeroTextProps) => {
-  return (
-    <HeroTextContainer>
-      <span className={font.className}>{children ? children : text}</span>
-    </HeroTextContainer>
-  );
+export const HeroText = ({children, text}: HeroTextProps) => {
+    return (
+        <HeroTextContainer>
+            <span>{children ? children : text}</span>
+        </HeroTextContainer>
+    );
 };

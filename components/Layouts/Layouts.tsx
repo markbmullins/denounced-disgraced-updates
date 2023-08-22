@@ -6,8 +6,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  height: 100%;
-
   ${desktopAndLandscape} {
     justify-content: center;
   }

@@ -22,12 +22,11 @@ const Hero = styled.div`
 
 const ContentWrapper = styled.div`
   position: absolute;
-  //top: 80px;
+  top: 80px;
   width: 100%;
   bottom: 0;
   overflow-y: scroll;
   z-index: 3;
-  //background: rgba(255, 255, 255, 0.5);
 `;
 
 export const HeroImage = ({ children, opacity = "0.7" }) => {
