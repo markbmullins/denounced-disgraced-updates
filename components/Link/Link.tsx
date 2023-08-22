@@ -26,12 +26,14 @@ interface LinkProps {
     title: string,
     url: string,
     newTab?: boolean
+    underlined?: boolean
 }
 
-export const Link = ({title, url, newTab}: LinkProps) => {
+export const Link = ({title, url, newTab, underlined}: LinkProps) => {
     return (<StyledLink key={url}>
         {newTab ?
-            <a target="_blank" href={url} rel="noopener noreferrer">{title}</a> :
+            <a target="_blank" href={url} rel="noopener noreferrer"
+               style={{textDecoration: underlined ? "underline" : "none"}}>{title}</a> :
             <NextLink href={url}>{title}</NextLink>}
     </StyledLink>)
 }

@@ -64,7 +64,8 @@ const Shows: FunctionComponent<ShowsProps> = () => {
                 <StyledLinksContainer>
                     <Header>Upcoming Shows</Header>
                     {shows.map(show =>
-                        <Link key={show.date} newTab title={`${show.date} : ${show.location}`} url={show.link}/>
+                        <Link newTab underlined key={show.date} title={`${show.date} : ${show.location}`}
+                              url={show.link}/>
                     )}
                 </StyledLinksContainer>
                 <Footer>
