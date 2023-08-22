@@ -93,7 +93,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({height, font, pages}) =>
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const links = Object.entries(pages).map(([pageName, url]) => (
-        <div onClick={() => setIsOpen(false)}><Link url={url} title={pageName}/></div>
+        <div key={url} onClick={() => setIsOpen(false)}><Link url={url} title={pageName}/></div>
     ))
 
     const drawerRef = useRef(null);
