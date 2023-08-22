@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
 import localFont from "next/font/local";
-import {desktopAndLandscape} from "@/utils/mediaQueries";
+import {desktopAndLandscape} from "../utils/mediaQueries";
 
 const font = localFont({src: "./BrunoAceSC-Regular.ttf"});
 
