@@ -1,21 +1,26 @@
-import localFont from "next/font/local";
 import React from "react";
-import { ComingSoon } from "../components/ComingSoon";
 import { SocialIcons } from "../components/SocialIcons";
-import { HeroImage } from "@/components/HeroImage";
-import { ColumnCentered } from "@/components/Layouts";
-import { LogoLarge } from "@/components/Logos";
+import { HeroImage } from "../components/HeroImage";
+import { ColumnCentered } from "../components/Layouts";
+import { Footer } from "../components/Footer";
+import SpotifyPlayer from "../components/SpotifyPlayer/SpotifyPlayer";
 
-const font = localFont({ src: "./BrunoAceSC-Regular.ttf" });
-
+/**
+ * Possible Content:
+ * Band introduction
+ * Latest news and updates
+ * Featured music or video
+ * Links to social media profiles
+ */
 export default function Home() {
   return (
     <main>
-      <HeroImage>
+      <HeroImage opacity="0.4">
         <ColumnCentered>
-          <LogoLarge />
-          <ComingSoon font={font} />
-          <SocialIcons />
+            <SpotifyPlayer/>
+          <Footer>
+            <SocialIcons />
+          </Footer>
         </ColumnCentered>
       </HeroImage>
     </main>

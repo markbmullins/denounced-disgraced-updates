@@ -1,5 +1,7 @@
+import { desktopAndLandscape } from "../../utils/mediaQueries";
 import Image from "next/image";
 import styled from "styled-components";
+import config from "../../utils/config";
 
 const ImageContainer = styled.div`
   position: relative;
@@ -7,10 +9,7 @@ const ImageContainer = styled.div`
 `;
 const Mobile = styled(ImageContainer)`
   display: block;
-  @media (min-width: 500px) {
-    display: none;
-  }
-  @media only screen and (orientation: landscape) {
+  ${desktopAndLandscape} {
     display: none;
   }
 `;
@@ -19,11 +18,7 @@ const Desktop = styled(ImageContainer)`
   display: none;
 
   position: relative;
-  @media (min-width: 500px) {
-    display: block;
-  }
-
-  @media only screen and (orientation: landscape) {
+  ${desktopAndLandscape} {
     display: block;
   }
 `;
@@ -41,19 +36,18 @@ export const ResponsiveLogoSwitcher = ({ sources }) => {
   );
 };
 
-const sources = {
-  mobile: "/ddLogoSquare.png",
-  desktop: "/ddLogo.png",
-};
-
-const noBgSources = {
-  mobile: "/ddLogoSquare-transformed.png",
-  desktop: "/ddLogo-removebg.png",
+export const TransparentLogo = () => {
+  return (
+    <Image
+      src={config.logos.transparentBg.desktop}
+      alt="Denounced Disgraced"
+      fill
+    />
+  );
 };
 
 const LogoLargeContainer = styled.div`
   margin-top: 30%;
-  /* object-fit: contain; */
   position: relative;
   width: 90vw;
   height: 25vh;
@@ -74,8 +68,7 @@ const LogoLargeContainer = styled.div`
 export const LogoLarge = () => {
   return (
     <LogoLargeContainer>
-      {/* <ResponsiveLogoSwitcher sources={noBgSources} /> */}
-      <Image src={noBgSources.desktop} alt="Denounced Disgraced" fill />
+      <TransparentLogo />
     </LogoLargeContainer>
   );
 };

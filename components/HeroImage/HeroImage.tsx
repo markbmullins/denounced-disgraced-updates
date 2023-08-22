@@ -1,31 +1,46 @@
 import styled from "styled-components";
+import {useEffect, useRef} from "react";
+import {initSmoothScroll} from "../../utils/smoothScroll";
 
-const ZIndex = styled.div`
-  z-index: 2;
-  position: relative;
-  height: 100%;
-  width: 100%;
-`;
 
 const Hero = styled.div`
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url(${(props) => props.src});
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  
+  background-image: linear-gradient(
+      ${({ opacity }) => `rgba(0, 0, 0, ${opacity}), rgba(0, 0, 0, ${opacity})`}
+    ),
+    url(${({ src }) => src});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  z-index: 0;
 `;
 
-export const HeroImage = ({ children }) => {
+const ContentWrapper = styled.div`
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  bottom: 0;
+  overflow-y: scroll;
+  z-index: 3;
+`;
+
+export const HeroImage = ({ children, opacity = "0.7" }) => {
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (contentRef.current) {
+            initSmoothScroll(contentRef.current);
+        }
+    }, []);
   return (
     <>
-      <Hero src="pyramid.png" />
-      <ZIndex>{children}</ZIndex>
+      <Hero src="pyramid.png" opacity={opacity} />
+      <ContentWrapper>{children}</ContentWrapper>
     </>
   );
 };
