@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {desktopAndLandscape} from "../../utils/mediaQueries";
 
 const Container = styled.div`
   display: flex;
@@ -6,11 +7,8 @@ const Container = styled.div`
   align-items: center;
 
   height: 100%;
-  @media (min-width: 500px) {
-    justify-content: center;
-  }
 
-  @media only screen and (orientation: landscape) {
+  ${desktopAndLandscape} {
     justify-content: center;
   }
 `;

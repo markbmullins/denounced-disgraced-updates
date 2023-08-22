@@ -27,12 +27,12 @@ export default function Home() {
     <main>
       <HeroImage opacity="0.4">
         <ColumnCentered>
-          {/* <LogoLarge /> */}
-          {/* <HeroText font={font}>Coming Soon...</HeroText> */}
+           {/*<LogoLarge />*/}
+           {/*<HeroText font={font}>Coming Soon...</HeroText>*/}
 
-          <SpotifyContainer>
-            <SpotifyPlayer uri="https://open.spotify.com/embed/track/6hiDKK4kOXb6Z9ows6Cw7K" />
-          </SpotifyContainer>
+          {/*<SpotifyContainer>*/}
+          {/*  <SpotifyPlayer uri="https://open.spotify.com/embed/track/6hiDKK4kOXb6Z9ows6Cw7K" />*/}
+          {/*</SpotifyContainer>*/}
 
           <Footer>
             <SocialIcons />

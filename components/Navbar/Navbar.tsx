@@ -3,15 +3,17 @@ import NextLink from "next/link";
 import styled from "styled-components";
 import Hamburger from "hamburger-react";
 import { TransparentLogo as TransparentLogo } from "../Logos";
-import { desktopAndLandscape } from "../../utils/mediaQueries";
+import {desktopAndLandscape, tablet} from "../../utils/mediaQueries";
+import {NextFont} from "next/dist/compiled/@next/font";
 
 interface NavbarProps {
   height: number;
+  font: NextFont
 }
 
 const Pages = {
   Home: "/",
-  About: "/about",
+  Store: "/store",
   Music: "/music",
   Shows: "/shows",
   Press: "/press",
@@ -22,7 +24,7 @@ const Nav = styled.nav`
   position: fixed;
   top: 0%;
   width: 100%;
-  height: ${(props) => props.height + "px"}
+  height: ${(props) => props.height + "px"};
   background-color: transparent;
   z-index: 100;
   padding: 1vh;
@@ -37,8 +39,9 @@ const Links = styled.ul`
   margin-left: auto;
   margin-right: 10%;
 
-  ${desktopAndLandscape} {
+  ${tablet} {
     display: flex;
+    font-size: calc(0.5rem + .8vw);
   }
 `;
 
@@ -63,11 +66,18 @@ const Link = styled.li`
 `;
 
 const NavLogoContainer = styled.div`
-  width: 200px;
-  height: 70px;
+  width: 150px;
+  height: 52px;
+
   position: relative;
   margin-right: auto;
   margin-left: 5%;
+  margin-top: 10px;
+  
+  ${tablet} {
+    width: 200px;
+    height: 70px;
+  }
 
   ${desktopAndLandscape} {
     margin-left: 10%;
@@ -78,12 +88,12 @@ const HamburgerContainer = styled.div`
   display: block;
   margin-right: 5vw;
 
-  ${desktopAndLandscape} {
+  ${tablet} {
     display: none;
   }
 `;
 
-export const Navbar: FunctionComponent<NavbarProps> = ({ height }) => {
+export const Navbar: FunctionComponent<NavbarProps> = ({ height, font }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -92,7 +102,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({ height }) => {
         <TransparentLogo />
       </NavLogoContainer>
 
-      <Links>
+      <Links className={font.className}>
         {Object.entries(Pages).map(([pageName, url]) => (
           <Link key="url">
             <NextLink href={url}>{pageName}</NextLink>
