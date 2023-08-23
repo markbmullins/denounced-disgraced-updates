@@ -23,7 +23,7 @@ const Hero = styled.div`
 const ContentWrapper = styled.div`
   position: absolute;
   top: 100px;
-  max-width: 100%;
+  width: 100%;
   overflow-y: scroll;
   z-index: 3;
   margin: 0px 15px;
