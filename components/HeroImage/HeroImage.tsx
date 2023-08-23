@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {useEffect, useRef} from "react";
 import {initSmoothScroll} from "../../utils/smoothScroll";
 import config from "../../utils/config";
-import {desktopAndLandscape} from "@/utils/mediaQueries";
+import {desktopAndLandscape} from "../../utils/mediaQueries";
 
 
 const Hero = styled.div`
