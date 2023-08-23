@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {useEffect, useRef} from "react";
 import {initSmoothScroll} from "../../utils/smoothScroll";
 import config from "../../utils/config";
-import {desktopAndLandscape} from "../../utils/mediaQueries";
 
 
 const Hero = styled.div`
@@ -26,12 +25,6 @@ const ContentWrapper = styled.div`
   width: 100%;
   overflow-y: scroll;
   z-index: 3;
-  margin: 0px 15px;
-
-  ${desktopAndLandscape} {
-    margin: 0px 100px;
-  }
-
 `;
 
 export const HeroImage = ({children, opacity = "0.7"}) => {
