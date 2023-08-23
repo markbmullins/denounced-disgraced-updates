@@ -4,27 +4,28 @@ import {ColumnCentered} from "../components/Layouts";
 import {HeroText} from "../components/HeroText";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
-import localFont from "next/font/local";
+import {Flex1Container} from "../components/styled";
 
 interface MerchProps {
 }
 
-const font = localFont({src: "./BrunoAceSC-Regular.ttf"});
-
 const Store: FunctionComponent<MerchProps> = () => {
-    return <main className={font.className}>
+    return <main>
         <HeroImage opacity="0.4">
             <ColumnCentered>
-                <HeroText>
-                    Coming soon...
-                </HeroText>
+                <Flex1Container>
+                    <HeroText>
+                        Coming soon...
+                    </HeroText>
+                </Flex1Container>
+
                 <Footer>
                     <SocialIcons/>
                 </Footer>
             </ColumnCentered>
 
         </HeroImage>
-    </main>
+    </main>;
 };
 
 export default Store;

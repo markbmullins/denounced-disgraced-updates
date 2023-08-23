@@ -4,7 +4,7 @@ import {ColumnCentered} from "../components/Layouts";
 import {HeroText} from "../components/HeroText";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
-import localFont from "next/font/local";
+import {Flex1Container} from "../components/styled";
 
 interface ContactProps {
 }
@@ -16,19 +16,19 @@ interface ContactProps {
  * Description of music style and influences
  * Achievements and past performances
  */
-const font = localFont({src: "./BrunoAceSC-Regular.ttf"});
 const Contact: FunctionComponent<ContactProps> = () => {
-    return <main className={font.className}>
+    return <main>
         <HeroImage opacity="0.4">
             <ColumnCentered>
-                <HeroText>
-                    Coming soon...
-                </HeroText>
+                <Flex1Container>
+                    <HeroText>
+                        Coming soon...
+                    </HeroText>
+                </Flex1Container>
                 <Footer>
                     <SocialIcons/>
                 </Footer>
             </ColumnCentered>
-
         </HeroImage>
     </main>
 };

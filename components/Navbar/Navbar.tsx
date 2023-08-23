@@ -3,13 +3,11 @@ import styled from "styled-components";
 import Hamburger from "hamburger-react";
 import {TransparentLogo as TransparentLogo} from "../Logos";
 import {desktopAndLandscape, tablet} from "../../utils/mediaQueries";
-import {NextFont} from "next/dist/compiled/@next/font";
 import {ColumnCentered} from "../../components/Layouts";
 import {Link} from "../../components/Link";
 
 interface NavbarProps {
     height: number;
-    font: NextFont
     pages: Record<string, string>
 }
 
@@ -21,10 +19,12 @@ const Nav = styled.nav`
   background-color: transparent;
   z-index: 100;
   padding: 1vh;
+  font-family: Bruno;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
 `;
 
 const Links = styled.ul`
@@ -83,7 +83,7 @@ const SideDrawer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-export const Navbar: FunctionComponent<NavbarProps> = ({height, font, pages}) => {
+export const Navbar: FunctionComponent<NavbarProps> = ({height, pages}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const links = Object.entries(pages).map(([pageName, url]) => (
@@ -104,7 +104,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({height, font, pages}) =>
         };
     }, [isOpen]);
     return (
-        <Nav height={height} className={font.className}>
+        <Nav height={height}>
             <NavLogoContainer>
                 <TransparentLogo/>
             </NavLogoContainer>

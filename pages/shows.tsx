@@ -5,19 +5,19 @@ import {Link} from "../components/Link";
 import styled from "styled-components";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
-import localFont from "next/font/local";
 import {desktopAndLandscape} from "../utils/mediaQueries";
-
-const font = localFont({src: "./BrunoAceSC-Regular.ttf"});
 
 interface ShowsProps {
 }
 
 
 const StyledLinksContainer = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: Bruno;
+
 
   li {
     margin: .5rem 0
@@ -58,7 +58,7 @@ const Shows: FunctionComponent<ShowsProps> = () => {
             link: ""
         }]
 
-    return <main className={font.className}>
+    return <main>
         <HeroImage opacity="0.4">
             <ColumnCentered>
                 <StyledLinksContainer>
