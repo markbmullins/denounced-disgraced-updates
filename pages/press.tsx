@@ -1,15 +1,11 @@
 import React from "react";
-import {HeroImage} from "../components/HeroImage";
-import {ColumnCentered} from "../components/Layouts";
-import {Footer} from "../components/Footer";
-import {SocialIcons} from "../components/SocialIcons";
-import styled from "styled-components"
+import { ColumnCentered } from "../components/Layouts";
+import styled from "styled-components";
 import config from "../utils/config";
 import SpotifyPlayer from "../components/SpotifyPlayer/SpotifyPlayer";
-import {desktopAndLandscape} from "..//utils/mediaQueries";
+import { desktopAndLandscape } from "../utils/mediaQueries";
 
-interface PressProps {
-}
+interface PressProps {}
 
 /**
  * Reviews and features from music blogs and publications
@@ -23,22 +19,19 @@ const HeaderImage = styled.img`
   height: 50%;
 
   ${desktopAndLandscape} {
-    width: 40%;
-    height: auto;
+    max-width: 50%;
   }
 `;
 
 const Heading = styled.h1`
-  font-size: 1.6rem;
-  white-space: nowrap;
+  font-size: 3rem;
   text-align: center;
   margin-bottom: 10px;
   font-family: Bruno;
 
   ${desktopAndLandscape} {
-    font-size: 2.5rem;
+    font-size: 4rem;
   }
-}
 `;
 
 const Paragraph = styled.p`
@@ -46,38 +39,34 @@ const Paragraph = styled.p`
   line-height: 1.6;
   margin: 20px 0;
   font-family: Roboto;
+  padding: 0 25px;
 
+  ${desktopAndLandscape} {
+    font-size: 1.5rem;
+    padding: 0 10%;
+  }
 `;
 
 const Press = () => {
-    return (
-        <main>
-            <HeroImage opacity="0.4">
-                <ColumnCentered>
-                    <Heading>Denounced Disgraced</Heading>
-                    <HeaderImage src={config.epk.pictures[0]} alt="Denounced Disgraced Band"/>
-                    <Paragraph>
-                        Hailing from Charleston, South Carolina, Denounced Disgraced is revolutionizing the technical
-                        death
-                        metal genre. With intricate rhythms, groundbreaking riffs, and visceral vocals, the band is
-                        setting a
-                        new standard for metal enthusiasts everywhere. Having played alongside legendary acts and graced
-                        stages
-                        of all sizes, Denounced Disgraced is a force to be reckoned with in the metal community.
-                    </Paragraph>
-                    <Paragraph>
-                        For booking, interviews, or promotional materials, please contact [your contact email or number
-                        here].
-                    </Paragraph>
-                    <Heading>Listen on Spotify</Heading>
-                    <SpotifyPlayer/>
-                    <Footer>
-                        <SocialIcons/>
-                    </Footer>
-                </ColumnCentered>
-            </HeroImage>
-        </main>
-    );
+  return (
+    <ColumnCentered>
+      <Heading>Denounced Disgraced</Heading>
+      <HeaderImage src={config.epk.pictures[0]} />
+
+      <div>
+        <Paragraph>
+          Technical death metal from Charleston, South Carolina. For booking,
+          interviews, or promotional materials, please contact &nbsp;
+          <a href="mailto:denounceddisgracedband@gmail.com">
+            denounceddisgracedband@gmail.com
+          </a>
+        </Paragraph>
+        <Paragraph></Paragraph>
+      </div>
+      <Heading>Listen on Spotify</Heading>
+      <SpotifyPlayer />
+    </ColumnCentered>
+  );
 };
 
 export default Press;

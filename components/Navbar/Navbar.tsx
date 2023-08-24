@@ -1,30 +1,32 @@
-import {FunctionComponent, useEffect, useRef, useState} from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Hamburger from "hamburger-react";
-import {TransparentLogo as TransparentLogo} from "../Logos";
-import {desktopAndLandscape, tablet} from "../../utils/mediaQueries";
-import {ColumnCentered} from "../../components/Layouts";
-import {Link} from "../../components/Link";
+import { TransparentLogo as TransparentLogo } from "../Logos";
+import { desktopAndLandscape, tablet } from "../../utils/mediaQueries";
+import { ColumnCentered } from "../../components/Layouts";
+import { Link } from "../../components/Link";
 
 interface NavbarProps {
-    height: number;
-    pages: Record<string, string>
+  height: number;
+  pages: Record<string, string>;
 }
 
 const Nav = styled.nav`
   position: fixed;
-  top: 0%;
-  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
   height: ${(props) => props.height + "px"};
   background-color: transparent;
-  z-index: 100;
+
   padding: 1vh;
   font-family: Bruno;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
 `;
 
 const Links = styled.ul`
@@ -34,7 +36,7 @@ const Links = styled.ul`
 
   ${tablet} {
     display: flex;
-    font-size: calc(0.5rem + .8vw);
+    font-size: calc(0.5rem + 0.8vw);
   }
 `;
 
@@ -83,47 +85,49 @@ const SideDrawer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-export const Navbar: FunctionComponent<NavbarProps> = ({height, pages}) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const links = Object.entries(pages).map(([pageName, url]) => (
-        <div key={url} onClick={() => setIsOpen(false)}><Link url={url} title={pageName}/></div>
-    ))
+  const links = Object.entries(pages).map(([pageName, url]) => (
+    <div key={url} onClick={() => setIsOpen(false)}>
+      <Link url={url} title={pageName} />
+    </div>
+  ));
 
-    const drawerRef = useRef(null);
+  const drawerRef = useRef(null);
 
-    useEffect(() => {
-        const handleOutsideClick = (e) => {
-            if (isOpen && drawerRef.current && !drawerRef.current.contains(e.target)) {
-                setIsOpen(false);
-            }
-        };
-        document.addEventListener("click", handleOutsideClick);
-        return () => {
-            document.removeEventListener("click", handleOutsideClick);
-        };
-    }, [isOpen]);
-    return (
-        <Nav height={height}>
-            <NavLogoContainer>
-                <TransparentLogo/>
-            </NavLogoContainer>
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        isOpen &&
+        drawerRef.current &&
+        !drawerRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [isOpen]);
+  return (
+    <Nav height={height}>
+      <NavLogoContainer>
+        <TransparentLogo />
+      </NavLogoContainer>
 
-            <Links>
-                {links}
-            </Links>
-            <HamburgerContainer onClick={(e) => e.stopPropagation()}>
-                <Hamburger
-                    toggle={() => setIsOpen(!isOpen)}
-                    toggled={isOpen}
-                    size={20}
-                />
-            </HamburgerContainer>
-            <SideDrawer isOpen={isOpen} ref={drawerRef}>
-                <ColumnCentered>
-                    {links}
-                </ColumnCentered>
-            </SideDrawer>
-        </Nav>
-    );
+      <Links>{links}</Links>
+      <HamburgerContainer onClick={(e) => e.stopPropagation()}>
+        <Hamburger
+          toggle={() => setIsOpen(!isOpen)}
+          toggled={isOpen}
+          size={20}
+        />
+      </HamburgerContainer>
+      <SideDrawer isOpen={isOpen} ref={drawerRef}>
+        <ColumnCentered>{links}</ColumnCentered>
+      </SideDrawer>
+    </Nav>
+  );
 };

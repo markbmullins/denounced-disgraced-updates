@@ -1,11 +1,6 @@
 import React from "react";
-import {SocialIcons} from "../components/SocialIcons";
-import {HeroImage} from "../components/HeroImage";
-import {ColumnCentered} from "../components/Layouts";
-import {Footer} from "../components/Footer";
+import { ColumnCentered } from "../components/Layouts";
 import SpotifyPlayer from "../components/SpotifyPlayer/SpotifyPlayer";
-import {Flex1Container} from "../components/styled";
-
 
 /**
  * Possible Content:
@@ -15,16 +10,9 @@ import {Flex1Container} from "../components/styled";
  * Links to social media profiles
  */
 export default function Home() {
-    return (
-        <main>
-            <HeroImage opacity="0.4">
-                <ColumnCentered>
-                    <Flex1Container> <SpotifyPlayer/></Flex1Container>
-                    <Footer>
-                        <SocialIcons/>
-                    </Footer>
-                </ColumnCentered>
-            </HeroImage>
-        </main>
-    );
-};
+  return (
+    <ColumnCentered>
+      <SpotifyPlayer />
+    </ColumnCentered>
+  );
+}
