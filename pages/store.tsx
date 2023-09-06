@@ -1,31 +1,15 @@
-import React, {FunctionComponent} from "react";
-import {HeroImage} from "../components/HeroImage";
-import {ColumnCentered} from "../components/Layouts";
-import {HeroText} from "../components/HeroText";
-import {Footer} from "../components/Footer";
-import {SocialIcons} from "../components/SocialIcons";
-import localFont from "next/font/local";
+import React, { FunctionComponent } from "react";
+import { ColumnCentered } from "../components/Layouts";
+import { HeroText } from "../components/HeroText";
 
-interface MerchProps {
-}
-
-const font = localFont({src: "./BrunoAceSC-Regular.ttf"});
+interface MerchProps {}
 
 const Store: FunctionComponent<MerchProps> = () => {
-    return <main className={font.className}>
-        <HeroImage opacity="0.4">
-            <ColumnCentered>
-                <HeroText>
-                    Coming soon...
-                </HeroText>
-                <Footer>
-                    <SocialIcons/>
-                </Footer>
-            </ColumnCentered>
-
-        </HeroImage>
-    </main>
+  return (
+    <ColumnCentered>
+      <HeroText>Coming soon...</HeroText>
+    </ColumnCentered>
+  );
 };
 
 export default Store;
-

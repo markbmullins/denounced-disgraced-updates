@@ -5,6 +5,7 @@ import {desktopAndLandscape} from "../../utils/mediaQueries";
 const HeroTextContainer = styled.span`
   font-size: calc(0.9rem + 5vw);
   margin-top: 5%;
+  font-family: Bruno;
 
   ${desktopAndLandscape} {
     margin-top: 2%;

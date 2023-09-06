@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {useEffect, useRef} from "react";
 import {initSmoothScroll} from "../../utils/smoothScroll";
+import config from "../../utils/config";
 
 
 const Hero = styled.div`
@@ -10,11 +11,9 @@ const Hero = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1;
-  
-  background-image: linear-gradient(
-      ${({ opacity }) => `rgba(0, 0, 0, ${opacity}), rgba(0, 0, 0, ${opacity})`}
-    ),
-    url(${({ src }) => src});
+
+  background-image: linear-gradient(${({opacity}) => `rgba(0, 0, 0, ${opacity}), rgba(0, 0, 0, ${opacity})`}),
+  url(${({src}) => src});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -22,14 +21,13 @@ const Hero = styled.div`
 
 const ContentWrapper = styled.div`
   position: absolute;
-  top: 80px;
+  top: 100px;
   width: 100%;
-  bottom: 0;
   overflow-y: scroll;
   z-index: 3;
 `;
 
-export const HeroImage = ({ children, opacity = "0.7" }) => {
+export const HeroImage = ({children, opacity = "0.7"}) => {
     const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -37,10 +35,10 @@ export const HeroImage = ({ children, opacity = "0.7" }) => {
             initSmoothScroll(contentRef.current);
         }
     }, []);
-  return (
-    <>
-      <Hero src="pyramid.png" opacity={opacity} />
-      <ContentWrapper>{children}</ContentWrapper>
-    </>
-  );
+    return (
+        <>
+            <Hero src={config.background} opacity={opacity}/>
+            <ContentWrapper>{children}</ContentWrapper>
+        </>
+    );
 };
