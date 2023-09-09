@@ -1,13 +1,11 @@
-import React, { FunctionComponent } from "react";
-import { HeroImage } from "../components/HeroImage";
-import { ColumnCentered } from "../components/Layouts";
-import { Link } from "../components/Link";
+import React, {FunctionComponent} from "react";
+import {ColumnCentered} from "../components/Layouts";
+import {Link} from "../components/Link";
 import styled from "styled-components";
-import { Footer } from "../components/Footer";
-import { SocialIcons } from "../components/SocialIcons";
-import { desktopAndLandscape } from "../utils/mediaQueries";
+import {desktopAndLandscape} from "../utils/mediaQueries";
 
-interface ShowsProps {}
+interface ShowsProps {
+}
 
 const StyledLinksContainer = styled.div`
   flex: 1;
@@ -32,45 +30,30 @@ const Header = styled.h1`
   }
 `;
 const Shows: FunctionComponent<ShowsProps> = () => {
-  const shows = [
-    {
-      date: "08/27/2023",
-      location: "The Ridgeville Roadhouse",
-      link: "https://www.facebook.com/events/806999267554244/",
-    },
-    {
-      date: "09/08/2023",
-      location: "Music Farm",
-      link: "https://www.musicfarm.com/event/metal-night/",
-    },
-    {
-      date: "10/06/2023",
-      location: "The Ridgeville Roadhouse",
-      link: "https://www.facebook.com/events/2968067286662067/",
-    },
-    {
-      date: "10/13/2023",
-      location: "Trolly Pub",
-      link: "",
-    },
-  ];
+    const shows = [
+        {
+            date: "10/13/2023",
+            location: "Trolly Pub",
+            link: "",
+        },
+    ];
 
-  return (
-    <ColumnCentered>
-      <StyledLinksContainer>
-        <Header>Upcoming Shows</Header>
-        {shows.map((show) => (
-          <Link
-            newTab
-            underlined
-            key={show.date}
-            title={`${show.date} : ${show.location}`}
-            url={show.link}
-          />
-        ))}
-      </StyledLinksContainer>
-    </ColumnCentered>
-  );
+    return (
+        <ColumnCentered>
+            <StyledLinksContainer>
+                <Header>Upcoming Shows</Header>
+                {shows.map((show) => (
+                    <Link
+                        newTab
+                        underlined
+                        key={show.date}
+                        title={`${show.date} : ${show.location}`}
+                        url={show.link}
+                    />
+                ))}
+            </StyledLinksContainer>
+        </ColumnCentered>
+    );
 };
 
 export default Shows;

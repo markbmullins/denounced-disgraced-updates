@@ -1,12 +1,12 @@
-import { AppProps } from "next/app";
+import {AppProps} from "next/app";
 import React from "react";
 import Head from "next/head";
-import { Navbar } from "../components/Navbar";
+import {Navbar} from "../components/Navbar";
 import "../styles/globals.css";
-import { GlobalFonts } from "../styles/globalFonts";
+import {GlobalFonts} from "../styles/globalFonts";
 import styled from "styled-components";
-import { Footer } from "../components/Footer";
-import { SocialIcons } from "../components/SocialIcons";
+import {Footer} from "../components/Footer";
+import {SocialIcons} from "../components/SocialIcons";
 
 const navbarHeight = 80;
 
@@ -36,36 +36,36 @@ const ContentContainer = styled.div`
   position: relative;
 `;
 
-function App({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <GlobalFonts />
-      <Head>
-        <title>Denounced Disgraced</title>
-        <meta name="description" content="Denounced Disgraced, Charleston SC" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <AppContainer>
-        <Navbar
-          height={navbarHeight}
-          pages={{
-            Home: "/",
-            Store: "/store",
-            Shows: "/shows",
-            Press: "/press",
-            Contact: "/contact",
-          }}
-        />
-        <ContentContainer>
-          <Component {...pageProps} />
-        </ContentContainer>
-        <Footer>
-          <SocialIcons />
-        </Footer>
-      </AppContainer>
-    </>
-  );
+function App({Component, pageProps}: AppProps) {
+    return (
+        <>
+            <GlobalFonts/>
+            <Head>
+                <title>Denounced Disgraced</title>
+                <meta name="description" content="Denounced Disgraced, Charleston SC"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link rel="icon" href="/favicon.ico"/>
+            </Head>
+            <AppContainer>
+                <Navbar
+                    height={navbarHeight}
+                    pages={{
+                        Home: "/",
+                        Store: "https://denounceddisgraced.bigcartel.com/",
+                        Shows: "/shows",
+                        Press: "/press",
+                        Contact: "/contact",
+                    }}
+                />
+                <ContentContainer>
+                    <Component {...pageProps} />
+                </ContentContainer>
+                <Footer>
+                    <SocialIcons/>
+                </Footer>
+            </AppContainer>
+        </>
+    );
 }
 
 export default App;

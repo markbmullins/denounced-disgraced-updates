@@ -31,7 +31,7 @@ interface LinkProps {
 
 export const Link = ({title, url, newTab, underlined}: LinkProps) => {
     return (<StyledLink key={url}>
-        {newTab ?
+        {newTab || url.includes("http") ?
             <a target="_blank" href={url} rel="noopener noreferrer"
                style={{textDecoration: underlined ? "underline" : "none"}}>{title}</a> :
             <NextLink href={url}>{title}</NextLink>}
