@@ -1,7 +1,11 @@
 import React from "react";
 import { ColumnCentered } from "../components/Layouts";
-import SpotifyPlayer from "../components/SpotifyPlayer/SpotifyPlayer";
+import styled from "styled-components";
+import { SpotifyPlayerLarge } from "../components/SpotifyPlayer";
 
+const MarginTop = styled.div`
+  margin-top: 10%;
+`;
 /**
  * Possible Content:
  * Band introduction
@@ -12,7 +16,9 @@ import SpotifyPlayer from "../components/SpotifyPlayer/SpotifyPlayer";
 export default function Home() {
   return (
     <ColumnCentered>
-      <SpotifyPlayer />
+      <MarginTop>
+        <SpotifyPlayerLarge />
+      </MarginTop>
     </ColumnCentered>
   );
 }

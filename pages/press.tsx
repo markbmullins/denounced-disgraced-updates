@@ -2,7 +2,7 @@ import React from "react";
 import {ColumnCentered} from "../components/Layouts";
 import styled from "styled-components";
 import config from "../utils/config";
-import SpotifyPlayer from "../components/SpotifyPlayer/SpotifyPlayer";
+import { SpotifyPlayer } from "../components/SpotifyPlayer/SpotifyPlayer";
 import {desktopAndLandscape} from "../utils/mediaQueries";
 import {Heading, Paragraph, UnderlinedLink} from "../components/styled/Text";
 

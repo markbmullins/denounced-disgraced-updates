@@ -5,6 +5,7 @@ import { TransparentLogo as TransparentLogo } from "../Logos";
 import { desktopAndLandscape, tablet } from "../../utils/mediaQueries";
 import { ColumnCentered } from "../../components/Layouts";
 import { Link } from "../../components/Link";
+import useNavbarColorOnScroll from "../../utils/hooks/useNavbarColorOnScroll";
 
 interface NavbarProps {
   height: number;
@@ -19,7 +20,8 @@ const Nav = styled.nav`
   z-index: 100;
 
   height: ${(props) => props.height + "px"};
-  background-color: transparent;
+  background-color: ${(props) =>
+    props.isTransparent ? "transparent" : "#1a1a1a"};
 
   padding: 1vh;
   font-family: Bruno;
@@ -86,6 +88,7 @@ const SideDrawer = styled.div<{ isOpen: boolean }>`
 `;
 
 export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
+  const { isTransparent } = useNavbarColorOnScroll();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const links = Object.entries(pages).map(([pageName, url]) => (
@@ -112,7 +115,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
     };
   }, [isOpen]);
   return (
-    <Nav height={height}>
+    <Nav height={height} isTransparent={isTransparent}>
       <NavLogoContainer>
         <TransparentLogo />
       </NavLogoContainer>
