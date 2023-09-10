@@ -1,10 +1,10 @@
 import React from "react";
-import { ColumnCentered } from "../components/Layouts";
+import {ColumnCentered} from "../components/Layouts";
 import styled from "styled-components";
-import { SpotifyPlayerLarge } from "../components/SpotifyPlayer";
+import {SpotifyPlayerLarge} from "../components/SpotifyPlayer";
 
 const MarginTop = styled.div`
-  margin-top: 10%;
+  margin-top: 2%;
 `;
 /**
  * Possible Content:
@@ -14,11 +14,11 @@ const MarginTop = styled.div`
  * Links to social media profiles
  */
 export default function Home() {
-  return (
-    <ColumnCentered>
-      <MarginTop>
-        <SpotifyPlayerLarge />
-      </MarginTop>
-    </ColumnCentered>
-  );
+    return (
+        <ColumnCentered>
+            <MarginTop>
+                <SpotifyPlayerLarge/>
+            </MarginTop>
+        </ColumnCentered>
+    );
 }

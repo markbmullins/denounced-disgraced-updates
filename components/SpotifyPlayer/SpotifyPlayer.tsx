@@ -30,7 +30,7 @@ export const SpotifyPlayerLarge = () => {
                 style={{borderRadius: "12px"}}
                 src="https://open.spotify.com/embed/playlist/4WfemMhwoMW7nKEAnJ2TFN?utm_source=generator&theme=0"
                 width={width < max ? width - 30 : max}
-                height={width < max ? 400 : max}
+                height={400}
                 frameBorder="0"
                 allowFullScreen={false}
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
