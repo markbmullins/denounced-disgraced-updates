@@ -7,7 +7,6 @@ import {GlobalFonts} from "../styles/globalFonts";
 import styled from "styled-components";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
-import {desktopAndLandscape} from "../utils/mediaQueries";
 
 const navbarHeight = 80;
 
@@ -35,10 +34,7 @@ const ContentContainer = styled.div`
   margin-top: 100px;
   z-index: 1;
   position: relative;
-
-  ${desktopAndLandscape} {
-    flex: 1 0 auto;
-  }
+  flex: 1 0 auto;
 `;
 
 function App({Component, pageProps}: AppProps) {
