@@ -7,7 +7,7 @@ import {GlobalFonts} from "../styles/globalFonts";
 import styled from "styled-components";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
-import {desktopAndLandscape} from "@/utils/mediaQueries";
+import {desktopAndLandscape} from "../utils/mediaQueries";
 
 const navbarHeight = 80;
 
