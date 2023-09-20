@@ -1,5 +1,19 @@
 import Head from 'next/head';
 
+interface SEOProps {
+    title: string
+    description: string
+    canonicalURL?: string
+    ogImage?: string
+    twitterCardType?: string
+    twitterSite?: string
+    twitterCreator?: string
+    faviconPath?: string
+    googleSiteVerification?: string
+    viewport?: string
+    charset?: string
+}
+
 export const SEO = ({
                         title,
                         description,
@@ -12,7 +26,7 @@ export const SEO = ({
                         googleSiteVerification,
                         viewport = "width=device-width, initial-scale=1",
                         charset = "UTF-8"
-                    }) => (
+                    }: SEOProps) => (
     <Head>
         {/* Standard Meta */}
         <title>{title}</title>
