@@ -1,10 +1,12 @@
 import React from "react";
-import {ColumnCentered} from "../components/Layouts";
 import styled from "styled-components";
 import {SpotifyPlayerLarge} from "../components/SpotifyPlayer";
 
-const MarginTop = styled.div`
-  margin-top: 2%;
+const CenterElement = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 /**
  * Possible Content:
@@ -15,10 +17,8 @@ const MarginTop = styled.div`
  */
 export default function Home() {
     return (
-        <ColumnCentered>
-            <MarginTop>
-                <SpotifyPlayerLarge/>
-            </MarginTop>
-        </ColumnCentered>
+        <CenterElement>
+            <SpotifyPlayerLarge/>
+        </CenterElement>
     );
 }
