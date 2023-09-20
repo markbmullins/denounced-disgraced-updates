@@ -11,7 +11,7 @@ import {SocialIcons} from "../components/SocialIcons";
 const navbarHeight = 80;
 
 const AppContainer = styled.div`
-  min-height: 100vh;
+  min-height: ${"100svh"};
   display: flex;
   flex-direction: column;
 
