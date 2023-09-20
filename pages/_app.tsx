@@ -1,53 +1,38 @@
 import {AppProps} from "next/app";
 import React from "react";
-import Head from "next/head";
 import {Navbar} from "../components/Navbar";
 import "../styles/globals.css";
 import {GlobalFonts} from "../styles/globalFonts";
 import styled from "styled-components";
 import {Footer} from "../components/Footer";
 import {SocialIcons} from "../components/SocialIcons";
+import {BackgroundImage} from "../components/BackgroundImage";
+import config from "../utils/config";
+import {SEO} from "../components/SEO";
 
 const navbarHeight = 80;
 
 const AppContainer = styled.div`
-  min-height: ${"100svh"};
   display: flex;
   flex-direction: column;
-
-  &::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
-    url("/background.png");
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-  }
+  min-height: ${"100svh"};
 `;
 
 const ContentContainer = styled.div`
-  margin-top: 100px;
-  z-index: 1;
   position: relative;
   flex: 1 0 auto;
+  margin-top: 100px;
+  z-index: 1;
 `;
 
 function App({Component, pageProps}: AppProps) {
     return (
         <>
             <GlobalFonts/>
-            <Head>
-                <title>Denounced Disgraced</title>
-                <meta name="description" content="Denounced Disgraced, Charleston SC"/>
-                <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <link rel="icon" href="/favicon.ico"/>
-            </Head>
+            <SEO title="Denounced Disgraced"
+                 description="Denounced Disgraced, Charleston SC"/>
             <AppContainer>
+                <BackgroundImage src={config.background}/>
                 <Navbar
                     height={navbarHeight}
                     pages={{

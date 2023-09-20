@@ -2,7 +2,7 @@ import React from "react";
 import {ColumnCentered} from "../components/Layouts";
 import styled from "styled-components";
 import config from "../utils/config";
-import { SpotifyPlayer } from "../components/SpotifyPlayer/SpotifyPlayer";
+import {SpotifyPlayer} from "../components/SpotifyPlayer/SpotifyPlayer";
 import {desktopAndLandscape} from "../utils/mediaQueries";
 import {Heading, Paragraph, UnderlinedLink} from "../components/styled/Text";
 
@@ -17,6 +17,7 @@ interface PressProps {
  */
 
 const HeaderImage = styled.img`
+  margin-top: ;
   width: 90%;
   height: 50%;
 
@@ -24,6 +25,11 @@ const HeaderImage = styled.img`
     max-width: 50%;
   }
 `;
+
+const MarginBottom = styled.span`
+  margin-bottom: 30px;
+  margin-top: 10px;
+`
 
 const Press = () => {
     return (
@@ -36,7 +42,10 @@ const Press = () => {
                 href="mailto:denounceddisgracedband@gmail.com">denounceddisgracedband@gmail.com</UnderlinedLink>
             </Paragraph>
             <Heading>Listen on Spotify</Heading>
-            <SpotifyPlayer/>
+            <MarginBottom>
+                <SpotifyPlayer/>
+            </MarginBottom>
+
         </ColumnCentered>
     );
 };

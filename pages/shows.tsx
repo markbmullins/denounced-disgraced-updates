@@ -8,8 +8,8 @@ interface ShowsProps {
 }
 
 const StyledLinksContainer = styled.div`
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
   font-family: Bruno;
@@ -21,14 +21,16 @@ const StyledLinksContainer = styled.div`
 
 const Header = styled.h1`
   font-size: 2rem;
+  white-space: nowrap;
   margin-top: 10vh;
   margin-bottom: 5vh;
-  white-space: nowrap;
 
   ${desktopAndLandscape} {
     font-size: 3rem;
   }
 `;
+
+
 const Shows: FunctionComponent<ShowsProps> = () => {
     const shows = [
         {
