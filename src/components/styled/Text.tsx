@@ -1,4 +1,4 @@
-import {desktopAndLandscape} from "../../utils/mediaQueries";
+import { desktopAndLandscape } from "../../utils/mediaQueries";
 import styled from "styled-components";
 
 export const Heading = styled.h1`
@@ -15,9 +15,7 @@ export const Heading = styled.h1`
 export const Paragraph = styled.p`
   font-size: 1rem;
   line-height: 1.6;
-  margin: 20px 30px;
   font-family: Roboto;
-  padding: 0 25px;
 
   ${desktopAndLandscape} {
     font-size: 1.5rem;
@@ -26,4 +24,4 @@ export const Paragraph = styled.p`
 
 export const UnderlinedLink = styled.a`
   text-decoration: underline;
-`
+`;
