@@ -1,14 +1,15 @@
-import {AppProps} from "next/app";
+import { AppProps } from "next/app";
 import React from "react";
-import {Navbar} from "../components/Navbar";
+import { Navbar } from "../components/Navbar";
 import "../styles/globals.css";
-import {GlobalFonts} from "../styles/globalFonts";
+import { GlobalFonts } from "../styles/globalFonts";
 import styled from "styled-components";
-import {Footer} from "../components/Footer";
-import {SocialIcons} from "../components/SocialIcons";
-import {BackgroundImage} from "../components/BackgroundImage";
+import { Footer } from "../components/Footer";
+import { SocialIcons } from "../components/SocialIcons";
+import { BackgroundImage } from "../components/BackgroundImage";
 import config from "../utils/config";
-import {SEO} from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { trpc } from "../utils/trpc";
 
 const navbarHeight = 80;
 
@@ -25,33 +26,40 @@ const ContentContainer = styled.div`
   z-index: 1;
 `;
 
-function App({Component, pageProps}: AppProps) {
-    return (
-        <>
-            <GlobalFonts/>
-            <SEO title="Denounced Disgraced"
-                 description="Denounced Disgraced, Charleston SC"/>
-            <AppContainer>
-                <BackgroundImage src={config.background}/>
-                <Navbar
-                    height={navbarHeight}
-                    pages={{
-                        Home: "/",
-                        Store: "https://denounceddisgraced.bigcartel.com/",
-                        Shows: "/shows",
-                        Press: "/press",
-                        Contact: "/contact",
-                    }}
-                />
-                <ContentContainer>
-                    <Component {...pageProps} />
-                </ContentContainer>
-                <Footer>
-                    <SocialIcons/>
-                </Footer>
-            </AppContainer>
-        </>
-    );
+function App({ Component, pageProps }: AppProps) {
+  const hello = trpc.hello.useQuery({ text: "client" });
+  console.log(hello.data);
+  if (!hello.data) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <>
+      <GlobalFonts />
+      <SEO
+        title="Denounced Disgraced"
+        description="Denounced Disgraced, Charleston SC"
+      />
+      <AppContainer>
+        <BackgroundImage src={config.background} />
+        <Navbar
+          height={navbarHeight}
+          pages={{
+            Home: "/",
+            Store: "https://denounceddisgraced.bigcartel.com/",
+            Shows: "/shows",
+            Press: "/press",
+            Contact: "/contact",
+          }}
+        />
+        <ContentContainer>
+          <Component {...pageProps} />
+        </ContentContainer>
+        <Footer>
+          <SocialIcons />
+        </Footer>
+      </AppContainer>
+    </>
+  );
 }
 
-export default App;
+export default trpc.withTRPC(App);

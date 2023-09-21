@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.35.3",
+    "@trpc/client": "^10.38.3",
+    "@trpc/next": "^10.38.3",
+    "@trpc/react-query": "^10.38.3",
+    "@trpc/server": "^10.38.3",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
     "hamburger-react": "^2.5.0",
@@ -17,11 +22,13 @@
     "react-dom": "18.2.0",
     "react-social-icons": "^5.15.0",
     "react-spotify-player": "^1.0.4",
-    "styled-components": "^5.3.10"
+    "styled-components": "^5.3.10",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@types/node": "18.16.2",
     "@types/react": "18.2.0",
+    "@types/styled-components": "^5.1.27",
     "prettier": "^3.0.2"
   }
 }
