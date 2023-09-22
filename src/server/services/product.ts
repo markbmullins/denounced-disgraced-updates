@@ -1,5 +1,5 @@
 import { Product } from "../routers/products/schema";
-import { fetchCloudinaryResources } from "../utils/cloudinary";
+import { fetchCloudinaryResources } from "./cloudinary";
 import { mockProducts } from "../db/mocks/products";
 
 const formImageName = (product: Product) => {
