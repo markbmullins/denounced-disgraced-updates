@@ -1,6 +1,10 @@
 import { procedure, router } from "../../trpc";
 import { z } from "zod";
-import { createOrder, fetchAllOrders, fetchOrdersByUser } from "./mocks";
+import {
+  createOrder,
+  fetchAllOrders,
+  fetchOrdersByUser,
+} from "../../services/order";
 import { OrderInputSchema } from "./schema";
 
 // Orders Router

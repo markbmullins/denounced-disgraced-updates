@@ -1,6 +1,6 @@
 import { procedure, router } from "../../trpc";
 import { z } from "zod";
-import { fetchAllProducts, fetchProductById } from "./mocks";
+import { fetchAllProducts, fetchProductById } from "../../services/product";
 
 // Products Router
 export const productsRouter = router({
