@@ -13,12 +13,10 @@ const ProductList = styled.div`
   }
 `;
 
-const ProductCard = styled.div`
-  //border: 1px solid white;
+const ProductCard = styled(Link)`
   padding: 10px;
   border-radius: 10px;
   text-align: center;
-  overflow: hidden;
   transition: transform 0.2s ease-in-out;
   &:hover {
     transform: scale(1.05);
@@ -54,18 +52,16 @@ export default function StorePage() {
   return (
     <ProductList>
       {productsQuery.data.map((product) => (
-        <Link href={`/product/${product.id}`} key={product.id} passHref>
-          <ProductCard as="a">
-            <ProductImage
-              src={product.imageUrl || "/path-to-placeholder-image.png"}
-              alt={product.type}
-            />
-            <ProductDescription>
-              {`${product.design} - ${product.type}`}
-            </ProductDescription>
-            <ProductPrice>${product.price}</ProductPrice>
-          </ProductCard>
-        </Link>
+        <ProductCard href={`/product/${product.id}`} key={product.id}>
+          <ProductImage
+            src={product.imageUrl || "/path-to-placeholder-image.png"}
+            alt={product.type}
+          />
+          <ProductDescription>
+            {`${product.design} - ${product.type}`}
+          </ProductDescription>
+          <ProductPrice>${product.price}</ProductPrice>
+        </ProductCard>
       ))}
     </ProductList>
   );
