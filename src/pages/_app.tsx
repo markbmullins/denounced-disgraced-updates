@@ -27,11 +27,6 @@ const ContentContainer = styled.div`
 `;
 
 function App({ Component, pageProps }: AppProps) {
-  const hello = trpc.hello.useQuery({ text: "client" });
-  console.log(hello.data);
-  if (!hello.data) {
-    return <div>Loading...</div>;
-  }
   return (
     <>
       <GlobalFonts />
@@ -45,7 +40,7 @@ function App({ Component, pageProps }: AppProps) {
           height={navbarHeight}
           pages={{
             Home: "/",
-            Store: "https://denounceddisgraced.bigcartel.com/",
+            Store: "/store",
             Shows: "/shows",
             Press: "/press",
             Contact: "/contact",

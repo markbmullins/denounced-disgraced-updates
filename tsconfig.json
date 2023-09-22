@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "paths": {
-      "@": ["/"],
-      "@/*": ["/*"]
-    },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

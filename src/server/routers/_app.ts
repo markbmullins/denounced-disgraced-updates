@@ -1,5 +1,4 @@
-import { z } from "zod";
-import { procedure, router } from "../trpc";
+import { router } from "../trpc";
 import { productsRouter } from "./products/router";
 import { ordersRouter } from "./orders/router";
 
