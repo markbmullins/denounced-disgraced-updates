@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const ProductSchema = z.object({
   id: z.string(),
-  productLine: z.literal("just-a-corpse"),
+  productLine: z.literal("jac"),
   productType: z.union([
     z.literal("t-shirt"),
     z.literal("hoodie"),
@@ -25,7 +25,7 @@ export const ProductSchema = z.object({
     z.literal("green"),
   ]),
   price: z.number(),
-  imageUrl: z.string().optional(),
+  imageUrl: z.array(z.string().optional()),
 });
 
 export type Product = z.infer<typeof ProductSchema>;

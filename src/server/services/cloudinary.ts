@@ -7,20 +7,29 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
+const format = (str: string) => str.toLowerCase().replace(/ /g, "-");
+
 export const formImageName = (product: Product) => {
-  return `${product.design.toLowerCase().replace(" ", "-")}_${product.type
-    .toLowerCase()
-    .replace(" ", "-")}`;
+  const { productLine, productType, artStyle, productColor } = product;
+
+  return `${format(productLine)}_${format(productType)}_${format(
+    artStyle,
+  )}_${format(productColor)}`;
 };
 
-export const matchProductWithImage = (product: Product, images: any[]) => {
+export const matchProductWithImages = (
+  product: Product,
+  images: any[],
+): string[] => {
   const imageName = formImageName(product);
 
-  const matchedImage = images.find((image: { public_id: string }) =>
-    image.public_id.includes(imageName),
-  );
+  const matchedImages = images
+    .filter((image: { public_id: string }) =>
+      image.public_id.includes(imageName),
+    )
+    .map((image: { url: string }) => image.url); // map over matched images to extract their URLs
 
-  return matchedImage ? matchedImage.url : undefined;
+  return matchedImages; // returns an array of URLs
 };
 
 export const fetchCloudinaryResources = async (

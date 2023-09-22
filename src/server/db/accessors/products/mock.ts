@@ -1,7 +1,7 @@
 import { ProductsDao } from "./interface";
 import {
   fetchCloudinaryResources,
-  matchProductWithImage,
+  matchProductWithImages,
 } from "../../../services/cloudinary";
 import { mockProducts } from "../../mocks/products";
 
@@ -20,13 +20,13 @@ export function createMockProductsDao(
 
       return mockProducts
         .map((product) => {
-          const imageUrl = matchProductWithImage(product, images);
+          const imageUrls = matchProductWithImages(product, images);
           return {
             ...product,
-            imageUrl,
+            imageUrls,
           };
         })
-        .filter((p) => !!p.imageUrl);
+        .filter((p) => p.imageUrl.length > 0); // Only returning products with images for dev purposes
     },
 
     getProductById: async (id: string) =>

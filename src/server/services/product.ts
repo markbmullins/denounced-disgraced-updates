@@ -3,7 +3,7 @@ import { Product } from "../routers/products/schema";
 import { MockProductsDaoWithImages } from "../db/accessors/products/mock";
 import { RealProductsDao } from "../db/accessors/products/real";
 
-const useMocks = ["development", "test"].includes(process.env.NODE_ENV);
+const useMocks = ["development", "test"].includes(process.env.NODE_ENV!);
 const productDao: ProductsDao = useMocks
   ? MockProductsDaoWithImages
   : RealProductsDao;
