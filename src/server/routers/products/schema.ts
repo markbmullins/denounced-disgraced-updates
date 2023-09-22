@@ -9,7 +9,7 @@ export const ProductSchema = z.object({
     z.literal("Long Sleeve"),
   ]),
   design: z.union([
-    z.literal("Design A"),
+    z.literal("JAC"),
     z.literal("Design B"),
     z.literal("Design C"),
   ]),

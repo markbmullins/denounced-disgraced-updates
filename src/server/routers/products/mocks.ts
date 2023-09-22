@@ -1,10 +1,11 @@
 import { Product } from "./schema";
+import { fetchCloudinaryResources } from "../../utils/cloudinary";
 
 export const mockProducts: Product[] = [
-  { id: "1", type: "T-shirt", design: "Design A", price: 20.0 },
-  { id: "2", type: "Hoodie", design: "Design A", price: 40.0 },
-  { id: "3", type: "Tank Top", design: "Design A", price: 18.0 },
-  { id: "4", type: "Long Sleeve", design: "Design A", price: 25.0 },
+  { id: "1", type: "T-shirt", design: "JAC", price: 20.0 },
+  { id: "2", type: "Hoodie", design: "JAC", price: 40.0 },
+  { id: "3", type: "Tank Top", design: "JAC", price: 18.0 },
+  { id: "4", type: "Long Sleeve", design: "JAC", price: 25.0 },
 
   { id: "5", type: "T-shirt", design: "Design B", price: 21.0 },
   { id: "6", type: "Hoodie", design: "Design B", price: 42.0 },
@@ -17,8 +18,49 @@ export const mockProducts: Product[] = [
   { id: "12", type: "Long Sleeve", design: "Design C", price: 27.0 },
 ];
 
+const formImageName = (product: Product) => {
+  return `${product.design.toLowerCase().replace(" ", "-")}_${product.type
+    .toLowerCase()
+    .replace(" ", "-")}`;
+};
+
+const matchProductWithImage = (product: Product, images: any[]) => {
+  const imageName = formImageName(product);
+  console.log("Image Name:", imageName);
+
+  const matchedImage = images.find((image: { public_id: string }) =>
+    image.public_id.includes(imageName),
+  );
+
+  if (matchedImage)
+    console.log("Match:", { imageName, public_id: matchedImage.public_id });
+  else console.log("Miss:", imageName);
+
+  return matchedImage ? matchedImage.url : undefined;
+};
+
 export const fetchAllProducts = async (): Promise<Product[]> => {
-  return mockProducts;
+  const images = await fetchCloudinaryResources({ tag: "jac-mockups" });
+
+  const allImageIds = images.map(
+    (image: { public_id: string }) => image.public_id,
+  );
+  console.log("All Image Public Ids:", allImageIds);
+
+  const modifiedProducts = mockProducts.map((product) => {
+    const imageUrl = matchProductWithImage(product, images);
+    return {
+      ...product,
+      imageUrl,
+    };
+  });
+
+  const productsWithImages = modifiedProducts.filter(
+    (product) => !!product.imageUrl,
+  );
+  console.log("Modified Products with Images:", productsWithImages);
+
+  return productsWithImages.length > 0 ? productsWithImages : mockProducts;
 };
 
 export const fetchProductById = async (id: string): Promise<Product | null> => {
