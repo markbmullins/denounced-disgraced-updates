@@ -27,9 +27,14 @@ export const matchProductWithImages = (
     .filter((image: { public_id: string }) =>
       image.public_id.includes(imageName),
     )
+    .sort((a, b) => {
+      const numberA = parseInt(a.public_id.split("_").pop() || "0", 10);
+      const numberB = parseInt(b.public_id.split("_").pop() || "0", 10);
+      return numberA - numberB;
+    })
     .map((image: { url: string }) => image.url); // map over matched images to extract their URLs
 
-  return matchedImages; // returns an array of URLs
+  return matchedImages || []; // returns an array of URLs
 };
 
 export const fetchCloudinaryResources = async (
