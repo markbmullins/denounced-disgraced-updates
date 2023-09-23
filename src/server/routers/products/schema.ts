@@ -16,8 +16,7 @@ export const ProductSchema = z.object({
     z.literal("full-color"),
     z.literal("black-and-white-red-outline"),
     z.literal("black-and-white-green-outline"),
-    z.literal("mixed-red-outline"),
-    z.literal("mixed-green-outline"),
+    z.literal("mixed"),
   ]),
   productColor: z.union([
     z.literal("black"),

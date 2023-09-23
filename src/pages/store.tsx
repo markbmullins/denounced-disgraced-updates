@@ -1,6 +1,7 @@
 import { trpc } from "../utils/trpc";
 import styled from "styled-components";
 import Link from "next/link";
+import { Product } from "../server/routers/products/schema";
 
 const ProductList = styled.div`
   display: grid;
@@ -38,6 +39,20 @@ const ProductPrice = styled.p`
   font-weight: bold;
 `;
 
+const groupProducts = (products: Product[]): Product[][] => {
+  const map = products.reduce(
+    (acc: Map<string, Product[]>, product: Product) => {
+      const key = `${product.productLine}_${product.productType}_${product.artStyle}`;
+      const group = acc.get(key) || [];
+      acc.set(key, [...group, product]);
+      return acc;
+    },
+    new Map<string, Product[]>(),
+  );
+
+  return Array.from(map.values());
+};
+
 export default function StorePage() {
   const productsQuery = trpc.products.getAll.useQuery();
 
@@ -49,7 +64,6 @@ export default function StorePage() {
     return <div>Error loading products</div>;
   }
 
-  console.log({ data: productsQuery.data });
   return (
     <ProductList>
       {productsQuery.data.map((product) => (
