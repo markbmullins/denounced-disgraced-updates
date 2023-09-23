@@ -26,7 +26,7 @@ export function createMockProductsDao(
             imageUrls,
           };
         })
-        .filter((p) => p.imageUrl.length > 0); // Only returning products with images for dev purposes
+        .filter((p) => p.imageUrls.length > 0); // Only returning products with images for dev purposes
     },
 
     getProductById: async (id: string) =>

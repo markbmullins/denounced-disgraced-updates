@@ -49,16 +49,17 @@ export default function StorePage() {
     return <div>Error loading products</div>;
   }
 
+  console.log({ data: productsQuery.data });
   return (
     <ProductList>
       {productsQuery.data.map((product) => (
         <ProductCard href={`/product/${product.id}`} key={product.id}>
           <ProductImage
-            src={product.imageUrl || "/path-to-placeholder-image.png"}
-            alt={product.type}
+            src={product.imageUrls[0] || "/path-to-placeholder-image.png"}
+            alt={product.productType}
           />
           <ProductDescription>
-            {`${product.design} - ${product.type}`}
+            {`${product.productLine} - ${product.productType}`}
           </ProductDescription>
           <ProductPrice>${product.price}</ProductPrice>
         </ProductCard>

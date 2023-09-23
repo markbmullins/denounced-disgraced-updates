@@ -26,7 +26,7 @@ export const ProductSchema = z.object({
     z.literal("green"),
   ]),
   price: z.number(),
-  imageUrl: z.array(z.string().optional()),
+  imageUrls: z.array(z.string().optional()),
 });
 
 export type Product = z.infer<typeof ProductSchema>;
