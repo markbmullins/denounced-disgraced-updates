@@ -8,7 +8,7 @@ export const ProductSchema = z.object({
     z.literal("hoodie"),
     z.literal("tank-top"),
     z.literal("long-sleeve"),
-    z.literal("sweat-shirt"),
+    z.literal("sweatshirt"),
     z.literal("phone-case"),
     z.literal("shorts"),
   ]),
