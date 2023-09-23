@@ -53,6 +53,9 @@ const groupProducts = (products: Product[]): Product[][] => {
   return Array.from(map.values());
 };
 
+// TODO: Implement
+const ImageCarousel = styled.div``;
+
 export default function StorePage() {
   const productsQuery = trpc.products.getAll.useQuery();
 
@@ -66,16 +69,27 @@ export default function StorePage() {
 
   return (
     <ProductList>
-      {productsQuery.data.map((product) => (
-        <ProductCard href={`/product/${product.id}`} key={product.id}>
-          <ProductImage
-            src={product.imageUrls[0] || "/path-to-placeholder-image.png"}
-            alt={product.productType}
-          />
+      {groupProducts(productsQuery.data).map((productGroup, groupIndex) => (
+        <ProductCard
+          href={`/product/${productGroup[0].id}`} // Navigate to the first product in the group by default
+          key={groupIndex}
+        >
+          <ImageCarousel>
+            {productGroup.map((product, productIndex) => (
+              <ProductImage
+                src={
+                  product.imageUrls[productIndex] ||
+                  "/path-to-placeholder-image.png"
+                }
+                alt={product.productType}
+                key={productIndex}
+              />
+            ))}
+          </ImageCarousel>
           <ProductDescription>
-            {`${product.productLine} - ${product.productType}`}
+            {`${productGroup[0].productLine} - ${productGroup[0].productType} - ${productGroup[0].artStyle}`}
           </ProductDescription>
-          <ProductPrice>${product.price}</ProductPrice>
+          <ProductPrice>${productGroup[0].price}</ProductPrice>
         </ProductCard>
       ))}
     </ProductList>
