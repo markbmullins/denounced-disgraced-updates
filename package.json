@@ -17,6 +17,7 @@
     "@trpc/react-query": "^10.38.3",
     "@trpc/server": "^10.38.3",
     "cloudinary": "^1.40.0",
+    "dotenv": "^16.3.1",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
     "hamburger-react": "^2.5.0",
