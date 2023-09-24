@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import { formatCurrency } from '../../utils/formatCurrency'
 import { MoveLeft } from 'lucide-react'
+import { formatCurrency } from '../../utils/formatCurrency'
 
 const CartSubtotal = styled.div`
     display: flex;
@@ -21,12 +21,16 @@ display:flex;
 align-items:center;
 gap:10px; `
 
-const Subtotal = () => {
+const Subtotal = ({ formattedTotalPrice }: {
+    formattedTotalPrice: string | undefined
+}) => {
+    
+
   return (
       <CartSubtotal>
           <Link href='/store' ><LinkContent> <MoveLeft /> Continue Shopping</LinkContent></Link>
           
-          <p> Subtotal {formatCurrency(20)}</p> </CartSubtotal>
+          <p> Subtotal {formattedTotalPrice || formatCurrency(0)}</p> </CartSubtotal>
   )
 }
 

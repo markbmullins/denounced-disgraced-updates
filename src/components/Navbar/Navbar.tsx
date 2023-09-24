@@ -14,15 +14,14 @@ interface NavbarProps {
 }
 
 const Nav = styled.nav`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 80;
-
   height: ${(props: any) => props.height + "px"};
-  background-color: ${(props: any) =>
-    props.isTransparent ? "transparent" : "#1a1a1a"};
+  /* background-color: ${(props: any) =>
+  props.isTransparent ? "transparent" : "#1a1a1a"}; */
+    background-color: transparent;
   overflow: hidden;
   font-family: Bruno;
   @media (min-width: 768px) {

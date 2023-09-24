@@ -13,6 +13,10 @@ const FilterStyle = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 25%;
+  @media screen and (max-width: 950px) {
+    width: 100%;
+    
+  }
   font-family: Bruno;
 `;
 
@@ -35,6 +39,7 @@ const FilterItemContainer = styled.li`
 const FilterContentWrapper = styled.li`
   display: flex;
   flex-direction: column;
+
 `;
 
 const FilterHeader = styled.li`

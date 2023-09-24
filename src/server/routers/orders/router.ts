@@ -1,9 +1,11 @@
 import { procedure, router } from "../../trpc";
-import { z } from "zod";
+import { any, z } from "zod";
 import {
   createOrder,
   fetchAllOrders,
   fetchOrdersByUser,
+  createCheckout
+  
 } from "../../services/order";
 import { OrderInputSchema } from "./schema";
 
@@ -12,6 +14,11 @@ export const ordersRouter = router({
   create: procedure.input(OrderInputSchema).mutation(async (opts) => {
     return createOrder(opts.input);
   }),
+  stripeCheckout: procedure.input(
+    z.object({
+      data: any()
+    })
+  ).mutation(async (data) => {return createCheckout(data.input.data)}),
   getByUser: procedure
     .input(
       z.object({

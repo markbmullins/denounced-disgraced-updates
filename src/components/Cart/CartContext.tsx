@@ -1,4 +1,3 @@
-
 import React from "react"
 import { CartProvider } from "use-shopping-cart"
 
