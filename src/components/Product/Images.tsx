@@ -25,7 +25,7 @@ const SideImageContainer = styled.div`
 const MainImage = styled.div<{ isTransparent: boolean }>`
     display: flex;
     width: 70%;
-    height: 100%;
+    height: 70%;
     @media screen and (max-width:950px) {
         width: 100%;
         
@@ -33,7 +33,6 @@ const MainImage = styled.div<{ isTransparent: boolean }>`
     }
     position: relative;
     justify-content: center;
-    background-color: ${({ isTransparent }) => isTransparent ? 'transparent': 'white'} ;
     border-radius: 5px;
     transition: all 0.3 ease-in-out;
 
