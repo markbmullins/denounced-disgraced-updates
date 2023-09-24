@@ -54,3 +54,16 @@ html {
     background-color: black;
     color: white;
 }
+ 
+
+
+
+@keyframes accordionDown {
+    from {
+        height: 0;
+      }
+      to {
+        height: auto;
+      }
+}
+
