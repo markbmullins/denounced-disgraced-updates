@@ -5,11 +5,12 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation,Pagination } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import 'swiper/css/pagination';
 
 export const ProductCardStyle = styled.div<{ isTransparent: boolean }>`
   display: flex;
@@ -31,6 +32,7 @@ export const ProductCardStyle = styled.div<{ isTransparent: boolean }>`
   padding: 10px;
   @media screen and (max-width: 1300px) {
     height: 300px;
+    padding:5px;
   }
   height: 330px;
 
@@ -40,6 +42,10 @@ export const ProductCardStyle = styled.div<{ isTransparent: boolean }>`
 const ProductImage = styled.div`
   width: 100%;
   height: 60%;
+  @media screen and (max-width:700px) {
+    height: 70%;
+    
+  }
   position: relative;
   display: flex;
   justify-content: center;
@@ -48,6 +54,10 @@ const ProductImage = styled.div`
 const ProductInfo = styled.div`
   width: 100%;
   height: 40%;
+  @media screen and (max-width:700px) {
+    height: 30%;
+    
+  }
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -100,7 +110,9 @@ export const ProductCard = ({
                               height:'100%'
                           }}
               navigation={true}
-              modules={[Navigation]}
+              modules={[Navigation, Pagination]}
+              pagination={{ clickable: true }}
+
               className="mySwiper"
             >
               {" "}

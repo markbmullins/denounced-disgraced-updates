@@ -7,6 +7,7 @@ import { ProductCard } from "../components/Store/ProductCard";
 import CollectionHeader from "../components/Store/CollectionHeader";
 import Filter from "../components/Store/Filters/Filter";
 import MobileFilter from "../components/Store/Filters/MobileFilter";
+import { useWindowSize } from "../utils/hooks/useWindowSize";
 
 export type FilterValueTypes = {
   productLine: string[];
@@ -19,7 +20,7 @@ export type FilterValueTypes = {
 const ProductList = styled.div`
   display: grid;
  
-  @media screen and (max-width: 950px) {
+  @media screen and (max-width: 1000px) {
     grid-template-columns: repeat(
       auto-fill,
       calc(50% - 10px)
@@ -152,7 +153,9 @@ export default function StorePage() {
 
   const [pageStartValue, setPageStartValue] = useState(0);
   const [pageEndValue, setPageEndValue] = useState(5);
-  const [canLoadMore, setCanLoadMore] = useState(false);
+  const [showDesktopFilter, setShowDesktopFilter] = useState(false);
+  const {width, height} = useWindowSize()
+
 
 
 
@@ -181,7 +184,6 @@ export default function StorePage() {
 
   const handleScroll = () => {
 
-    console.log(window.innerHeight + document.documentElement.scrollTop,document.documentElement.offsetHeight)
 
     if (
       window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight
@@ -222,7 +224,7 @@ export default function StorePage() {
 
   return (
     <Container>
-      {window.innerWidth > 768 && (
+      {width! > 950 && (
         <Filter
           filterValues={filterValues}
           filterParams={filterParams}

@@ -78,3 +78,13 @@ html {
     font-weight: 700!important;
 
 }
+
+
+.swiper-pagination-bullet{
+    background-color:#BBBBBB!important
+
+}
+.swiper-pagination-bullet-active{
+    background-color:#C4FD46!important
+    
+}

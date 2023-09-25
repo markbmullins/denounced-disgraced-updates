@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import Image from 'next/image'
 const ImagesContainer = styled.div`
     display: flex;
-    @media screen and (max-width:950px) {
+    @media screen and (max-width:850px) {
         flex-direction: column-reverse;
         width: 100%;
+        height: 100%;
         
     }
     width: 60%;
@@ -17,6 +18,11 @@ const ImagesContainer = styled.div`
 const SideImageContainer = styled.div`
     display: flex;
     flex-direction: column;
+    @media screen and (max-width:850px) {
+        flex-direction: row;
+        width: 100%;
+        
+    }
     gap:10px;
     width: 20%;
 
@@ -25,9 +31,10 @@ const SideImageContainer = styled.div`
 const MainImage = styled.div<{ isTransparent: boolean }>`
     display: flex;
     width: 70%;
-    height: 70%;
-    @media screen and (max-width:950px) {
+    height: 500px;
+    @media screen and (max-width:850px) {
         width: 100%;
+        height: 400px;
         
         
     }
@@ -47,6 +54,7 @@ const SideImage = styled.div<{active:boolean}>`
     height: 120px;
     @media screen and (max-width:950px) {
         height: 80px;
+        width: 80px;
         
     }
     background-color: white;

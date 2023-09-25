@@ -11,13 +11,13 @@ const ProductDetails = styled.div`
 
 const ProductContainer = styled.div`
 display:flex;
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 850px) {
   flex-direction: column;
   width: 100%;
   
 };
 width: 100%;
-height: 100vh;
+height: auto;
 gap:20px;
 margin-bottom:20px;`
 
