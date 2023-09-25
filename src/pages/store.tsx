@@ -180,8 +180,11 @@ export default function StorePage() {
 
 
   const handleScroll = () => {
+
+    console.log(window.innerHeight + document.documentElement.scrollTop,document.documentElement.offsetHeight)
+
     if (
-      window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight
+      window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight
     ) {
 
       return
@@ -192,6 +195,7 @@ export default function StorePage() {
 
   const loadMoreProducts = () => {
 
+    console.log('testt')
     if (!filteredProducts?.length || filteredProducts?.length  < pageEndValue ) return;
 
     // Increase the pageStartValue and pageEndValue to fetch more products

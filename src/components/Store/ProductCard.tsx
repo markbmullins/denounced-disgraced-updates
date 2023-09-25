@@ -94,7 +94,11 @@ export const ProductCard = ({
       >
         <ProductImage>
           {image.length > 1 ? (
-            <Swiper
+                      <Swiper
+                          style={{
+                              width: '100%',
+                              height:'100%'
+                          }}
               navigation={true}
               modules={[Navigation]}
               className="mySwiper"
@@ -104,13 +108,8 @@ export const ProductCard = ({
                 return <SwiperSlide key={index}  >
                   {" "}
                   <Image
-                    // style={{
-                    //   position: "absolute",
-                    //   width: "100%",
-                    //   height: "100%",
-                        // }}
-                        width={225}
-                        height={200}
+                    
+                        fill
                     priority={true}
                     
                     src={image[index]}

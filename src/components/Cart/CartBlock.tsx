@@ -138,13 +138,9 @@ const CartBlock = ({ data,inBox  }: { data: ExpandedCartEntry,inBox?:boolean  })
           {window.innerWidth < 768 &&
             <CartBlockQuantity>
               {" "}
-              <Button onClick={cartDecrease}>
-                <Minus size={20} color="white" />
-              </Button>
+                <Minus size={20} color="white"  onClick={cartDecrease}/>
               {data.quantity}
-              <Button onClick={cartIncrease}>
-                <Plus size={20} color="white" />
-              </Button>
+                <Plus size={20} color="white" onClick={cartIncrease} />
             </CartBlockQuantity>
           }
         </CartProductData>
@@ -153,12 +149,12 @@ const CartBlock = ({ data,inBox  }: { data: ExpandedCartEntry,inBox?:boolean  })
         <CartBlockQuantityContainer>
           <CartBlockQuantity>
             {" "}
-            <Button onClick={cartDecrease}>
-              <Minus size={20} color="white" />
+            <Button >
+              <Minus size={20} color="white"  />
             </Button>
             {data.quantity}
-            <Button onClick={cartIncrease}>
-              <Plus size={20} color="white" />
+            <Button >
+              <Plus size={20} color="white" onClick={cartIncrease} />
             </Button>
           </CartBlockQuantity>
           <CartBlockPrice>
