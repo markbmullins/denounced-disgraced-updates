@@ -16,9 +16,10 @@ export const ordersRouter = router({
   }),
   stripeCheckout: procedure.input(
     z.object({
-      data: any()
+      data: any(),
+      shipping:any()
     })
-  ).mutation(async (data) => {return createCheckout(data.input.data)}),
+  ).mutation(async (data) => {return createCheckout(data.input.data,data.input.shipping)}),
   getByUser: procedure
     .input(
       z.object({

@@ -3,6 +3,7 @@ import { OrdersDao } from "../db/accessors/orders/interface";
 import RealOrdersDao from "../db/accessors/orders/real";
 import MockOrdersDao from "../db/accessors/orders/mock";
 import { mockOrders } from "../db/mocks/orders";
+import { ShippingType } from "../../pages/shipping";
 
 import Stripe from "stripe";
 
@@ -32,7 +33,10 @@ export const createOrder = async (input: OrderInput): Promise<Order> => {
   return orderDao.createOrder(newOrder);
 };
 
-export const createCheckout = async (cartDetails: any) => {
+export const createCheckout = async (
+  cartDetails: any,
+  shipping: ShippingType
+) => {
   const dataArray = Object.keys(cartDetails).reduce((result: any, key) => {
     const itemTotal = cartDetails[key].quantity * cartDetails[key].price;
     result.push({
@@ -40,14 +44,13 @@ export const createCheckout = async (cartDetails: any) => {
 
       price_data: {
         currency: "USD",
-        
+
         unit_amount: cartDetails[key].price,
         product_data: cartDetails[key].product_data,
       },
     });
     return result;
   }, []);
-
 
   const params: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
@@ -56,21 +59,33 @@ export const createCheckout = async (cartDetails: any) => {
       enabled: true,
     },
 
-    shipping_address_collection: {
-      allowed_countries: ["US"],
-    }, 
+    payment_intent_data: {
+      shipping: {
+        address: {
+          line1: shipping.address,
+          country: shipping.country,
+          city: shipping.city,
+          postal_code: shipping.postalCode,
+        },
+        name: shipping.firstName + " " + shipping.lastName,
+        phone: "55510809122",
+      },
+    },
+    metadata: {
+      shipping: JSON.stringify(shipping),
+    },
+    customer_email: shipping.email,
+
     line_items: dataArray,
 
     success_url: `https://denounceddisgraced.com/result?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `https://denounceddisgraced.com/`,
   };
 
-
   const checkoutSession: Stripe.Checkout.Session =
-    await stripe.checkout.sessions.create(params)
+    await stripe.checkout.sessions.create(params);
 
-  return checkoutSession.id
-
+  return checkoutSession.id;
 };
 
 export const fetchOrdersByUser = async (userId: string): Promise<Order[]> => {

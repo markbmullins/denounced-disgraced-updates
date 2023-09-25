@@ -54,21 +54,12 @@ const CheckoutContainer = styled.div`
 
 const CartPage = () => {
   const cart = useShoppingCart();
-  const { cartDetails, formattedTotalPrice,redirectToCheckout } = cart;
+  const { cartDetails, formattedTotalPrice, redirectToCheckout } = cart;
   const orderMutation = trpc.orders.stripeCheckout.useMutation();
 
   const CartItems = Object.values(cartDetails ?? {}).map(
     (entry: any, index) => <CartBlock key={index} data={entry!} />
   );
-
-  const createCheckout = async () => {
-      const checkoutSessionId = await orderMutation.mutateAsync({ data: cartDetails });
-      if (checkoutSessionId) {
-        const result = await redirectToCheckout(checkoutSessionId)
-
-      }
-
-  };
 
   return (
     <CartContainer>
@@ -79,13 +70,9 @@ const CartPage = () => {
           {" "}
           {CartItems} <Subtotal formattedTotalPrice={formattedTotalPrice} />
           <CheckoutContainer>
-            <ContinueShoppingButton
-              onClick={() => {
-                createCheckout();
-              }}
-            >
-              Checkout
-            </ContinueShoppingButton>
+            <Link href="/shipping">
+              <ContinueShoppingButton>Checkout</ContinueShoppingButton>
+            </Link>
           </CheckoutContainer>
         </>
       ) : (
