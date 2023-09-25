@@ -149,7 +149,7 @@ const CartBlock = ({ data,inBox  }: { data: ExpandedCartEntry,inBox?:boolean  })
         <CartBlockQuantityContainer>
           <CartBlockQuantity>
             {" "}
-            <Button >
+            <Button onClick={cartDecrease}>
               <Minus size={20} color="white"  />
             </Button>
             {data.quantity}
