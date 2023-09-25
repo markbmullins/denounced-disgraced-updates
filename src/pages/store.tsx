@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { trpc } from "../utils/trpc";
 import styled from "styled-components";
 import Link from "next/link";
@@ -149,10 +149,13 @@ export default function StorePage() {
   });
 
 
-  console.log(filterParams)
 
   const [pageStartValue, setPageStartValue] = useState(0);
-  const [pageEndValue, setPageEndValue] = useState(20);
+  const [pageEndValue, setPageEndValue] = useState(5);
+  const [canLoadMore, setCanLoadMore] = useState(false);
+
+
+
 
   const filteredProducts = productsQuery?.data?.filter((product) => {
     return (
@@ -170,6 +173,35 @@ export default function StorePage() {
         ))
     );
   });
+
+ 
+
+
+
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight
+    ) {
+
+      return
+    }
+    loadMoreProducts();
+
+  };
+
+  const loadMoreProducts = () => {
+
+    if (!filteredProducts?.length || filteredProducts?.length  < pageEndValue ) return;
+
+    // Increase the pageStartValue and pageEndValue to fetch more products
+    setPageEndValue(pageEndValue + 5);
+  };
+
+ useEffect(() => {
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, [filteredProducts]);
 
   if (productsQuery.isLoading) {
     return <div>Loading...</div>;
@@ -203,7 +235,7 @@ export default function StorePage() {
           filterParams={filterParams}
           setFilterParams={setFilterParams}/>
 
-        <ProductList>
+        <ProductList >
 
           {filteredProducts?.slice(pageStartValue, pageEndValue)?.map((product) => {
             return (
@@ -219,7 +251,7 @@ export default function StorePage() {
             );
           })}
         </ProductList>
-        <ShowMoreButton onClick={() => { setPageStartValue(pageStartValue + 20); setPageEndValue(pageEndValue + 20)}} disabled={!filteredProducts?.length ? true : filteredProducts?.length  > pageEndValue ? false : true}>Show More</ShowMoreButton>
+        {/* <ShowMoreButton onClick={() => { setPageStartValue(pageStartValue + 20); setPageEndValue(pageEndValue + 20)}} disabled={!filteredProducts?.length ? true : filteredProducts?.length  > pageEndValue ? false : true}>Show More</ShowMoreButton> */}
       </CollectionContainer>
     </Container>
   );

@@ -97,7 +97,7 @@ const CartBlockQuantityContainer = styled.div`
   }
 `;
 
-const CartBlock = ({ data  }: { data: ExpandedCartEntry  }) => {
+const CartBlock = ({ data,inBox  }: { data: ExpandedCartEntry,inBox?:boolean  }) => {
   const cart = useShoppingCart();
   const { removeItem, setItemQuantity } = cart;
   const cartRemove = () => {
@@ -129,26 +129,43 @@ const CartBlock = ({ data  }: { data: ExpandedCartEntry  }) => {
             {data?.product_data?.metadata?.size} /{" "}
             {data?.product_data?.metadata?.color}
           </CartProductSizeAndColor>
+          
           <CardProductPrice>
-            {formatCurrency(data.price / 100)}
+            {formatCurrency( window.innerWidth > 768  ? data.price / 100  : (data.price * data.quantity) / 100)}
           </CardProductPrice>
+
+          {/* only display this on mobile */}
+          {window.innerWidth < 768 &&
+            <CartBlockQuantity>
+              {" "}
+              <Button onClick={cartDecrease}>
+                <Minus size={20} color="white" />
+              </Button>
+              {data.quantity}
+              <Button onClick={cartIncrease}>
+                <Plus size={20} color="white" />
+              </Button>
+            </CartBlockQuantity>
+          }
         </CartProductData>
       </CartBlockItem>
-      <CartBlockQuantityContainer>
-        <CartBlockQuantity>
-          {" "}
-          <Button onClick={cartDecrease}>
-            <Minus size={20} color="white" />
-          </Button>
-          {data.quantity}
-          <Button onClick={cartIncrease}>
-            <Plus size={20} color="white" />
-          </Button>
-        </CartBlockQuantity>
-        <CartBlockPrice>
-          {formatCurrency((data.price * data.quantity) / 100)}
-        </CartBlockPrice>
-      </CartBlockQuantityContainer>
+      {window.innerWidth > 768 &&
+        <CartBlockQuantityContainer>
+          <CartBlockQuantity>
+            {" "}
+            <Button onClick={cartDecrease}>
+              <Minus size={20} color="white" />
+            </Button>
+            {data.quantity}
+            <Button onClick={cartIncrease}>
+              <Plus size={20} color="white" />
+            </Button>
+          </CartBlockQuantity>
+          <CartBlockPrice>
+            {formatCurrency((data.price * data.quantity) / 100)}
+          </CartBlockPrice>
+        </CartBlockQuantityContainer>
+      }
     </_CartBlock>
   );
 };

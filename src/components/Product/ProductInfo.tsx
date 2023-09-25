@@ -93,12 +93,10 @@ const ProductInfo = ({product}:{product:Product}) => {
         if (!size || !color) return alert('choose size or color first')
         addItem({
             name: product.productType,
-            count: 5,
             description: "test",
             id: product.id + size + color,
             image: product.imageUrls[0],
             price: product.price * 100,
-            quantity: 5,
             
             currency: 'USD',
             product_data: {
@@ -111,7 +109,8 @@ const ProductInfo = ({product}:{product:Product}) => {
                 }
             }
 
-        })
+        },{count:  quantity,
+})
         alert('Added!')
     }
 
@@ -138,14 +137,14 @@ const ProductInfo = ({product}:{product:Product}) => {
                    })}
         </ButtonsContainer>
       </ProductSelect>
-      {/* <ProductSelect>
+      <ProductSelect>
         Quantity:
         <ButtonsContainer>
                   <QuantityButton onClick={() => { quantity > 1 ? setQuantity(quantity - 1) : null}}><Minus /></QuantityButton>
                   {quantity}
           <QuantityButton onClick={() =>{ setQuantity(quantity +1)}}><Plus /></QuantityButton>
         </ButtonsContainer>
-          </ProductSelect> */}
+          </ProductSelect>
           <AddToCartButton onClick={() =>{handleAddToCart() }}>
               Add To Cart
           </AddToCartButton>
