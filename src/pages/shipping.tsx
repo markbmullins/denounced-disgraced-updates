@@ -4,6 +4,8 @@ import countryList from "react-select-country-list";
 import { useShoppingCart } from "use-shopping-cart";
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
+import CartSummary from "../components/Shipping/CartSummary";
+import {  toast } from 'react-toastify';
 
 const CheckoutHeader = styled.div`
   font-size: 40px;
@@ -30,13 +32,20 @@ const Label = styled.label`
 
 const ShippingContainer = styled.div`
   display: flex;
+  justify-content:space-between;
+  align-items:center;
+
+  @media screen and (max-width: 768px) {
+
   flex-direction: column;
+  }
   gap: 30px;
 `;
 const InputContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
+  
 `;
 
 const CountriesSelect = styled.select`
@@ -72,6 +81,7 @@ export type ShippingType = {
   country: string;
   city: string;
   postalCode: string;
+  phone: string;
 };
 
 const Shipping = () => {
@@ -87,6 +97,7 @@ const Shipping = () => {
     country: "",
     city: "",
     postalCode: "",
+    phone:""
   });
 
   const { cartDetails , redirectToCheckout } = cart;
@@ -97,13 +108,13 @@ const Shipping = () => {
       for (let key in shippingData) {
         //@ts-ignore
       if (!shippingData[key].trim()) {
-        alert(`Please provide a valid ${key}.`);
+        toast(`Please provide a valid ${key}.`);
         return;
       }
     }
 
     if (!/\S+@\S+\.\S+/.test(shippingData.email)) {
-      alert("Please provide a valid email address.");
+      toast("Please provide a valid email address.");
       return;
     }
 
@@ -126,8 +137,10 @@ const Shipping = () => {
 
     setShippingData({ ...shippingData, [id]: value });
   };
-  if (Object.values(cartDetails ?? {}).length === 0)
+  if (Object.values(cartDetails ?? {}).length === 0) {
+    
     return router.push("/cart");
+  }
 
   return (
     <ShippingContainer>
@@ -200,6 +213,14 @@ const Shipping = () => {
             />
           </InputContainer>
         </div>
+        <InputContainer>
+            <Label>phone</Label>
+            <Input
+              id="phone"
+              onChange={handleDataChange}
+              value={shippingData.phone}
+            />
+          </InputContainer>
         <NextButton
           onClick={() => {
             createCheckout();
@@ -208,6 +229,7 @@ const Shipping = () => {
           Next
         </NextButton>
       </ShippingDetails>
+      <CartSummary />
     </ShippingContainer>
   );
 };

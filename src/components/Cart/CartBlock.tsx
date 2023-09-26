@@ -8,18 +8,17 @@ import Link from "next/link";
 
 import { useShoppingCart } from "use-shopping-cart";
 
-interface ExpandedCartEntry extends ICartEntry {
-    product_data: {
-        metadata: {
-            [key:string]:string
-        }
-    }
-    
+export interface ExpandedCartEntry extends ICartEntry {
+  product_data: {
+    metadata: {
+      [key: string]: string;
+    };
+  };
 }
-const _CartBlock = styled.div`
+export const _CartBlock = styled.div`
   display: flex;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 950px) {
     flex-direction: column;
   }
   height: auto;
@@ -62,29 +61,28 @@ const Button = styled.button`
   }
 `;
 
-const CartProductImage = styled.div`
+export const CartProductImage = styled.div`
   position: relative;
   height: 120px;
   width: 150px;
 `;
-const CartProductData = styled.div`
+export const CartProductData = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
-const CartProductTitle = styled.h3`
+export const CartProductTitle = styled.h3`
   font-size: 1.3rem;
   font-weight: 700;
 `;
 
-const CartProductSizeAndColor = styled.span`
+export const CartProductSizeAndColor = styled.span`
   font-size: 1rem;
   font-weight: 600;
   text-transform: capitalize;
-
 `;
 
-const CardProductPrice = styled.span`
+export const CardProductPrice = styled.span`
   font-size: 1rem;
   font-weight: 700;
 `;
@@ -97,7 +95,13 @@ const CartBlockQuantityContainer = styled.div`
   }
 `;
 
-const CartBlock = ({ data,inBox  }: { data: ExpandedCartEntry,inBox?:boolean  }) => {
+const CartBlock = ({
+  data,
+  inBox,
+}: {
+  data: ExpandedCartEntry;
+  inBox?: boolean;
+}) => {
   const cart = useShoppingCart();
   const { removeItem, setItemQuantity } = cart;
   const cartRemove = () => {
@@ -116,44 +120,47 @@ const CartBlock = ({ data,inBox  }: { data: ExpandedCartEntry,inBox?:boolean  })
       <CartBlockItem>
         <Button onClick={cartRemove}>
           <X size={20} color="white" />
-              </Button>
-              <Link href={`/product/${data.product_data?.metadata?.id}`}>
-        <CartProductImage>
-          <Image src={data.image!} alt="product" className="absolute" fill />
-                  </CartProductImage>
-                  </Link>
+        </Button>
+        <Link href={`/product/${data.product_data?.metadata?.id}`}>
+          <CartProductImage>
+            <Image src={data.image!} alt="product" className="absolute" fill />
+          </CartProductImage>
+        </Link>
         <CartProductData>
           <CartProductTitle>{data.name}</CartProductTitle>
-                  <CartProductSizeAndColor>
-                      
+          <CartProductSizeAndColor>
             {data?.product_data?.metadata?.size} /{" "}
             {data?.product_data?.metadata?.color}
           </CartProductSizeAndColor>
-          
+
           <CardProductPrice>
-            {formatCurrency( window.innerWidth > 768  ? data.price / 100  : (data.price * data.quantity) / 100)}
+            {formatCurrency(
+              window.innerWidth > 768
+                ? data.price / 100
+                : (data.price * data.quantity) / 100
+            )}
           </CardProductPrice>
 
           {/* only display this on mobile */}
-          {window.innerWidth < 768 &&
+          {window.innerWidth < 768 && (
             <CartBlockQuantity>
               {" "}
-                <Minus size={20} color="white"  onClick={cartDecrease}/>
+              <Minus size={20} color="white" onClick={cartDecrease} />
               {data.quantity}
-                <Plus size={20} color="white" onClick={cartIncrease} />
+              <Plus size={20} color="white" onClick={cartIncrease} />
             </CartBlockQuantity>
-          }
+          )}
         </CartProductData>
       </CartBlockItem>
-      {window.innerWidth > 768 &&
+      {window.innerWidth > 768 && (
         <CartBlockQuantityContainer>
           <CartBlockQuantity>
             {" "}
             <Button onClick={cartDecrease}>
-              <Minus size={20} color="white"  />
+              <Minus size={20} color="white" />
             </Button>
             {data.quantity}
-            <Button >
+            <Button>
               <Plus size={20} color="white" onClick={cartIncrease} />
             </Button>
           </CartBlockQuantity>
@@ -161,7 +168,7 @@ const CartBlock = ({ data,inBox  }: { data: ExpandedCartEntry,inBox?:boolean  })
             {formatCurrency((data.price * data.quantity) / 100)}
           </CartBlockPrice>
         </CartBlockQuantityContainer>
-      }
+      )}
     </_CartBlock>
   );
 };

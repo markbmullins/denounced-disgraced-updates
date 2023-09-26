@@ -4,6 +4,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { X, Minus, Plus } from "lucide-react";
 import { Product } from "../../server/routers/products/schema";
 import { useShoppingCart } from "use-shopping-cart";
+import {  toast } from 'react-toastify';
 
 const ProductInfoContainer = styled.div`
   display: flex;
@@ -90,7 +91,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
   const { addItem, cartDetails } = cart;
 
   const handleAddToCart = () => {
-    if (!size || !color) return alert("choose size or color first");
+    if (!size || !color) return toast('Please select size & color')
     addItem(
       {
         name: product.productType,
@@ -112,7 +113,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
       },
       { count: quantity }
     );
-    alert("Added!");
+    toast('Added!');
   };
 
   return (

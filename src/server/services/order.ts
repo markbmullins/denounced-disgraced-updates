@@ -68,7 +68,7 @@ export const createCheckout = async (
           postal_code: shipping.postalCode,
         },
         name: shipping.firstName + " " + shipping.lastName,
-        phone: "55510809122",
+        phone: shipping.phone,
       },
     },
     metadata: {

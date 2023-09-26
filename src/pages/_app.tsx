@@ -12,7 +12,8 @@ import config from "../utils/config";
 import { SEO } from "../components/SEO";
 import { trpc } from "../utils/trpc";
 import CartContext from "../components/Cart/CartContext";
-
+import { ToastContainer, } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const navbarHeight = 80;
 
 //padding for all pages.
@@ -53,6 +54,8 @@ function App({ Component, pageProps }: AppProps) {
         description="Denounced Disgraced, Charleston SC"
       />
       <CartContext>
+        <ToastContainer progressStyle={{  background:'#36284c'}}/>
+
       <AppContainer>
         {/* {!router.pathname.includes("store") && ( */}
           <BackgroundImage src={config.background} />
