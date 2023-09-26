@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { FilterValueTypes } from "../../../pages/store";
 import { Product } from "../../../server/routers/products/schema";
 
+
 type FilterContentProps = {
   isOpen: boolean;
 };
@@ -15,7 +16,6 @@ const FilterStyle = styled.div`
   width: 25%;
   @media screen and (max-width: 950px) {
     width: 100%;
-    
   }
   font-family: Bruno;
 `;
@@ -39,7 +39,6 @@ const FilterItemContainer = styled.li`
 const FilterContentWrapper = styled.li`
   display: flex;
   flex-direction: column;
-
 `;
 
 const FilterHeader = styled.li`
@@ -48,16 +47,14 @@ const FilterHeader = styled.li`
   width: 100%;
 `;
 
-const Chevorn = styled(ChevronDown)`
-  transform: ${({ rotate }) => (rotate ? "rotate(180deg)" : "none")};
+const Chevorn = styled(ChevronDown)<{isRotate:boolean}>`
+  transform: ${({ isRotate }) => (isRotate ? "rotate(180deg)" : "none")};
   transition: all 0.2s ease-in-out;
 `;
 
 const Content = styled.div<FilterContentProps>`
   overflow: hidden;
-  height: 0;
-  animation: ${({ isOpen }) =>
-    isOpen ? `accordionDown 0.2s forwards` : "none "};
+  height: ${({ isOpen }) => (isOpen ? `auto` : "0")};
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
   margin-top: 10px;
@@ -67,10 +64,10 @@ const Content = styled.div<FilterContentProps>`
   padding-left: 10px;
 `;
 
-const _FilterItem  = styled.li`
-  display:flex;
-  gap:2px;
-`
+const _FilterItem = styled.li`
+  display: flex;
+  gap: 2px;
+`;
 
 const valueToName = (value: string) => {
   switch (value) {
@@ -155,7 +152,9 @@ const FilterItem = ({
             checked={isChecked}
             onChange={() => handleCheckboxChange(item)}
           />
-          <p  onClick={() => handleCheckboxChange(item)}>{item.min} - {item.max}</p>
+          <p onClick={() => handleCheckboxChange(item)}>
+            {item.min} - {item.max}
+          </p>
         </_FilterItem>
       );
     } else {
@@ -166,8 +165,7 @@ const FilterItem = ({
             checked={isChecked}
             onChange={() => handleCheckboxChange(item)}
           />{" "}
-         <p             onClick={() => handleCheckboxChange(item)}
-> {item}</p>
+          <p onClick={() => handleCheckboxChange(item)}> {item}</p>
         </_FilterItem>
       );
     }
@@ -178,7 +176,7 @@ const FilterItem = ({
       <FilterContentWrapper>
         <FilterHeader onClick={handleChevronClick}>
           {/*@ts-ignore */}
-          {valueToName(property)} <Chevorn rotate={isRotated} />
+          {valueToName(property)} <Chevorn isRotate={isRotated} />
         </FilterHeader>
         <Content isOpen={isOpen}>{displayFilterValues}</Content>
       </FilterContentWrapper>

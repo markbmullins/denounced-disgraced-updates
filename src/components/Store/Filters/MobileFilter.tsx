@@ -20,6 +20,7 @@ const MobileFilterContainer = styled.div<{ isOpen: boolean }>`
   position: fixed;
   padding:10px;
   top:0;
+  margin-top: 70px;
 
   width:  100%;
   height: 100vh !important;

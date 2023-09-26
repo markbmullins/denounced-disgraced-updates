@@ -14,14 +14,12 @@ interface NavbarProps {
 }
 
 const Nav = styled.nav`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: ${(props: any) => props.height + "px"};
-  /* background-color: ${(props: any) =>
-  props.isTransparent ? "transparent" : "#1a1a1a"}; */
-    background-color: transparent;
+  background-color: ${(props: any) => props.isTransparent ? "transparent" : "#1a1a1a"};
   overflow: hidden;
   font-family: Bruno;
   @media (min-width: 768px) {
@@ -29,13 +27,16 @@ const Nav = styled.nav`
     width: 95%;
     margin: 0 auto;
     padding: 0 2rem;
+
   }
   @media (max-width: 768px) {
     margin: 0 auto;
     width: 95%;
     padding-right: 1rem;
     padding-left: 1rem;
+
   }
+  z-index: 50;
 
   display: flex;
   align-items: center;
@@ -97,6 +98,8 @@ const SideDrawer = styled.div<{ isOpen: boolean }>`
 
 export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
   const { isTransparent } = useNavbarColorOnScroll();
+
+  console.log(isTransparent,'istransparent')
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const links = Object.entries(pages).map(([pageName, url]) => (

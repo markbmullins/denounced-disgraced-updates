@@ -8,6 +8,7 @@ import CollectionHeader from "../components/Store/CollectionHeader";
 import Filter from "../components/Store/Filters/Filter";
 import MobileFilter from "../components/Store/Filters/MobileFilter";
 import { useWindowSize } from "../utils/hooks/useWindowSize";
+import { filterParamsAtom } from "../utils/jotai";
 
 export type FilterValueTypes = {
   productLine: string[];

@@ -38,6 +38,7 @@ const ShippingContainer = styled.div`
   @media screen and (max-width: 768px) {
 
   flex-direction: column;
+  padding:0 20px;
   }
   gap: 30px;
 `;
