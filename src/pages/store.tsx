@@ -175,7 +175,7 @@ export default function StorePage() {
     }
   }, [filteredProducts]);
 
-  if (productsQuery.isLoading || !filteredProducts?.length ) {
+  if (productsQuery.isLoading || filteredProducts === undefined) {
     return (
       <SpinnerDiv
        
