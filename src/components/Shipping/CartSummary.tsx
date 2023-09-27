@@ -6,7 +6,7 @@ import CartSummaryBlock from "./CartSummaryBlock";
 const OrderSummaryContainer = styled.div`
   width: 30%;
   
-  height: 400px;
+  height: 450px;
   border-radius: 10px;
   border: 1px solid white;
   padding: 20px;

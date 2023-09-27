@@ -22,20 +22,21 @@ const Nav = styled.nav`
   background-color: ${(props: any) => props.isTransparent ? "transparent" : "#1a1a1a"};
   overflow: hidden;
   font-family: Bruno;
+  
   @media (min-width: 768px) {
     max-width: 1400px;
-    width: 95%;
+    width: 100%;
     margin: 0 auto;
     padding: 0 2rem;
 
-  }
+  };
   @media (max-width: 768px) {
-    margin: 0 auto;
-    width: 95%;
+    width: 100%;
     padding-right: 1rem;
     padding-left: 1rem;
+  
 
-  }
+  };
   z-index: 50;
 
   display: flex;
@@ -63,7 +64,6 @@ const NavLogoContainer = styled.div`
 
 const HamburgerContainer = styled.div`
   display: flex;
-  margin-right: 5vw;
   align-items: center;
 
   ${tablet} {
@@ -99,7 +99,6 @@ const SideDrawer = styled.div<{ isOpen: boolean }>`
 export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
   const { isTransparent } = useNavbarColorOnScroll();
 
-  console.log(isTransparent,'istransparent')
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const links = Object.entries(pages).map(([pageName, url]) => (

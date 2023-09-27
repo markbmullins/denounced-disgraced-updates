@@ -20,7 +20,7 @@ const navbarHeight = 80;
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: ${"100svh"};
+  min-height: 100vh;
   overflow-x: hidden;
   @media (min-width: 768px) {
     max-width: 1400px;
@@ -28,13 +28,12 @@ const AppContainer = styled.div`
     margin: 0 auto;
     padding-right: 1rem;
     padding-left: 1rem;
-  }
+  };
   @media (max-width: 768px) {
     margin: 0 auto;
     width: 95%;
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
+
+  };
 `;
 
 const ContentContainer = styled.div`
@@ -55,11 +54,6 @@ function App({ Component, pageProps }: AppProps) {
       />
       <CartContext>
         <ToastContainer progressStyle={{  background:'#36284c'}}/>
-
-      <AppContainer>
-        {/* {!router.pathname.includes("store") && ( */}
-          <BackgroundImage src={config.background} />
-        {/* )} */}
         <Navbar
           height={navbarHeight}
           pages={{
@@ -70,6 +64,11 @@ function App({ Component, pageProps }: AppProps) {
             Contact: "/contact",
           }}
         />
+      <AppContainer>
+        {/* {!router.pathname.includes("store") && ( */}
+          <BackgroundImage src={config.background} />
+        {/* )} */}
+       
         <ContentContainer>
           <Component {...pageProps} />
         </ContentContainer>

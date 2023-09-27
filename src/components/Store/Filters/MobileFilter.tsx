@@ -26,7 +26,7 @@ const MobileFilterContainer = styled.div<{ isOpen: boolean }>`
   height: 100vh !important;
   background-color: #1a1a1a;
   z-index: 150;
-  right: ${({isOpen}) => (isOpen ? "-20px" : "-120%")};
+  right: ${({isOpen}) => (isOpen ? "0" : "-120%")};
   @media screen and (min-width: 950px) {
     display: none;
   }
@@ -50,7 +50,7 @@ const MobileFilter = ({ filterValues,filterParams,setFilterParams }: { filterVal
           <FilterIcon onClick={toggleFilter} />
       <p onClick={toggleFilter} >Filter</p>
         <MobileFilterContainer isOpen={isOpen}  >
-          <X style={{position:"absolute",right:'40px',top:'10px;'}}  onClick={() => {setIsOpen(false)}}/>
+          <X style={{position:"absolute",right:'40px',top:'10px'}}  onClick={() => {setIsOpen(false)}}/>
               <Filter filterValues={filterValues}
                   
           filterParams={filterParams}

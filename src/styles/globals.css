@@ -19,6 +19,10 @@ mark, audio, video {
     text-decoration: inherit;
 }
 
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display: block;
@@ -69,7 +73,6 @@ html {
 
 
 .swiper-button-prev, .swiper-button-next{
-
     color:#B9B9B9!important;
 }
 
@@ -88,3 +91,24 @@ html {
     background-color:#C4FD46!important
     
 }
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+::-webkit-scrollbar{
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track{
+    background:transparent
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    background:#36284c;
+    border-radius: 10px;
+  }
+  

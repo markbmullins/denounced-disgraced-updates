@@ -47,10 +47,11 @@ const FilterHeader = styled.li`
   width: 100%;
 `;
 
-const Chevorn = styled(ChevronDown)<{isRotate:boolean}>`
-  transform: ${({ isRotate }) => (isRotate ? "rotate(180deg)" : "none")};
+const Chevorn = styled(ChevronDown)<{open:boolean}>`
+  transform: ${({ open }) => (open ? "rotate(180deg)" : "none")};
   transition: all 0.2s ease-in-out;
 `;
+
 
 const Content = styled.div<FilterContentProps>`
   overflow: hidden;
@@ -97,7 +98,6 @@ const FilterItem = ({
   filterParams: any;
   setFilterParams: (val: any) => void;
 }) => {
-  const [isRotated, setIsRotated] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   // const [checkedBoxes, setChekedBox] = useState([])
 
@@ -106,7 +106,6 @@ const FilterItem = ({
   }
 
   const handleChevronClick = () => {
-    setIsRotated(!isRotated);
     setIsOpen(!isOpen);
   };
 
@@ -176,7 +175,7 @@ const FilterItem = ({
       <FilterContentWrapper>
         <FilterHeader onClick={handleChevronClick}>
           {/*@ts-ignore */}
-          {valueToName(property)} <Chevorn isRotate={isRotated} />
+          {valueToName(property)} <Chevorn open={isOpen} />
         </FilterHeader>
         <Content isOpen={isOpen}>{displayFilterValues}</Content>
       </FilterContentWrapper>
@@ -215,4 +214,4 @@ const Filter = ({
   );
 };
 
-export default Filter;
+export default React.memo( Filter);

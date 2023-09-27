@@ -5,7 +5,9 @@ import { useShoppingCart } from "use-shopping-cart";
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
 import CartSummary from "../components/Shipping/CartSummary";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import { SpinnerDiv } from "./store";
+import { Loader } from "lucide-react";
 
 const CheckoutHeader = styled.div`
   font-size: 40px;
@@ -32,13 +34,12 @@ const Label = styled.label`
 
 const ShippingContainer = styled.div`
   display: flex;
-  justify-content:space-between;
-  align-items:center;
+  justify-content: space-between;
+  align-items: center;
 
   @media screen and (max-width: 768px) {
-
-  flex-direction: column;
-  padding:0 20px;
+    flex-direction: column;
+    padding: 0 20px;
   }
   gap: 30px;
 `;
@@ -46,7 +47,6 @@ const InputContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  
 `;
 
 const CountriesSelect = styled.select`
@@ -89,6 +89,7 @@ const Shipping = () => {
   const countries = useMemo(() => countryList().getData(), []);
   const cart = useShoppingCart();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [shippingData, setShippingData] = useState({
     email: "",
@@ -98,16 +99,16 @@ const Shipping = () => {
     country: "",
     city: "",
     postalCode: "",
-    phone:""
+    phone: "",
   });
 
-  const { cartDetails , redirectToCheckout } = cart;
+  const { cartDetails, redirectToCheckout } = cart;
 
   const orderMutation = trpc.orders.stripeCheckout.useMutation();
 
   const createCheckout = async () => {
-      for (let key in shippingData) {
-        //@ts-ignore
+    for (let key in shippingData) {
+      //@ts-ignore
       if (!shippingData[key].trim()) {
         toast(`Please provide a valid ${key}.`);
         return;
@@ -118,6 +119,7 @@ const Shipping = () => {
       toast("Please provide a valid email address.");
       return;
     }
+    setIsLoading(true);
 
     const checkoutSessionId = await orderMutation.mutateAsync({
       data: cartDetails,
@@ -139,7 +141,6 @@ const Shipping = () => {
     setShippingData({ ...shippingData, [id]: value });
   };
   if (Object.values(cartDetails ?? {}).length === 0) {
-    
     return router.push("/cart");
   }
 
@@ -215,18 +216,25 @@ const Shipping = () => {
           </InputContainer>
         </div>
         <InputContainer>
-            <Label>phone</Label>
-            <Input
-              id="phone"
-              onChange={handleDataChange}
-              value={shippingData.phone}
-            />
-          </InputContainer>
+          <Label>phone</Label>
+          <Input
+            id="phone"
+            onChange={handleDataChange}
+            value={shippingData.phone}
+          />
+        </InputContainer>
         <NextButton
           onClick={() => {
             createCheckout();
           }}
         >
+          {isLoading ? (
+            <SpinnerDiv>
+              <Loader style={{ animation: "spin 5000ms infinite linear" }} />
+            </SpinnerDiv>
+          ) : (
+            <>Next</>
+          )}
           Next
         </NextButton>
       </ShippingDetails>

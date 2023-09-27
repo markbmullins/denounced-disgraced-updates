@@ -13,12 +13,13 @@ import "swiper/css/navigation";
 import 'swiper/css/pagination';
 
 export const ProductCardStyle = styled.div<{ isTransparent: boolean }>`
-  display: flex;
   background-color: ${({ isTransparent }) =>
-    isTransparent ? "transparent" : "#fff"};
+  isTransparent ? "transparent" : "#fff"};
+
   flex-direction: column;
   border-radius: 0.75rem;
   border: 2px#fff solid;
+  overflow: hidden;
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   color: ${({ isTransparent }) => (isTransparent ? "white" : "#282828")};
@@ -32,19 +33,25 @@ export const ProductCardStyle = styled.div<{ isTransparent: boolean }>`
   padding: 10px;
   @media screen and (max-width: 1300px) {
     height: 300px;
-    padding:5px;
-  }
+    padding: 5px;
+
+} 
+  width: 100%;
+
   height: 330px;
 
+
   overflow: hidden;
-  grid-column: span 1;
+
 `;
 const ProductImage = styled.div`
-  width: 100%;
+  width: 15rem;
   height: 60%;
+  margin: 0 auto;
   @media screen and (max-width:700px) {
     height: 70%;
-    
+    width: 10rem;
+
   }
   position: relative;
   display: flex;
@@ -52,10 +59,11 @@ const ProductImage = styled.div`
 `;
 
 const ProductInfo = styled.div`
-  width: 100%;
   height: 40%;
+  width: 100%;
   @media screen and (max-width:700px) {
     height: 30%;
+
     
   }
   display: flex;
@@ -105,10 +113,8 @@ export const ProductCard = ({
         <ProductImage>
           {image.length > 1 ? (
                       <Swiper
-                          style={{
-                              width: '100%',
-                              height:'100%'
-                          }}
+                      style={{ width: '100%', height: '100%' }}
+
               navigation={true}
               modules={[Navigation, Pagination]}
               pagination={{ clickable: true }}
@@ -117,12 +123,12 @@ export const ProductCard = ({
             >
               {" "}
               {image.map((item, index) => {
-                return <SwiperSlide key={index}  >
+                return <SwiperSlide key={index} >
                   {" "}
                   <Image
-                    
-                        fill
+                  style={{objectFit:'cover'}}
                     priority={true}
+                    fill
                     
                     src={image[index]}
                     alt={title}

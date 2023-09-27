@@ -28,6 +28,7 @@ const CollectionHeader = ({
       <p>
         Showing {showingResult} results of {totalResults}
       </p>
+      
     </CollectionHeaderStyle>
   );
 };
