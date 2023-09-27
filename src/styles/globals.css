@@ -101,8 +101,13 @@ html {
     }
 }
 ::-webkit-scrollbar{
-    width: 10px;
+    display: none;
   }
+  #ordersummary ::-webkit-scrollbar {
+    display: block!important;
+  }
+
+
   ::-webkit-scrollbar-track{
     background:transparent
   }

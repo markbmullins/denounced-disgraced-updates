@@ -229,13 +229,10 @@ const Shipping = () => {
           }}
         >
           {isLoading ? (
-            <SpinnerDiv>
               <Loader style={{ animation: "spin 5000ms infinite linear" }} />
-            </SpinnerDiv>
           ) : (
             <>Next</>
           )}
-          Next
         </NextButton>
       </ShippingDetails>
       <CartSummary />

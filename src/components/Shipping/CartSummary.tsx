@@ -64,7 +64,7 @@ const CartSummary = () => {
 
 
   return (
-    <OrderSummaryContainer>
+    <OrderSummaryContainer id='ordersummary'>
           <OrderSummaryHeader>Cart Summary</OrderSummaryHeader>
           <CartBlockContainer>
               {CartItems}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { ChevronDown } from "lucide-react";
 import { FilterValueTypes } from "../../../pages/store";
@@ -47,15 +47,14 @@ const FilterHeader = styled.li`
   width: 100%;
 `;
 
-const Chevorn = styled(ChevronDown)<{open:boolean}>`
-  transform: ${({ open }) => (open ? "rotate(180deg)" : "none")};
+const Chevorn = styled(ChevronDown)`
   transition: all 0.2s ease-in-out;
 `;
 
 
-const Content = styled.div<FilterContentProps>`
+const Content = styled.div`
   overflow: hidden;
-  height: ${({ isOpen }) => (isOpen ? `auto` : "0")};
+  height: auto;
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
   margin-top: 10px;
@@ -69,6 +68,46 @@ const _FilterItem = styled.li`
   display: flex;
   gap: 2px;
 `;
+
+
+
+const filterValues = {
+  "productLine": [
+      "jac"
+  ],
+  "productType": [
+      "t-shirt",
+      "hoodie",
+      "tank-top",
+      "long-sleeve"
+  ],
+  "artStyle": [
+      "black-and-white-red-outline",
+      "mixed"
+  ],
+  "productColor": [
+      "white",
+      "black"
+  ],
+  "price": [
+      {
+          "min": 0,
+          "max": 30
+      },
+      {
+          "min": 30,
+          "max": 50
+      },
+      {
+          "min": 50,
+          "max": 100
+      },
+      {
+          "min": 100,
+          "max": 1000
+      }
+  ]
+}
 
 const valueToName = (value: string) => {
   switch (value) {
@@ -97,13 +136,22 @@ const FilterItem = ({
   value: any;
   filterParams: any;
   setFilterParams: (val: any) => void;
-}) => {
+  }) => {
+  
+  
   const [isOpen, setIsOpen] = useState(false);
-  // const [checkedBoxes, setChekedBox] = useState([])
-
-  if (!value) {
-    return null;
-  }
+  const contentRef = useRef<HTMLDivElement | null>(null);  // Declare the ref
+  const chevronRef = useRef<SVGSVGElement | null>(null);  // Declare a ref for the chevron
+  
+  useEffect(() => {
+    if (isOpen) {
+      contentRef.current!.style.height = 'auto';
+      chevronRef.current!.style.transform = 'rotate(180deg)';  // Rotate the chevron
+    } else {
+      contentRef.current!.style.height = '0';
+      chevronRef.current!.style.transform = 'none';  // Reset the rotation
+    }
+  }, [isOpen]);
 
   const handleChevronClick = () => {
     setIsOpen(!isOpen);
@@ -175,26 +223,22 @@ const FilterItem = ({
       <FilterContentWrapper>
         <FilterHeader onClick={handleChevronClick}>
           {/*@ts-ignore */}
-          {valueToName(property)} <Chevorn open={isOpen} />
+          {valueToName(property)} <Chevorn  ref={chevronRef} />
         </FilterHeader>
-        <Content isOpen={isOpen}>{displayFilterValues}</Content>
+        <Content ref={contentRef}>{displayFilterValues}</Content>
       </FilterContentWrapper>
     </FilterItemContainer>
   );
 };
 
 const Filter = ({
-  filterValues,
   filterParams,
   setFilterParams,
 }: {
-  filterValues: FilterValueTypes | null;
   filterParams: any;
   setFilterParams: (val: any) => void;
 }) => {
-  if (!filterValues) {
-    return null;
-  }
+ 
 
   return (
     <FilterStyle>

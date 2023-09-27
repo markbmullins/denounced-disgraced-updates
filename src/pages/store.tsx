@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+"use client "
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { trpc } from "../utils/trpc";
 import styled from "styled-components";
 import Link from "next/link";
@@ -78,53 +79,7 @@ export const SpinnerDiv = styled.div`
   width: 100%;
 `;
 
-const getFilterProperties = (products: any) => {
-  const uniqueValues = products.reduce(
-    (accumulator: any, product: Product) => {
-      // Collect unique values for productLine
-      if (!accumulator.productLine.includes(product.productLine)) {
-        accumulator.productLine.push(product.productLine);
-      }
 
-      // Collect unique values for productType
-      if (!accumulator.productType.includes(product.productType)) {
-        accumulator.productType.push(product.productType);
-      }
-
-      // Collect unique values for artStyle
-      if (!accumulator.artStyle.includes(product.artStyle)) {
-        accumulator.artStyle.push(product.artStyle);
-      }
-
-      // Collect unique values for productColor
-      if (!accumulator.productColor.includes(product.productColor)) {
-        accumulator.productColor.push(product.productColor);
-      }
-
-      return accumulator;
-    },
-    {
-      productLine: [],
-      productType: [],
-      artStyle: [],
-      productColor: [],
-      price: [
-        {
-          min: 0,
-          max: 30,
-        },
-        {
-          min: 30,
-          max: 50,
-        },
-        { min: 50, max: 100 },
-        { min: 100, max: 1000 },
-      ],
-    }
-  );
-
-  return uniqueValues;
-};
 
 // const groupProducts = (products: Product[]): Product[][] => {
 //   const map = products.reduce(
@@ -146,6 +101,8 @@ const ImageCarousel = styled.div``;
 export default function StorePage() {
   const productsQuery = trpc.products.getAll.useQuery();
 
+
+
   const [filterParams, setFilterParams] = useState<any>({
     productLine: [],
     productType: [],
@@ -159,23 +116,28 @@ export default function StorePage() {
   const [showDesktopFilter, setShowDesktopFilter] = useState(false);
   const { width, height } = useWindowSize();
 
-  const filteredProducts = productsQuery?.data?.length ?  productsQuery?.data?.filter((product) => {
-    return (
-      (!filterParams.productLine.length ||
-        filterParams.productLine.includes(product.productLine)) &&
-      (!filterParams.productType.length ||
-        filterParams.productType.includes(product.productType)) &&
-      (!filterParams.artStyle.length ||
-        filterParams.artStyle.includes(product.artStyle)) &&
-      (!filterParams.productColor.length ||
-        filterParams.productColor.includes(product.productColor)) &&
-      (!filterParams.price.length ||
-        filterParams.price.some(
-          ({ min, max }: { min: number; max: number }) =>
-            product.price >= min && product.price <= max
-        ))
-    );
-  }) : null ;
+  
+  const filteredProducts = useMemo(() => {
+    // filtering logic here
+   return  productsQuery?.data?.length ?  productsQuery?.data?.filter((product) => {
+      return (
+        (!filterParams.productLine.length ||
+          filterParams.productLine.includes(product.productLine)) &&
+        (!filterParams.productType.length ||
+          filterParams.productType.includes(product.productType)) &&
+        (!filterParams.artStyle.length ||
+          filterParams.artStyle.includes(product.artStyle)) &&
+        (!filterParams.productColor.length ||
+          filterParams.productColor.includes(product.productColor)) &&
+        (!filterParams.price.length ||
+          filterParams.price.some(
+            ({ min, max }: { min: number; max: number }) =>
+              product.price >= min && product.price <= max
+          ))
+      );
+    }) : null;
+}, [productsQuery.data, filterParams]);
+
 
 
 
@@ -227,15 +189,13 @@ export default function StorePage() {
     return <div>Error loading products</div>;
   }
 
-  const filterValues: FilterValueTypes = getFilterProperties(
-    productsQuery.data
-  );
+  
+
 
   return (
     <Container>
       {width! > 950 && (
         <Filter
-          filterValues={filterValues}
           filterParams={filterParams}
           setFilterParams={setFilterParams}
         />
@@ -253,7 +213,6 @@ export default function StorePage() {
           totalResults={filteredProducts?.length || 0}
         />
         <MobileFilter
-          filterValues={filterValues}
           filterParams={filterParams}
           setFilterParams={setFilterParams}
         />

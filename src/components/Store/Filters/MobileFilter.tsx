@@ -34,7 +34,7 @@ const MobileFilterContainer = styled.div<{ isOpen: boolean }>`
 `;
 
 
-const MobileFilter = ({ filterValues,filterParams,setFilterParams }: { filterValues: FilterValueTypes | null,filterParams:any,setFilterParams: (val:any) => void }) => {
+const MobileFilter = ({ filterParams,setFilterParams }: { filterParams:any,setFilterParams: (val:any) => void }) => {
     const [isOpen, setIsOpen] = useState(false)
     const toggleFilter = () => {
         setIsOpen(!isOpen)
@@ -51,7 +51,7 @@ const MobileFilter = ({ filterValues,filterParams,setFilterParams }: { filterVal
       <p onClick={toggleFilter} >Filter</p>
         <MobileFilterContainer isOpen={isOpen}  >
           <X style={{position:"absolute",right:'40px',top:'10px'}}  onClick={() => {setIsOpen(false)}}/>
-              <Filter filterValues={filterValues}
+              <Filter 
                   
           filterParams={filterParams}
                   setFilterParams={setFilterParams} />
