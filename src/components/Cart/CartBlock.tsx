@@ -34,19 +34,21 @@ const CartBlockItem = styled.div`
     width: 100%;
   }
 `;
+
 const CartBlockQuantity = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
   font-weight: 700;
   font-size: 1.2rem;
-  /* http://res.cloudinary.com/dwutvwrw4/image/upload/v1695427762/jac_t-shirt_black-and-white-red-outline_white_1.png */
 `;
+
 const CartBlockPrice = styled.div`
   font-weight: 500;
   font-size: 1.5rem;
   font-family: Bruno;
 `;
+
 const Button = styled.button`
   border-radius: 100%;
   width: 30px;
@@ -66,11 +68,13 @@ export const CartProductImage = styled.div`
   height: 120px;
   width: 150px;
 `;
+
 export const CartProductData = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
+
 export const CartProductTitle = styled.h3`
   font-size: 1.3rem;
   font-weight: 700;
@@ -86,6 +90,7 @@ export const CardProductPrice = styled.span`
   font-size: 1rem;
   font-weight: 700;
 `;
+
 const CartBlockQuantityContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -95,13 +100,7 @@ const CartBlockQuantityContainer = styled.div`
   }
 `;
 
-const CartBlock = ({
-  data,
-  inBox,
-}: {
-  data: ExpandedCartEntry;
-  inBox?: boolean;
-}) => {
+const CartBlock = ({ data }: { data: ExpandedCartEntry }) => {
   const cart = useShoppingCart();
   const { removeItem, setItemQuantity } = cart;
   const cartRemove = () => {
@@ -137,7 +136,7 @@ const CartBlock = ({
             {formatCurrency(
               window.innerWidth > 768
                 ? data.price / 100
-                : (data.price * data.quantity) / 100
+                : (data.price * data.quantity) / 100,
             )}
           </CardProductPrice>
 

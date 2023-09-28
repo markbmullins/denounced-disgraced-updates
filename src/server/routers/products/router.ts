@@ -4,6 +4,7 @@ import { fetchAllProducts, fetchProductById } from "../../services/product";
 
 export const productsRouter = router({
   getAll: procedure.query(async () => {
+    console.log("calling fetch products");
     return fetchAllProducts();
   }),
 

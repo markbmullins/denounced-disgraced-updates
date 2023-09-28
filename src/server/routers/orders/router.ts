@@ -4,8 +4,7 @@ import {
   createOrder,
   fetchAllOrders,
   fetchOrdersByUser,
-  createCheckout
-  
+  createCheckout,
 } from "../../services/order";
 import { OrderInputSchema } from "./schema";
 
@@ -14,12 +13,16 @@ export const ordersRouter = router({
   create: procedure.input(OrderInputSchema).mutation(async (opts) => {
     return createOrder(opts.input);
   }),
-  stripeCheckout: procedure.input(
-    z.object({
-      data: any(),
-      shipping:any()
-    })
-  ).mutation(async (data) => {return createCheckout(data.input.data,data.input.shipping)}),
+  stripeCheckout: procedure
+    .input(
+      z.object({
+        cartData: any(),
+        shipping: any(),
+      }),
+    )
+    .mutation(async (data) => {
+      return createCheckout(data.input.cartData, data.input.shipping);
+    }),
   getByUser: procedure
     .input(
       z.object({

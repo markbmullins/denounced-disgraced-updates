@@ -4,13 +4,7 @@ import RealOrdersDao from "../db/accessors/orders/real";
 import MockOrdersDao from "../db/accessors/orders/mock";
 import { mockOrders } from "../db/mocks/orders";
 import { ShippingType } from "../../pages/shipping";
-
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_TEST!, {
-  // https://github.com/stripe/stripe-node#configuration
-  apiVersion: "2023-08-16",
-});
+import { stripe, CheckoutParams, CheckoutSession } from "./stripe";
 
 const useMocks = ["development", "test"].includes(process.env.NODE_ENV);
 const orderDao: OrdersDao = useMocks ? MockOrdersDao : RealOrdersDao;
@@ -35,16 +29,14 @@ export const createOrder = async (input: OrderInput): Promise<Order> => {
 
 export const createCheckout = async (
   cartDetails: any,
-  shipping: ShippingType
+  shipping: ShippingType,
 ) => {
   const dataArray = Object.keys(cartDetails).reduce((result: any, key) => {
     const itemTotal = cartDetails[key].quantity * cartDetails[key].price;
     result.push({
       quantity: cartDetails[key].quantity,
-
       price_data: {
         currency: "USD",
-
         unit_amount: cartDetails[key].price,
         product_data: cartDetails[key].product_data,
       },
@@ -52,13 +44,12 @@ export const createCheckout = async (
     return result;
   }, []);
 
-  const params: Stripe.Checkout.SessionCreateParams = {
+  const params: CheckoutParams = {
     mode: "payment",
     payment_method_types: ["card"],
     invoice_creation: {
       enabled: true,
     },
-
     payment_intent_data: {
       shipping: {
         address: {
@@ -75,15 +66,12 @@ export const createCheckout = async (
       shipping: JSON.stringify(shipping),
     },
     customer_email: shipping.email,
-
     line_items: dataArray,
-
     success_url: `https://denounceddisgraced.com/result?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `https://denounceddisgraced.com/`,
+    cancel_url: "https://denounceddisgraced.com/shipping",
   };
 
-  const checkoutSession: Stripe.Checkout.Session =
-    await stripe.checkout.sessions.create(params);
+  const checkoutSession: CheckoutSession = await stripe.createCheckout(params);
 
   return checkoutSession.id;
 };

@@ -1,4 +1,3 @@
-
 import { AppProps } from "next/app";
 import React from "react";
 import { Navbar } from "../components/Navbar";
@@ -12,15 +11,16 @@ import config from "../utils/config";
 import { SEO } from "../components/SEO";
 import { trpc } from "../utils/trpc";
 import CartContext from "../components/Cart/CartContext";
-import { ToastContainer, } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const navbarHeight = 80;
 
 //padding for all pages.
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: ${"100svh"};
   overflow-x: hidden;
   @media (min-width: 768px) {
     max-width: 1400px;
@@ -28,12 +28,13 @@ const AppContainer = styled.div`
     margin: 0 auto;
     padding-right: 1rem;
     padding-left: 1rem;
-  };
+  }
   @media (max-width: 768px) {
     margin: 0 auto;
     width: 95%;
-
-  };
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -44,7 +45,6 @@ const ContentContainer = styled.div`
 `;
 
 function App({ Component, pageProps }: AppProps) {
-
   return (
     <>
       <GlobalFonts />
@@ -53,31 +53,27 @@ function App({ Component, pageProps }: AppProps) {
         description="Denounced Disgraced, Charleston SC"
       />
       <CartContext>
-        <ToastContainer progressStyle={{  background:'#36284c'}}/>
-        <Navbar
-          height={navbarHeight}
-          pages={{
-            Home: "/",
-            Store: "/store",
-            Shows: "/shows",
-            Press: "/press",
-            Contact: "/contact",
-          }}
-        />
-      <AppContainer>
-        {/* {!router.pathname.includes("store") && ( */}
+        <ToastContainer progressStyle={{ background: "#36284c" }} />
+        <AppContainer>
           <BackgroundImage src={config.background} />
-        {/* )} */}
-       
-        <ContentContainer>
-          <Component {...pageProps} />
-        </ContentContainer>
-        <Footer>
-          <SocialIcons />
+          <Navbar
+            height={navbarHeight}
+            pages={{
+              Home: "/",
+              Store: "/store",
+              Shows: "/shows",
+              Press: "/press",
+              Contact: "/contact",
+            }}
+          />
+          <ContentContainer>
+            <Component {...pageProps} />
+          </ContentContainer>
+          <Footer>
+            <SocialIcons />
           </Footer>
-          
         </AppContainer>
-        </CartContext>
+      </CartContext>
     </>
   );
 }

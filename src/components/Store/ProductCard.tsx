@@ -2,29 +2,27 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation,Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-import 'swiper/css/pagination';
+import "swiper/css/pagination";
 
-export const ProductCardStyle = styled.div<{ isTransparent: boolean }>`
-  background-color: ${({ isTransparent }) =>
-  isTransparent ? "transparent" : "#fff"};
-
+export const ProductCardStyle = styled.div<{ isHovered: boolean }>`
+  display: flex;
+  background-color: transparent;
   flex-direction: column;
   border-radius: 0.75rem;
-  border: 2px#fff solid;
-  overflow: hidden;
+  // border: 2px solid ${({ isHovered }) => (isHovered ? "red" : "#fff")};
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: ${({ isTransparent }) => (isTransparent ? "white" : "#282828")};
+  color: ${({ isHovered }) => (isHovered ? "red" : "white")};
   font-family: Bruno;
   justify-items: center;
+  align-items: center;
   transition: all 0.2s ease-in-out;
   /* :hover{
     opacity: 0.8;
@@ -34,37 +32,32 @@ export const ProductCardStyle = styled.div<{ isTransparent: boolean }>`
   @media screen and (max-width: 1300px) {
     height: 300px;
     padding: 5px;
-
-} 
-  width: 100%;
-
+  }
   height: 330px;
 
-
   overflow: hidden;
-
+  grid-column: span 1;
 `;
-const ProductImage = styled.div`
-  width: 15rem;
-  height: 60%;
-  margin: 0 auto;
-  @media screen and (max-width:700px) {
-    height: 70%;
-    width: 10rem;
 
+const ProductImage = styled.div<{ isHovered: boolean }>`
+  width: 15rem;
+  aspect-ratio: 1/1;
+  margin: 0 auto;
+  @media screen and (max-width: 700px) {
+    width: 10rem;
   }
+
   position: relative;
   display: flex;
   justify-content: center;
 `;
 
 const ProductInfo = styled.div`
-  height: 40%;
-  width: 100%;
-  @media screen and (max-width:700px) {
-    height: 30%;
-
-    
+  height: 20%;
+  width: 15rem;
+  margin: 0 auto;
+  @media screen and (max-width: 700px) {
+    width: 10rem;
   }
   display: flex;
   flex-direction: column;
@@ -72,16 +65,11 @@ const ProductInfo = styled.div`
   gap: 10px;
   text-decoration: none;
 `;
-const ProductList = styled.p<{ type: string }>`
-  font-size: ${({ type }) =>
-    type === "line" ? "0.8rem" : type === "title" ? "1.2rem" : "1rem"};
+
+const ProductList = styled.p`
+  font-size: 1rem;
   font-weight: bold;
-  color: ${({ type }) => (type === "price" ? "green" : "")};
 `;
-
-
-
-export const ProductCardSkeleton = styled.div``;
 
 export const ProductCard = ({
   title,
@@ -96,44 +84,42 @@ export const ProductCard = ({
   line: string;
   id: string;
 }) => {
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [isTransparent, setIsTransparent] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <Link href={`/product/${id}`}>
       <ProductCardStyle
         onMouseOver={() => {
-          setIsTransparent(true);
+          setIsHovered(true);
         }}
         onMouseLeave={() => {
-          setIsTransparent(false);
+          setIsHovered(false);
         }}
-        isTransparent={isTransparent}
+        isHovered={isHovered}
       >
-        <ProductImage>
+        <ProductImage isHovered={isHovered}>
           {image.length > 1 ? (
-                      <Swiper
-                      style={{ width: '100%', height: '100%' }}
-
+            <Swiper
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
               navigation={true}
               modules={[Navigation, Pagination]}
               pagination={{ clickable: true }}
-
               className="mySwiper"
             >
-              {" "}
               {image.map((item, index) => {
-                return <SwiperSlide key={index} >
-                  {" "}
-                  <Image
-                  style={{objectFit:'cover'}}
-                    priority={true}
-                    fill
-                    
-                    src={image[index]}
-                    alt={title}
-                  />
-                </SwiperSlide>;
+                return (
+                  <SwiperSlide key={index}>
+                    <Image
+                      fill
+                      priority={true}
+                      src={image[index]}
+                      alt={title}
+                    />
+                  </SwiperSlide>
+                );
               })}
             </Swiper>
           ) : (
@@ -144,14 +130,14 @@ export const ProductCard = ({
               src={image[0]!}
               alt={title}
             />
-                  )}
-                 
+          )}
         </ProductImage>
 
         <ProductInfo>
-          <ProductList type={"line"}>{line}</ProductList>
-          <ProductList type={"title"}>{title}</ProductList>
-          <ProductList type={"price"}>{formatCurrency(price)}</ProductList>
+          <ProductList>
+            {line} {title}
+          </ProductList>
+          <ProductList>{formatCurrency(price)}</ProductList>
         </ProductInfo>
       </ProductCardStyle>
     </Link>

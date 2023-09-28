@@ -4,7 +4,8 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { X, Minus, Plus } from "lucide-react";
 import { Product } from "../../server/routers/products/schema";
 import { useShoppingCart } from "use-shopping-cart";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import { Button } from "../styled/Button";
 
 const ProductInfoContainer = styled.div`
   display: flex;
@@ -18,27 +19,19 @@ const ProductInfoContainer = styled.div`
 `;
 
 const ProductTitle = styled.div`
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 600;
 `;
+
 const ProductLine = styled.span`
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 600;
 `;
 
 const ProductPrice = styled.span`
   font-size: 1.2rem;
   font-weight: 600;
-  color: green;
-`;
-const Button = styled.button<{ color?: string; active: boolean }>`
-  min-width: 40px;
-  height: 40px;
-  background-color: ${({ color, active }) =>
-    active ? "green" : color ? color : "#36284c"};
-  color: white;
-  font-weight: 600;
-  text-transform: capitalize;
+  color: #e12d32;
 `;
 
 const ProductSelect = styled.div`
@@ -46,6 +39,7 @@ const ProductSelect = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
+
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -53,32 +47,36 @@ const ButtonsContainer = styled.div`
 `;
 
 const QuantityButton = styled.button`
-  border-radius: 100%;
   width: 30px;
   height: 30px;
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid white;
-  background-color: #36284c;
-  color: white;
+
   :hover {
     opacity: 0.8;
   }
+
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 `;
 
 const AddToCartButton = styled.button`
-  width: 400px;
+  width: 300px;
   height: 50px;
-  background-color: #dc2c2d;
-  :hover{
+  background-color: #e12d32;
+  :hover {
     opacity: 0.8;
-  };
-  border-radius: 10px;
+  }
+  border: 1px solid #e12d32;
+  border-radius: 2px;
   color: white;
   font-weight: 700;
   font-family: Bruno;
+  outline: none;
 `;
 
 const ProductInfo = ({ product }: { product: Product }) => {
@@ -91,7 +89,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
   const { addItem, cartDetails } = cart;
 
   const handleAddToCart = () => {
-    if (!size || !color) return toast('Please select size & color')
+    if (!size || !color) return toast("Please select size & color");
     addItem(
       {
         name: product.productType,
@@ -111,15 +109,15 @@ const ProductInfo = ({ product }: { product: Product }) => {
           },
         },
       },
-      { count: quantity }
+      { count: quantity },
     );
-    toast('Added!');
+    toast(`${product.productLine} - ${product.productType} added to cart!`);
   };
 
   return (
     <ProductInfoContainer>
-      <ProductTitle>{product.productType}</ProductTitle>
       <ProductLine>{product.productLine}</ProductLine>
+      <ProductTitle>{product.productType}</ProductTitle>
       <ProductPrice> {formatCurrency(product.price)}</ProductPrice>
       <ProductSelect>
         Color:

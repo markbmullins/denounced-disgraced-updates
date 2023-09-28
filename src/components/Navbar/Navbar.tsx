@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Hamburger from "hamburger-react";
 import { TransparentLogo as TransparentLogo } from "../Logos";
-import { desktopAndLandscape, tablet } from "../../utils/mediaQueries";
+import { tablet } from "../../utils/mediaQueries";
 import { ColumnCentered } from "../../components/Layouts";
 import { Link } from "../../components/Link";
 import useNavbarColorOnScroll from "../../utils/hooks/useNavbarColorOnScroll";
@@ -13,40 +13,36 @@ interface NavbarProps {
   pages: Record<string, string>;
 }
 
-const Nav = styled.nav`
+const Nav = styled.nav<{ isTransparent: boolean; height: number }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: ${(props: any) => props.height + "px"};
-  background-color: ${(props: any) => props.isTransparent ? "transparent" : "#1a1a1a"};
+  height: ${(props) => props.height + "px"};
+  background-color: ${(props) =>
+    props.isTransparent ? "transparent" : "#1a1a1a"};
+
   overflow: hidden;
   font-family: Bruno;
-  
-  @media (min-width: 768px) {
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 2rem;
 
-  };
+  @media (min-width: 768px) {
+    padding: 0 3rem;
+  }
+
   @media (max-width: 768px) {
-    width: 100%;
     padding-right: 1rem;
     padding-left: 1rem;
-  
+  }
 
-  };
   z-index: 50;
-
   display: flex;
   align-items: center;
-  justify-content: space-between;
 `;
 
 const Links = styled.ul`
   display: none;
 
+  margin-right: 3rem;
   ${tablet} {
     display: flex;
 
@@ -58,8 +54,8 @@ const NavLogoContainer = styled.div`
   width: 150px;
   height: 53px;
   position: relative;
-
   max-height: 70px;
+  margin-right: auto;
 `;
 
 const HamburgerContainer = styled.div`
@@ -72,11 +68,9 @@ const HamburgerContainer = styled.div`
 `;
 
 const DesktopCartContainer = styled.div`
-    @media screen and (max-width: 768px) {
-      display: none;
-      
-    }
-
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const SideDrawer = styled.div<{ isOpen: boolean }>`
@@ -98,7 +92,6 @@ const SideDrawer = styled.div<{ isOpen: boolean }>`
 
 export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
   const { isTransparent } = useNavbarColorOnScroll();
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const links = Object.entries(pages).map(([pageName, url]) => (
@@ -124,6 +117,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [isOpen]);
+
   return (
     <Nav height={height} isTransparent={isTransparent}>
       <NavLogoContainer>
@@ -132,17 +126,15 @@ export const Navbar: FunctionComponent<NavbarProps> = ({ height, pages }) => {
 
       <Links>{links}</Links>
       <DesktopCartContainer>
-        <Cart  />
+        <Cart />
       </DesktopCartContainer>
       <HamburgerContainer onClick={(e) => e.stopPropagation()}>
-
         <Hamburger
           toggle={() => setIsOpen(!isOpen)}
           toggled={isOpen}
           size={20}
         />
-                <Cart />
-
+        <Cart />
       </HamburgerContainer>
       <SideDrawer isOpen={isOpen} ref={drawerRef}>
         <ColumnCentered>{links}</ColumnCentered>

@@ -1,15 +1,11 @@
-"use client "
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { trpc } from "../utils/trpc";
 import styled from "styled-components";
-import Link from "next/link";
-import { Product } from "../server/routers/products/schema";
 import { ProductCard } from "../components/Store/ProductCard";
 import CollectionHeader from "../components/Store/CollectionHeader";
 import Filter from "../components/Store/Filters/Filter";
 import MobileFilter from "../components/Store/Filters/MobileFilter";
 import { useWindowSize } from "../utils/hooks/useWindowSize";
-import { filterParamsAtom } from "../utils/jotai";
 import { Loader } from "lucide-react";
 
 export type FilterValueTypes = {
@@ -24,19 +20,17 @@ const ProductList = styled.div`
   display: grid;
 
   @media screen and (max-width: 1000px) {
-    grid-template-columns: repeat(2, 1fr); /* Two items per row */
-    
-
-/* Two items per row */
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @media screen and (min-width: 1000px) {
-    grid-template-columns: repeat(3, 1fr); /* Two items per row */
-   
+    grid-template-columns: repeat(3, 1fr);
   }
+
   @media screen and (min-width: 1400px) {
-    grid-template-columns: repeat(4, 1fr); /* Two items per row */
+    grid-template-columns: repeat(4, 1fr);
   }
+
   padding-bottom: 50px;
   gap: 15px;
   width: 100%;
@@ -54,22 +48,6 @@ const CollectionContainer = styled.div`
   width: 100%;
 `;
 
-const ShowMoreButton = styled.button`
-  width: 100%;
-  text-align: center;
-  font-family: Bruno;
-  background-color: #36284c;
-  padding: 5px;
-  color: white;
-  border-radius: 10px;
-  :hover {
-    opacity: 0.8;
-  }
-  :disabled {
-    opacity: 0.8;
-  }
-`;
-
 export const SpinnerDiv = styled.div`
   display: flex;
   position: absolute;
@@ -79,29 +57,8 @@ export const SpinnerDiv = styled.div`
   width: 100%;
 `;
 
-
-
-// const groupProducts = (products: Product[]): Product[][] => {
-//   const map = products.reduce(
-//     (acc: Map<string, Product[]>, product: Product) => {
-//       const key = `${product.productLine}_${product.productType}_${product.artStyle}`;
-//       const group = acc.get(key) || [];
-//       acc.set(key, [...group, product]);
-//       return acc;
-//     },
-//     new Map<string, Product[]>()
-//   );
-
-//   return Array.from(map.values());
-// };
-
-// TODO: Implement
-const ImageCarousel = styled.div``;
-
 export default function StorePage() {
   const productsQuery = trpc.products.getAll.useQuery();
-
-
 
   const [filterParams, setFilterParams] = useState<any>({
     productLine: [],
@@ -111,38 +68,34 @@ export default function StorePage() {
     price: [],
   });
 
-  const [pageStartValue, setPageStartValue] = useState(0);
+  const [pageStartValue] = useState(0);
   const [pageEndValue, setPageEndValue] = useState(5);
-  const [showDesktopFilter, setShowDesktopFilter] = useState(false);
   const { width, height } = useWindowSize();
 
-  
   const filteredProducts = useMemo(() => {
-    // filtering logic here
-   return  productsQuery?.data?.length ?  productsQuery?.data?.filter((product) => {
-      return (
-        (!filterParams.productLine.length ||
-          filterParams.productLine.includes(product.productLine)) &&
-        (!filterParams.productType.length ||
-          filterParams.productType.includes(product.productType)) &&
-        (!filterParams.artStyle.length ||
-          filterParams.artStyle.includes(product.artStyle)) &&
-        (!filterParams.productColor.length ||
-          filterParams.productColor.includes(product.productColor)) &&
-        (!filterParams.price.length ||
-          filterParams.price.some(
-            ({ min, max }: { min: number; max: number }) =>
-              product.price >= min && product.price <= max
-          ))
-      );
-    }) : null;
-}, [productsQuery.data, filterParams]);
-
-
-
+    return productsQuery?.data?.length
+      ? productsQuery?.data?.filter((product) => {
+          return (
+            (!filterParams.productLine.length ||
+              filterParams.productLine.includes(product.productLine)) &&
+            (!filterParams.productType.length ||
+              filterParams.productType.includes(product.productType)) &&
+            (!filterParams.artStyle.length ||
+              filterParams.artStyle.includes(product.artStyle)) &&
+            (!filterParams.productColor.length ||
+              filterParams.productColor.includes(product.productColor)) &&
+            (!filterParams.price.length ||
+              filterParams.price.some(
+                ({ min, max }: { min: number; max: number }) =>
+                  product.price >= min && product.price <= max,
+              ))
+          );
+        })
+      : null;
+  }, [productsQuery.data, filterParams]);
 
   const handleScroll = () => {
-    const threshold = 20; 
+    const threshold = 20;
 
     if (
       window.innerHeight + document.documentElement.scrollTop <
@@ -154,7 +107,6 @@ export default function StorePage() {
   };
 
   const loadMoreProducts = () => {
-    console.log(filteredProducts?.length);
     if (!filteredProducts?.length || filteredProducts?.length < pageEndValue) {
       return;
     }
@@ -166,21 +118,19 @@ export default function StorePage() {
   useEffect(() => {
     // Add the event listener only if filteredProducts is loaded
     if (filteredProducts) {
-      window.addEventListener('scroll', handleScroll);
-  
+      window.addEventListener("scroll", handleScroll);
+
       // Cleanup: Remove the event listener on unmount or when filteredProducts becomes falsy
       return () => {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener("scroll", handleScroll);
       };
     }
-  }, [filteredProducts]);
+  }, [filteredProducts, handleScroll]);
 
   if (productsQuery.isLoading || filteredProducts === undefined) {
     return (
-      <SpinnerDiv
-       
-      >
-        <Loader style={{animation:'spin 5000ms infinite linear'}} />
+      <SpinnerDiv>
+        <Loader style={{ animation: "spin 5000ms infinite linear" }} />
       </SpinnerDiv>
     );
   }
@@ -189,16 +139,10 @@ export default function StorePage() {
     return <div>Error loading products</div>;
   }
 
-  
-
-
   return (
     <Container>
       {width! > 950 && (
-        <Filter
-          filterParams={filterParams}
-          setFilterParams={setFilterParams}
-        />
+        <Filter filterParams={filterParams} setFilterParams={setFilterParams} />
       )}
 
       <CollectionContainer>
@@ -218,24 +162,21 @@ export default function StorePage() {
         />
 
         <ProductList>
-          { filteredProducts
+          {filteredProducts
             ?.slice(pageStartValue, pageEndValue)
             ?.map((product) => {
-              
               return (
                 <ProductCard
                   line={product.productLine}
                   title={product.productType}
                   price={product.price}
                   id={product.id}
-                  //@ts-ignore
-                  image={product.imageUrls}
+                  image={product.imageUrls as string[]}
                   key={product.id}
                 />
               );
             })}
         </ProductList>
-        {/* <ShowMoreButton onClick={() => { setPageStartValue(pageStartValue + 20); setPageEndValue(pageEndValue + 20)}} disabled={!filteredProducts?.length ? true : filteredProducts?.length  > pageEndValue ? false : true}>Show More</ShowMoreButton> */}
       </CollectionContainer>
     </Container>
   );

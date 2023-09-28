@@ -19,10 +19,6 @@ mark, audio, video {
     text-decoration: inherit;
 }
 
-
-*, *:before, *:after {
-    box-sizing: border-box;
-}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display: block;
@@ -58,9 +54,10 @@ html {
     background-color: black;
     color: white;
 }
- 
 
-
+*, *:before, *:after {
+    box-sizing: border-box;
+}
 
 @keyframes accordionDown {
     from {
@@ -71,15 +68,41 @@ html {
       }
 }
 
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+#ordersummary ::-webkit-scrollbar {
+    display: block!important;
+}
+
+
+::-webkit-scrollbar-track{
+    background:transparent
+}
+
+::-webkit-scrollbar-thumb{
+    background:#e12d32;
+    border-radius: 7px;
+}
+
 
 .swiper-button-prev, .swiper-button-next{
+
     color:#B9B9B9!important;
 }
 
 .swiper-button-prev::after, .swiper-button-next::after{
     font-size: 30px!important;
     font-weight: 700!important;
-
 }
 
 
@@ -91,29 +114,3 @@ html {
     background-color:#C4FD46!important
     
 }
-
-@keyframes spin {
-    from {
-        transform:rotate(0deg);
-    }
-    to {
-        transform:rotate(360deg);
-    }
-}
-::-webkit-scrollbar{
-    display: none;
-  }
-  #ordersummary ::-webkit-scrollbar {
-    display: block!important;
-  }
-
-
-  ::-webkit-scrollbar-track{
-    background:transparent
-  }
-  
-  ::-webkit-scrollbar-thumb{
-    background:#36284c;
-    border-radius: 10px;
-  }
-  

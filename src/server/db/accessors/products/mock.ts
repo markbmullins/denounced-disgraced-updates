@@ -2,7 +2,7 @@ import { ProductsDao } from "./interface";
 import {
   fetchCloudinaryResources,
   matchProductWithImages,
-} from "../../../services/cloudinary";
+} from "../../../services/cloudinary/cloudinary";
 import { mockProducts } from "../../mocks/products";
 
 interface MockProductsDaoConfig {

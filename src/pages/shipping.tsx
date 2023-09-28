@@ -6,8 +6,8 @@ import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
 import CartSummary from "../components/Shipping/CartSummary";
 import { toast } from "react-toastify";
-import { SpinnerDiv } from "./store";
 import { Loader } from "lucide-react";
+import { Button } from "../components/styled/Button";
 
 const CheckoutHeader = styled.div`
   font-size: 40px;
@@ -20,7 +20,7 @@ const CheckoutHeader = styled.div`
 const Input = styled.input<{ size?: string }>`
   width: ${({ size }) => (size ? size : "100%")};
   height: 30px;
-  border-radius: 10px;
+  border-radius: 3px;
   border: 2px solid black;
   margin-bottom: 15px;
 `;
@@ -43,6 +43,7 @@ const ShippingContainer = styled.div`
   }
   gap: 30px;
 `;
+
 const InputContainer = styled.div`
   display: flex;
   width: 100%;
@@ -51,20 +52,17 @@ const InputContainer = styled.div`
 
 const CountriesSelect = styled.select`
   height: 40px;
-  border-radius: 10px;
+  border-radius: 3px;
   border: 2px solid black;
   margin-bottom: 15px;
   width: 100%;
   padding: 5px;
 `;
 
-const NextButton = styled.button`
+const NextButton = styled(Button)`
   width: 100%;
   height: 40px;
-  background-color: #36284c;
-  border-radius: 10px;
   font-family: Bruno;
-  color: white;
 `;
 
 const ShippingDetails = styled.div`
@@ -122,21 +120,20 @@ const Shipping = () => {
     setIsLoading(true);
 
     const checkoutSessionId = await orderMutation.mutateAsync({
-      data: cartDetails,
+      cartData: cartDetails,
       shipping: shippingData,
     });
+
     if (checkoutSessionId) {
       const result = await redirectToCheckout(checkoutSessionId);
     }
   };
 
   const handleDataChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const id = e.target.id;
     const value = e.target.value;
-
-    console.log(value);
 
     setShippingData({ ...shippingData, [id]: value });
   };
@@ -224,12 +221,13 @@ const Shipping = () => {
           />
         </InputContainer>
         <NextButton
+          active
           onClick={() => {
             createCheckout();
           }}
         >
           {isLoading ? (
-              <Loader style={{ animation: "spin 5000ms infinite linear" }} />
+            <Loader style={{ animation: "spin 5000ms infinite linear" }} />
           ) : (
             <>Next</>
           )}
