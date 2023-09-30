@@ -3,6 +3,8 @@ import { trpc } from "../../utils/trpc";
 import styled from "styled-components";
 import Images from "../../components/Product/Images";
 import ProductInfo from "../../components/Product/ProductInfo";
+import { printful } from "../../server/services/printful";
+import { PrintfulProductType } from "../../server/services/printful/types";
 
 const ProductContainer = styled.div`
   display: flex;
@@ -16,28 +18,42 @@ const ProductContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-export default function ProductPage() {
-  const router = useRouter();
-  const { id } = router.query;
+export default function ProductPage({ product }: { product: PrintfulProductType }) {
+  
 
-  const productQuery = trpc.products.getById.useQuery({ id: id as string });
 
-  if (productQuery.isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (productQuery.error || !productQuery.data) {
-    return <div>Error loading product details</div>;
-  }
-
-  const product = productQuery.data;
 
   return (
     <ProductContainer>
       {/*change title later */}
-      <Images images={product.imageUrls} title={"test"} />
-      {/*@ts-ignore */}
+      <Images product={product} />
       <ProductInfo product={product} />
     </ProductContainer>
   );
+}
+
+
+export const getServerSideProps = async (context) => {
+
+  const id = context.params.id 
+
+  const product = await printful.getProductInfo(id);
+
+  if (!product) {
+    return {
+      redirect: {
+        destination:"/404"
+      }
+    }
+  }
+
+  
+
+  
+
+  return {
+    props: {
+      product: product,
+    },
+  };
 }

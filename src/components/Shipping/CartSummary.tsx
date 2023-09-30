@@ -4,7 +4,8 @@ import { useShoppingCart } from "use-shopping-cart";
 import CartSummaryBlock from "./CartSummaryBlock";
 
 const OrderSummaryContainer = styled.div`
-  width: 30%;
+    width: 100%;
+
   max-height: 600px;
   border-radius: 10px;
   border: 1px solid white;

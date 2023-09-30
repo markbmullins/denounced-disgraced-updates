@@ -8,6 +8,8 @@ import CartSummary from "../components/Shipping/CartSummary";
 import { toast } from "react-toastify";
 import { Loader } from "lucide-react";
 import { Button } from "../components/styled/Button";
+import Newsletter from "../components/Newsletter/Newsletter";
+import { postcodeValidator, postcodeValidatorExistsForCountry } from 'postcode-validator';
 
 const CheckoutHeader = styled.div`
   font-size: 40px;
@@ -66,10 +68,19 @@ const NextButton = styled(Button)`
 `;
 
 const ShippingDetails = styled.div`
-  width: 50%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+`;
+
+const SummaryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
 `;
 
 export type ShippingType = {
@@ -98,19 +109,51 @@ const Shipping = () => {
     city: "",
     postalCode: "",
     phone: "",
+    stateCode: "",
   });
 
   const { cartDetails, redirectToCheckout } = cart;
 
+  const CartForShipping = Object.values(cartDetails ?? {}).map(
+    (entry: any, index) => {
+      return {
+        variant_id: entry.product_data.metadata.variant_id,
+        quantity: entry.quantity,
+      };
+    }
+  );
+  const CartForOrder = Object.values(cartDetails ?? {}).map(
+    (entry: any, index) => {
+      return {
+        sync_variant_id: entry.product_data.metadata.sync_variant_id,
+        quantity: entry.quantity,
+      };
+    }
+  );
+
   const orderMutation = trpc.orders.stripeCheckout.useMutation();
+  const shippingMutation = trpc.orders.calculateShipping.useMutation();
 
   const createCheckout = async () => {
     for (let key in shippingData) {
-      //@ts-ignore
-      if (!shippingData[key].trim()) {
+      // Check if the country is US, CA, or AU before validating the stateCode
+      if (
+        ["US", "CA", "AU"].includes(shippingData.country) &&
+        key === "stateCode" &&
+        !shippingData[key].trim()
+      ) {
+        toast(`Please provide a valid ${key}.`);
+        return;
+      } else if (key !== "stateCode" && !shippingData[key].trim()) {
+        // For all other fields excluding stateCode
         toast(`Please provide a valid ${key}.`);
         return;
       }
+    }
+
+    if (!postcodeValidator(shippingData.postalCode, shippingData.country)) {
+      toast("Please provide valid zip code");
+      return;
     }
 
     if (!/\S+@\S+\.\S+/.test(shippingData.email)) {
@@ -119,9 +162,27 @@ const Shipping = () => {
     }
     setIsLoading(true);
 
+    const calculateShipping = await shippingMutation.mutateAsync({
+      data: {
+        recipient: {
+          address1: shippingData.address,
+          city: shippingData.city,
+          country_code: "GE",
+          state_code: "",
+          zip: shippingData.postalCode,
+          phone: shippingData.phone,
+        },
+        items: CartForShipping,
+      },
+    });
+
+    console.log(calculateShipping);
+
     const checkoutSessionId = await orderMutation.mutateAsync({
       cartData: cartDetails,
       shipping: shippingData,
+      deliveryDetails: calculateShipping[0],
+      orderInfo: CartForOrder,
     });
 
     if (checkoutSessionId) {
@@ -130,7 +191,7 @@ const Shipping = () => {
   };
 
   const handleDataChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const id = e.target.id;
     const value = e.target.value;
@@ -172,14 +233,6 @@ const Shipping = () => {
           </InputContainer>
         </div>
         <InputContainer>
-          <Label>Address</Label>
-          <Input
-            id="address"
-            onChange={handleDataChange}
-            value={shippingData.address}
-          />
-        </InputContainer>
-        <InputContainer>
           <Label>Country</Label>
 
           <CountriesSelect
@@ -194,6 +247,15 @@ const Shipping = () => {
             ))}
           </CountriesSelect>
         </InputContainer>
+        <InputContainer>
+          <Label>Address</Label>
+          <Input
+            id="address"
+            onChange={handleDataChange}
+            value={shippingData.address}
+          />
+        </InputContainer>
+
         <div style={{ display: "flex", width: "100%", gap: "20px" }}>
           <InputContainer>
             <Label>City</Label>
@@ -211,6 +273,18 @@ const Shipping = () => {
               value={shippingData.postalCode}
             />
           </InputContainer>
+          {shippingData.country === "US" ||
+          shippingData.country === "CA" ||
+          shippingData.country === "AU" ? (
+            <InputContainer>
+              <Label>State Code</Label>
+              <Input
+                id="stateCode"
+                onChange={handleDataChange}
+                value={shippingData.stateCode}
+              />
+            </InputContainer>
+          ) : null}
         </div>
         <InputContainer>
           <Label>phone</Label>
@@ -233,7 +307,11 @@ const Shipping = () => {
           )}
         </NextButton>
       </ShippingDetails>
-      <CartSummary />
+      <SummaryContainer>
+        <CartSummary />
+
+        <Newsletter />
+      </SummaryContainer>
     </ShippingContainer>
   );
 };

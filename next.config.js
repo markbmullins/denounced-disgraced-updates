@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["res.cloudinary.com"],
+    domains: ["res.cloudinary.com", "files.cdn.printful.com", "printful-upload.s3-accelerate.amazonaws.com"],
   },
 };
 

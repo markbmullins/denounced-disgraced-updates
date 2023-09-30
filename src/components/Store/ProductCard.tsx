@@ -5,6 +5,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { PrintfulProductType } from "../../server/services/printful/types";
 
 // Import Swiper styles
 import "swiper/css";
@@ -72,22 +73,26 @@ const ProductList = styled.p`
 `;
 
 export const ProductCard = ({
-  title,
-  price,
-  image,
-  line,
-  id,
+  product
 }: {
-  title: string;
-  price: number;
-  image: string[];
-  line: string;
-  id: string;
+  product:PrintfulProductType
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const variantWithLowestPrice = product.sync_variants.reduce((lowest, currentProduct) => {
+    return parseFloat(currentProduct.retail_price) < parseFloat(lowest.retail_price) ? currentProduct : lowest;
+}, product.sync_variants[0]);
+  
+  // const lowestPrice = product.snyc_variants.sort( )
+  const uniqueColorImages = product.sync_variants.reduce((acc:any, variant) => {
+    // If the color is not already in the accumulator, add the thumbnail
+    if (!acc.some(item => item.color === variant.color)) {
+        acc.push({ color: variant.color, thumbnail: variant.product.image });
+    }
+    return acc;
+}, []);
   return (
-    <Link href={`/product/${id}`}>
+    <Link href={`/product/${product.sync_product.id}`}>
       <ProductCardStyle
         onMouseOver={() => {
           setIsHovered(true);
@@ -98,7 +103,8 @@ export const ProductCard = ({
         isHovered={isHovered}
       >
         <ProductImage isHovered={isHovered}>
-          {image.length > 1 ? (
+        
+          {uniqueColorImages.length > 1 ? (
             <Swiper
               style={{
                 width: "100%",
@@ -109,14 +115,14 @@ export const ProductCard = ({
               pagination={{ clickable: true }}
               className="mySwiper"
             >
-              {image.map((item, index) => {
+              {uniqueColorImages.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
                     <Image
                       fill
                       priority={true}
-                      src={image[index]}
-                      alt={title}
+                      src={item.thumbnail}
+                      alt={product.sync_product.name}
                     />
                   </SwiperSlide>
                 );
@@ -127,17 +133,20 @@ export const ProductCard = ({
               style={{ position: "absolute", width: "100%", height: "100%" }}
               priority={true}
               fill
-              src={image[0]!}
-              alt={title}
+              src={uniqueColorImages[0].thumbnail}
+              alt={product.sync_product.name}
             />
           )}
+              
+          
         </ProductImage>
 
         <ProductInfo>
           <ProductList>
-            {line} {title}
+            {/* {line} {title} */}
+            {product.sync_product.name}
           </ProductList>
-          <ProductList>{formatCurrency(price)}</ProductList>
+          <ProductList>{formatCurrency(parseFloat(variantWithLowestPrice.retail_price))}</ProductList>
         </ProductInfo>
       </ProductCardStyle>
     </Link>

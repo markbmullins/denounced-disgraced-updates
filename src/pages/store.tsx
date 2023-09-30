@@ -7,6 +7,12 @@ import Filter from "../components/Store/Filters/Filter";
 import MobileFilter from "../components/Store/Filters/MobileFilter";
 import { useWindowSize } from "../utils/hooks/useWindowSize";
 import { Loader } from "lucide-react";
+<<<<<<< HEAD
+=======
+import { printful } from "../server/services/printful";
+import Image from "next/image";
+import { PrintfulProductType } from "../server/services/printful/types";
+>>>>>>> master
 
 export type FilterValueTypes = {
   productLine: string[];
@@ -57,8 +63,20 @@ export const SpinnerDiv = styled.div`
   width: 100%;
 `;
 
+<<<<<<< HEAD
 export default function StorePage() {
   const productsQuery = trpc.products.getAll.useQuery();
+=======
+export default function StorePage({
+  products,
+}: {
+  products: PrintfulProductType[];
+}) {
+  const productsQuery = { data: "", isLoading: "" };
+
+
+
+>>>>>>> master
 
   const [filterParams, setFilterParams] = useState<any>({
     productLine: [],
@@ -73,26 +91,29 @@ export default function StorePage() {
   const { width, height } = useWindowSize();
 
   const filteredProducts = useMemo(() => {
-    return productsQuery?.data?.length
-      ? productsQuery?.data?.filter((product) => {
+    return products.length
+      ? products.filter((product) => {
+          
           return (
-            (!filterParams.productLine.length ||
-              filterParams.productLine.includes(product.productLine)) &&
             (!filterParams.productType.length ||
-              filterParams.productType.includes(product.productType)) &&
-            (!filterParams.artStyle.length ||
-              filterParams.artStyle.includes(product.artStyle)) &&
+              filterParams.productType.some((type) =>
+                product.sync_product.name.includes(type)
+              )) &&
             (!filterParams.productColor.length ||
-              filterParams.productColor.includes(product.productColor)) &&
+              product.sync_variants.some((variant) =>
+                filterParams.productColor.some((type) =>
+                  variant.color.toLowerCase().includes(type)
+                )
+              )) &&
             (!filterParams.price.length ||
               filterParams.price.some(
                 ({ min, max }: { min: number; max: number }) =>
-                  product.price >= min && product.price <= max,
+                  parseFloat(product.sync_variants[0].retail_price) >= min && parseFloat(product.sync_variants[0].retail_price) <= max
               ))
           );
         })
       : null;
-  }, [productsQuery.data, filterParams]);
+  }, [products, filterParams]);
 
   const handleScroll = () => {
     const threshold = 20;
@@ -135,16 +156,11 @@ export default function StorePage() {
     );
   }
 
-  if (productsQuery.error) {
-    return <div>Error loading products</div>;
-  }
-
   return (
     <Container>
       {width! > 950 && (
         <Filter filterParams={filterParams} setFilterParams={setFilterParams} />
       )}
-
       <CollectionContainer>
         <CollectionHeader
           showingResult={
@@ -164,20 +180,33 @@ export default function StorePage() {
         <ProductList>
           {filteredProducts
             ?.slice(pageStartValue, pageEndValue)
-            ?.map((product) => {
-              return (
-                <ProductCard
-                  line={product.productLine}
-                  title={product.productType}
-                  price={product.price}
-                  id={product.id}
-                  image={product.imageUrls as string[]}
-                  key={product.id}
-                />
-              );
+            ?.map((product, index) => {
+              return <ProductCard product={product} key={index} />;
             })}
         </ProductList>
       </CollectionContainer>
     </Container>
   );
 }
+
+export const getServerSideProps = async () => {
+  const products = await printful.getProducts();
+
+  // const tmplt = await printful.createMockUpImages(689,{variant_ids:[ 17261, 17260, 17262, 17263, 17264,  ], format:"png",product_template_id:57161628})
+  // const retrieveMockUpImages = await printful.retrieveMockUpImages('gt-578686239')
+  // console.log(tmplts.items[0].available_variant_ids,'is this right', 'why not?')
+
+  // console.log(retrieveMockUpImages.mockups[0].extra)
+
+  const allProds = await Promise.all(
+    products.map((product) => {
+      return printful.getProductInfo(product.id);
+    })
+  );
+
+  return {
+    props: {
+      products: allProds,
+    },
+  };
+};

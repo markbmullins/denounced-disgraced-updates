@@ -15,8 +15,35 @@ export const createStripeClient = () => {
       else throw new Error("An unknown error occurred");
     }
   };
+<<<<<<< HEAD
 
   return {
     createSession,
+=======
+  
+  const retireveCheckoutSession = async (id: string) => {
+    const checkout_session: Stripe.Checkout.Session =
+      await stripe.checkout.sessions.retrieve(id, {
+        expand: ["payment_intent"],
+      })
+      
+      const lineItems = await stripe.checkout.sessions.listLineItems(
+        id,
+        {
+          expand: ["data.price.product"],
+        }
+      )
+    if (checkout_session) {
+      return { session: checkout_session, items: lineItems }
+    } else {
+      return false
+    }
+  }
+
+
+  return {
+    createSession,
+    retireveCheckoutSession
+>>>>>>> master
   };
 };

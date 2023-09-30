@@ -73,6 +73,8 @@ export const CartProductData = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-left: 15px;
+
 `;
 
 export const CartProductTitle = styled.h3`

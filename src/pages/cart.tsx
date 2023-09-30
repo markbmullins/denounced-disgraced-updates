@@ -57,6 +57,7 @@ const CartPage = () => {
   const CartItems = Object.values(cartDetails ?? {}).map(
     (entry: any, index) => <CartBlock key={index} data={entry!} />,
   );
+  
 
   return (
     <CartContainer>

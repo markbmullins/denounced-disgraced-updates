@@ -65,9 +65,8 @@ const ListItem = styled.li`
 `;
 
 const filterValues = {
-  productLine: ["jac"],
+  // productLine: ["jac"],
   productType: ["t-shirt", "hoodie", "tank-top", "long-sleeve"],
-  artStyle: ["black-and-white-red-outline", "mixed"],
   productColor: ["white", "black"],
   price: [
     {

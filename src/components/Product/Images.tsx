@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import { useAtom } from "jotai/react";
+import { proudctColorsAtom } from "../../utils/jotai";
+import { PrintfulProductType } from "../../server/services/printful/types";
 const ImagesContainer = styled.div`
   display: flex;
   @media screen and (max-width: 850px) {
@@ -71,15 +74,29 @@ const SideImage = styled.div<{ active: boolean }>`
   border-radius: 5px;
 `;
 
-const Images = ({ images, title }: { images: any[]; title: string }) => {
-  const [activeImage, setActiveImage] = useState(images[0]);
+const Images = ({ product }: { product:PrintfulProductType }) => {
+  const [activeImage, setActiveImage] = useState('');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isTransparent, setIsTransparent] = useState(false);
+  const [color] = useAtom(proudctColorsAtom);
+
+  useEffect(() => {
+    if (color) {
+      const activeVariant = product.sync_variants.find((item) => { return item.color === color })
+      setActiveImage(activeVariant?.product.image!)
+    }
+
+  }, [color])
+
+  
+
+
+
 
   return (
     <ImagesContainer>
       <SideImageContainer>
-        {images?.map((item, index) => {
+        {/* {images?.map((item, index) => {
           return (
             <SideImage
               active={activeImageIndex === index}
@@ -91,7 +108,7 @@ const Images = ({ images, title }: { images: any[]; title: string }) => {
               <Image src={item} alt={title} fill />
             </SideImage>
           );
-        })}
+        })} */}
       </SideImageContainer>
       <MainImage
         onMouseOver={() => {
@@ -105,7 +122,7 @@ const Images = ({ images, title }: { images: any[]; title: string }) => {
         <Image
           src={activeImage}
           fill
-          alt={title}
+          alt={product.sync_product.name}
           style={{ position: "absolute" }}
         />
       </MainImage>

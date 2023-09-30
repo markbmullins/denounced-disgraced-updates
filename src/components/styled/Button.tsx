@@ -7,6 +7,9 @@ export const Button = styled.button<{ color?: string; active: boolean }>`
   padding: 5px;
   border: 1px solid ${({ active }) => (active ? "#e12d32" : "transparent")};
   border-radius: 3px;
+  :hover{
+    opacity: 0.8;
+  }
   background-color: ${({ color, active }) =>
     active ? "#e12d32" : color ? color : "transparent"};
   color: white;

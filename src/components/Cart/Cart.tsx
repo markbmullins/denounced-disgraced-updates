@@ -15,10 +15,8 @@ const CartContainer = styled.div`
 const Cart = () => {
   const [_, setDesktopCart] = useState(false);
   const { cartDetails } = useShoppingCart();
+  const totalCartItems = Object.values(cartDetails ?? {}).reduce((acc: any, entry: any) => acc + entry.quantity, 0);
 
-  const cartItems = Object.values(cartDetails ?? {}).map(
-    (entry: any, index) => <CartBlock key={index} data={entry!} />,
-  );
 
   return (
     <Link href="/cart">
@@ -28,7 +26,7 @@ const Cart = () => {
         }}
       >
         <ShoppingCart />
-        {cartItems.length || 0}
+        {totalCartItems || 0}
       </CartContainer>
     </Link>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { X, Minus, Plus } from "lucide-react";
@@ -6,6 +6,12 @@ import { Product } from "../../server/routers/products/schema";
 import { useShoppingCart } from "use-shopping-cart";
 import { toast } from "react-toastify";
 import { Button } from "../styled/Button";
+import { useAtom } from "jotai/react";
+import { proudctColorsAtom } from "../../utils/jotai";
+import {
+  PrintfulProductType,
+  SyncProductVariant,
+} from "../../server/services/printful/types";
 
 const ProductInfoContainer = styled.div`
   display: flex;
@@ -79,54 +85,97 @@ const AddToCartButton = styled.button`
   outline: none;
 `;
 
-const ProductInfo = ({ product }: { product: Product }) => {
+const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState("S");
-  const [color, setColor] = useState(product.productColor);
-  const colors = [product.productColor];
-  const sizes = ["S", "M", "L"];
+  const [size, setSize] = useState(product.sync_variants[0].size);
+  const [currentVariant, setCurrentVariant] = useState<SyncProductVariant>();
+  const [color,setColor] = useAtom(proudctColorsAtom);
+
   const cart = useShoppingCart();
   const { addItem, cartDetails } = cart;
 
+  const sizes = product.sync_variants.reduce((acc:any, product) => {
+    if (!acc.includes(product.size)) {
+      acc.push(product.size);
+
+    }
+    return acc
+  },[]);
+
+  const colors = product.sync_variants.reduce((acc:any, product) => {
+    if (!acc.includes(product.color)) {
+      acc.push(product.color);
+    }
+    return acc;
+  }, []);
+
+  useEffect(() => {
+    if (color) {
+      const variant = product.sync_variants.find(
+        (item) => item.size === size && item.color === color
+
+      );
+      setCurrentVariant(variant);
+
+    }
+
+  }, [color, size]);
+
+  useEffect(() => {
+    setColor(product.sync_variants[0].color)
+
+  },[product])
+  
+  console.log(product)
+
   const handleAddToCart = () => {
     if (!size || !color) return toast("Please select size & color");
+    
     addItem(
       {
-        name: product.productType,
+        name: product.sync_product.name,
         description: "test",
-        id: product.id + size + color,
-        image: product.imageUrls[0],
-        price: product.price * 100,
+        id: currentVariant?.variant_id?.toString()!,
+        image: currentVariant?.product.image!,
+        price: parseFloat(currentVariant?.retail_price!) * 100,
 
         currency: "USD",
         product_data: {
-          images: product.imageUrls,
-          name: product.productType,
+          images: [currentVariant?.product.image!],
+          name: product.sync_product.name,
           metadata: {
             size: size,
             color: color,
-            id: product.id,
+            id: product.sync_product.id!,
+            variant_id:  currentVariant?.product.variant_id,
+            sync_variant_id: currentVariant?.id,
+
+            quantity: quantity,
+            retail_price: currentVariant?.retail_price!,
+
           },
         },
       },
       { count: quantity },
     );
-    toast(`${product.productLine} - ${product.productType} added to cart!`);
+    toast(` ${product.sync_product.name} - added to cart!`);
   };
 
   return (
     <ProductInfoContainer>
-      <ProductLine>{product.productLine}</ProductLine>
-      <ProductTitle>{product.productType}</ProductTitle>
-      <ProductPrice> {formatCurrency(product.price)}</ProductPrice>
+      <ProductTitle>{product.sync_product.name}</ProductTitle>
+      <ProductPrice>
+        {" "}
+        {formatCurrency(parseFloat(currentVariant?.retail_price!))}
+      </ProductPrice>
       <ProductSelect>
         Color:
         <ButtonsContainer>
           {colors.map((item, index) => {
             return (
               <Button
-                key={index}
                 active={color === item}
+                key={index}
                 onClick={() => {
                   setColor(item);
                 }}
@@ -176,9 +225,9 @@ const ProductInfo = ({ product }: { product: Product }) => {
         </ButtonsContainer>
       </ProductSelect>
       <AddToCartButton
-        onClick={() => {
-          handleAddToCart();
-        }}
+      onClick={() => {
+        handleAddToCart();
+      }}
       >
         Add To Cart
       </AddToCartButton>

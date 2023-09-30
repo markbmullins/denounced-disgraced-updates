@@ -14,6 +14,7 @@ const printful = createPrintfulGateway();
 
 export const fetchAllProducts = async (): Promise<Product[]> => {
   const products = await printful.getProducts();
+<<<<<<< HEAD
   console.log({ products });
   return productDao.getAllProducts();
 };
@@ -21,3 +22,12 @@ export const fetchAllProducts = async (): Promise<Product[]> => {
 export const fetchProductById = async (id: string): Promise<Product | null> => {
   return productDao.getProductById(id);
 };
+=======
+  return products
+};
+
+export const fetchProductById = async (id: number): Promise<Product | null> => {
+  return printful.getProductInfo(id)
+};
+
+>>>>>>> master

@@ -6,7 +6,18 @@ export const createStripeGateway = (client = createStripeClient()) => {
     return await client.createSession(params);
   };
 
+<<<<<<< HEAD
   return {
     createCheckout,
+=======
+  const retrieveCheckout = async (id: string) => {
+     return await client.retireveCheckoutSession(id)
+   }
+
+  
+  return {
+    createCheckout,
+    retrieveCheckout
+>>>>>>> master
   };
 };
