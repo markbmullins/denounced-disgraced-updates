@@ -1,0 +1,116 @@
+/* Reset margin, padding, border, font-size, font, vertical-align, color, and text-decoration for a broad set of elements */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a,
+abbr, acronym, address, big, cite, code, del,
+dfn, em, img, ins, kbd, q, s, samp, small,
+strike, strong, sub, sup, tt, var, b, u, i,
+center, dl, dt, dd, ol, ul, li, fieldset, form,
+label, legend, table, caption, tbody, tfoot,
+thead, tr, th, td, article, aside, canvas, details,
+embed, figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary, time,
+mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+/* Line height reset for body */
+body {
+    line-height: 1;
+}
+
+/* Reset list styles */
+ol, ul {
+    list-style: none;
+}
+
+/* Reset quote styles */
+blockquote, q {
+    quotes: none;
+}
+
+blockquote::before, blockquote::after, q::before, q::after {
+    content: none;
+}
+
+/* Table styles reset */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Background and color styling for html */
+html {
+    background-color: black;
+    color: white;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+@keyframes accordionDown {
+    from {
+        height: 0;
+      }
+      to {
+        height: auto;
+      }
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+#ordersummary ::-webkit-scrollbar {
+    display: block!important;
+}
+
+
+::-webkit-scrollbar-track{
+    background:transparent
+}
+
+::-webkit-scrollbar-thumb{
+    background:#e12d32;
+    border-radius: 7px;
+}
+
+
+.swiper-button-prev, .swiper-button-next{
+
+    color:#B9B9B9!important;
+}
+
+.swiper-button-prev::after, .swiper-button-next::after{
+    font-size: 30px!important;
+    font-weight: 700!important;
+}
+
+
+.swiper-pagination-bullet{
+    background-color:#BBBBBB!important
+
+}
+.swiper-pagination-bullet-active{
+    background-color:#C4FD46!important
+    
+}
