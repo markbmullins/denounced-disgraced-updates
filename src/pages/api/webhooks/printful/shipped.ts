@@ -6,20 +6,24 @@ export default async function handler(
     res: NextApiResponse
 ) {
 
-    // const body = JSON.parse(req.body);
     const body = req.body
+    try {
+        
 
-   
         const orderEmail = await sendEmail(
-            'sbkobaidze@gmail.com',
-            `Order ${body.data.shipment.id} has been shipped`,
+            body.data.order.recipient?.email,
+            `Order ${body.data.order.id} has been shipped`,
             ShippingTemplate({
-              orderId: body.order.recipient.email,
-              orderDate:new Date().toString()
+                orderId: body.data.order.id,
+                orderDate: new Date().toString()
             })
         );
+        res.status(200).json({ message: 'Email sent' })
+
+    } catch (e) {
+        return res.status(405).json({ message: e.message })
+    }
         
-        res.status(200)
 
 
 
