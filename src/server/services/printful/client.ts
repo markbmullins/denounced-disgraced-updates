@@ -24,7 +24,7 @@ export const createPrintfulClient = () => {
         method,
         headers: {
           Authorization: `Bearer ${API_KEY}`,
-          "X-PF-Store-Id":process.env.PRINTFUL_STORE_ID!,
+          // "X-PF-Store-Id":process.env.PRINTFUL_STORE_ID!,
           ...(body && { "Content-Type": "application/json" }),
         },
         ...(body && { body: JSON.stringify(body) }), // body is now correctly placed outside of headers

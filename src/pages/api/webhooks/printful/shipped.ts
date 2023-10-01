@@ -8,6 +8,8 @@ export default async function handler(
 
     const body = JSON.parse(req.body);
 
+    console.log(body)
+
     try {
         const orderEmail = await sendEmail(
             'sbkobaidze@gmail.com',
