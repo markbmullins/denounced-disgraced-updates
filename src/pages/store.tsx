@@ -7,12 +7,9 @@ import Filter from "../components/Store/Filters/Filter";
 import MobileFilter from "../components/Store/Filters/MobileFilter";
 import { useWindowSize } from "../utils/hooks/useWindowSize";
 import { Loader } from "lucide-react";
-<<<<<<< HEAD
-=======
 import { printful } from "../server/services/printful";
 import Image from "next/image";
 import { PrintfulProductType } from "../server/services/printful/types";
->>>>>>> master
 
 export type FilterValueTypes = {
   productLine: string[];
@@ -63,10 +60,6 @@ export const SpinnerDiv = styled.div`
   width: 100%;
 `;
 
-<<<<<<< HEAD
-export default function StorePage() {
-  const productsQuery = trpc.products.getAll.useQuery();
-=======
 export default function StorePage({
   products,
 }: {
@@ -76,7 +69,6 @@ export default function StorePage({
 
 
 
->>>>>>> master
 
   const [filterParams, setFilterParams] = useState<any>({
     productLine: [],
@@ -192,11 +184,13 @@ export default function StorePage({
 export const getServerSideProps = async () => {
   const products = await printful.getProducts();
 
-  // const tmplt = await printful.createMockUpImages(689,{variant_ids:[ 17261, 17260, 17262, 17263, 17264,  ], format:"png",product_template_id:57161628})
-  // const retrieveMockUpImages = await printful.retrieveMockUpImages('gt-578686239')
-  // console.log(tmplts.items[0].available_variant_ids,'is this right', 'why not?')
+ 
 
-  // console.log(retrieveMockUpImages.mockups[0].extra)
+
+  
+  
+
+  
 
   const allProds = await Promise.all(
     products.map((product) => {

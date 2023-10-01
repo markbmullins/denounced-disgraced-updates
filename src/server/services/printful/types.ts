@@ -96,3 +96,10 @@ export type PrintfulShipping = {
   items:ShippingItems[]
 
 }
+
+export type PrintfulWebhook = {
+  url: string,
+  types:string[]
+  
+
+}

@@ -14,43 +14,30 @@ export const createPrintfulClient = () => {
     if (!API_KEY) throw new Error("No printful API key provided");
 
     const { body } = options || {};
-<<<<<<< HEAD
-    try {
-=======
 
     console.log(body)
     try {
 
       console.log(`${BASE_URL}/${endpoint}`)
->>>>>>> master
       const response = await fetch(`${BASE_URL}/${endpoint}`, {
         method,
         headers: {
           Authorization: `Bearer ${API_KEY}`,
+          "X-PF-Store-Id":process.env.PRINTFUL_STORE_ID!,
           ...(body && { "Content-Type": "application/json" }),
         },
         ...(body && { body: JSON.stringify(body) }), // body is now correctly placed outside of headers
       });
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
       const resJson = await response.json();
       const products = resJson?.result;
 
       return products;
     } catch (error) {
       if (error instanceof Error) {
-<<<<<<< HEAD
-        throw new Error(`Failed to make Printful API call: ${error.message}`);
-      } else {
-        throw new Error("An unknown error occurred");
-=======
         console.log(`Failed to make Printful API call: ${error.message}`);
       } else {
         console.log("An unknown error occurred");
->>>>>>> master
       }
     }
   };

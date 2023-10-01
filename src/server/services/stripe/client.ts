@@ -15,11 +15,6 @@ export const createStripeClient = () => {
       else throw new Error("An unknown error occurred");
     }
   };
-<<<<<<< HEAD
-
-  return {
-    createSession,
-=======
   
   const retireveCheckoutSession = async (id: string) => {
     const checkout_session: Stripe.Checkout.Session =
@@ -44,6 +39,5 @@ export const createStripeClient = () => {
   return {
     createSession,
     retireveCheckoutSession
->>>>>>> master
   };
 };

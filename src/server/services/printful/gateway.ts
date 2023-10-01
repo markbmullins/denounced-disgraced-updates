@@ -1,8 +1,5 @@
 import { createPrintfulClient } from "./client";
-<<<<<<< HEAD
-=======
-import { PrintfulOrder,PrintfulShipping } from "./types";
->>>>>>> master
+import { PrintfulOrder,PrintfulShipping,PrintfulWebhook } from "./types";
 
 export const createPrintfulGateway = (client = createPrintfulClient()) => {
   const getProducts = async (): Promise<any> => {
@@ -11,19 +8,6 @@ export const createPrintfulGateway = (client = createPrintfulClient()) => {
     return await client.get(url);
   };
 
-<<<<<<< HEAD
-  const createOrder = async (orderData: any): Promise<any> => {
-    const url = `orders`;
-    return await client.post(url, orderData);
-  };
-
-  const getProductInfo = async (productId: number): Promise<any> => {
-    const url = `products/${productId}`;
-    return await client.get(url);
-  };
-
-  return { getProducts, createOrder, getProductInfo };
-=======
   const createOrder = async (orderData: PrintfulOrder): Promise<any> => {
     const url = `orders`;
     return await client.post(url, { body: orderData });
@@ -52,6 +36,18 @@ export const createPrintfulGateway = (client = createPrintfulClient()) => {
 
   }
 
+  const getProductTemplate = async (id:string): Promise<any>=> {
+    const url = `product-templates/${id}`
+    return await client.get(url);
+
+  }
+
+  const subscribeToWebhook = async (data:PrintfulWebhook): Promise<any> => { 
+
+    const url = `webhooks`
+    return await client.post(url,{body:data} );
+  }
+
   
 
 
@@ -65,6 +61,5 @@ export const createPrintfulGateway = (client = createPrintfulClient()) => {
 
 
 
-  return { getProducts,getProductTemplates, createOrder, getProductInfo,createMockUpImages,calculateShipping,retrieveMockUpImages  };
->>>>>>> master
+  return { getProducts,getProductTemplates,getProductTemplate, createOrder, getProductInfo,createMockUpImages,calculateShipping,retrieveMockUpImages,subscribeToWebhook  };
 };

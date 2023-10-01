@@ -5,16 +5,11 @@ import {
   fetchAllOrders,
   fetchOrdersByUser,
   createCheckout,
-<<<<<<< HEAD
-} from "../../services/order";
-import { OrderInputSchema } from "./schema";
-=======
   calculateShipping,
 } from "../../services/order";
 import { OrderInputSchema } from "./schema";
 import { joinNewsLetter } from "../../services/mail";
 import { stripe, } from "../../services/stripe";
->>>>>>> master
 
 // Orders Router
 export const ordersRouter = router({
@@ -26,13 +21,6 @@ export const ordersRouter = router({
       z.object({
         cartData: any(),
         shipping: any(),
-<<<<<<< HEAD
-      }),
-    )
-    .mutation(async (data) => {
-      return createCheckout(data.input.cartData, data.input.shipping);
-    }),
-=======
         deliveryDetails: any(),
         orderInfo:any()
       })
@@ -84,16 +72,11 @@ export const ordersRouter = router({
   
   
   
->>>>>>> master
   getByUser: procedure
     .input(
       z.object({
         userId: z.string(),
-<<<<<<< HEAD
-      }),
-=======
       })
->>>>>>> master
     )
     .query(async (opts) => {
       return fetchOrdersByUser(opts.input.userId);

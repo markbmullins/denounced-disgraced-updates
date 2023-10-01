@@ -8,19 +8,12 @@ export const productsRouter = router({
     return fetchAllProducts();
   }),
 
-<<<<<<< HEAD
-  getById: procedure
-    .input(
-      z.object({
-        id: z.string(),
-=======
   
 
   getById: procedure
     .input(
       z.object({
         id: z.number(),
->>>>>>> master
       }),
     )
     .query(async (opts) => {

@@ -5,12 +5,9 @@ import MockOrdersDao from "../db/accessors/orders/mock";
 import { mockOrders } from "../db/mocks/orders";
 import { ShippingType } from "../../pages/shipping";
 import { stripe, CheckoutParams, CheckoutSession } from "./stripe";
-<<<<<<< HEAD
-=======
 import { printful } from "./printful";
 import { DeliveryDetails } from "./stripe";
 import { OrderItems, PrintfulShipping } from "./printful/types";
->>>>>>> master
 
 const useMocks = ["development", "test"].includes(process.env.NODE_ENV);
 const orderDao: OrdersDao = useMocks ? MockOrdersDao : RealOrdersDao;
@@ -36,9 +33,6 @@ export const createOrder = async (input: OrderInput): Promise<Order> => {
 export const createCheckout = async (
   cartDetails: any,
   shipping: ShippingType,
-<<<<<<< HEAD
-) => {
-=======
   deliveryDetails: DeliveryDetails,
   orderInfo: OrderItems
 ) => {
@@ -47,7 +41,6 @@ export const createCheckout = async (
   let developmentURL = `http://localhost:3000`;
   let productionURL = "https://denounceddisgraced.com";
 
->>>>>>> master
   const dataArray = Object.keys(cartDetails).reduce((result: any, key) => {
     const itemTotal = cartDetails[key].quantity * cartDetails[key].price;
     result.push({
@@ -61,8 +54,6 @@ export const createCheckout = async (
     return result;
   }, []);
 
-<<<<<<< HEAD
-=======
   const shippingInfo = {
     shipping_rate_data: {
       fixed_amount: {
@@ -78,20 +69,16 @@ export const createCheckout = async (
     },
   };
 
->>>>>>> master
   const params: CheckoutParams = {
     mode: "payment",
     payment_method_types: ["card"],
     invoice_creation: {
       enabled: true,
     },
-<<<<<<< HEAD
-=======
 
     //@ts-ignore
     shipping_options: [shippingInfo],
 
->>>>>>> master
     payment_intent_data: {
       shipping: {
         address: {
@@ -106,13 +93,6 @@ export const createCheckout = async (
     },
     metadata: {
       shipping: JSON.stringify(shipping),
-<<<<<<< HEAD
-    },
-    customer_email: shipping.email,
-    line_items: dataArray,
-    success_url: `https://denounceddisgraced.com/result?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: "https://denounceddisgraced.com/shipping",
-=======
       orderInfo: JSON.stringify(orderInfo),
     },
     customer_email: shipping.email,
@@ -121,7 +101,6 @@ export const createCheckout = async (
       !isProduction ? developmentURL : productionURL
     }/result?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${!isProduction ? developmentURL : productionURL}/shipping`,
->>>>>>> master
   };
 
   const checkoutSession: CheckoutSession = await stripe.createCheckout(params);
@@ -136,12 +115,9 @@ export const fetchOrdersByUser = async (userId: string): Promise<Order[]> => {
 export const fetchAllOrders = async (): Promise<Order[]> => {
   return orderDao.getAllOrders();
 };
-<<<<<<< HEAD
-=======
 
 export const calculateShipping = async (
   data: PrintfulShipping
 ): Promise<any> => {
   return printful.calculateShipping(data);
 };
->>>>>>> master

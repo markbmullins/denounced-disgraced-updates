@@ -20,27 +20,9 @@ import {
     ? `https://${process.env.VERCEL_URL}`
     : '';
   
-export const OrderTemplate = ({ lineItems = [{title:"test",image:"/",amount:"20$",quantity:2}],shippingAddress ="America",orderId = '123',orderDate }: { lineItems: { title: string, image: string, amount: string, quantity: number }[],shippingAddress:string,orderId:string,orderDate:string }) => {
+export const ShippingTemplate = ({ orderId = '123',orderDate }: { orderId:string,orderDate:string }) => {
 
-  const displayLineItems = lineItems?.map((item,index) => {
-    return (<Row key={index}>
-    <Column>
-      <Img
-        src={item.image}
-        alt={item.title}
-        style={{ float: 'left' }}
-        width="260px"
-      />
-    </Column>
-    <Column style={{ verticalAlign: 'top', paddingLeft: '12px' }}>
-      <Text style={{ ...paragraph, fontWeight: '500' }}>
-        {item.title}
-      </Text>
-        <Text style={global.text}>Price: <strong>{item.amount}</strong></Text>
-        <Text style={global.text}>Quantity: <strong>{item.quantity}</strong></Text>
-    </Column>
-  </Row>)
-  })
+ 
 
   return (
     <Html>
@@ -67,9 +49,8 @@ export const OrderTemplate = ({ lineItems = [{title:"test",image:"/",amount:"20$
               alt="thirdmerch"
               style={{ margin: 'auto' }}
             />
-            <Heading style={global.heading}>Order Received.</Heading>
+            <Heading style={global.heading}>Package Shipped</Heading>
             <Text style={global.text}>
-            Thank you for your order! We`ll notify you via email once it`s ready for production.
 
 
 
@@ -77,20 +58,8 @@ export const OrderTemplate = ({ lineItems = [{title:"test",image:"/",amount:"20$
 </Text>
            
           </Section>
-          <Hr style={global.hr} />
-          <Section style={global.defaultPadding}>
-            <Text style={adressTitle}>Shipping to: {shippingAddress}</Text>
-            {/* <Text style={{ ...global.text, fontSize: 14 }}>
-              2125 Chestnut St, San Francisco, CA 94123
-            </Text> */}
-          </Section>
-          <Hr style={global.hr} />
-          <Section
-            style={{ ...paddingX, paddingTop: '40px', paddingBottom: '40px' }}
-          >
-            {displayLineItems}
-          </Section>
-          <Hr style={global.hr} />
+         
+          
           <Section style={global.defaultPadding}>
             <Row style={{ display: 'inline-flex', marginBottom: 40 }}>
               <Column style={{ width: '170px' }}>
@@ -99,14 +68,12 @@ export const OrderTemplate = ({ lineItems = [{title:"test",image:"/",amount:"20$
               </Column>
               <Column>
                 <Text style={global.paragraphWithBold}>Order Date</Text>
-                <Text style={track.number}>{orderDate }</Text>
+                <Text style={track.number}>{orderDate.toString() }</Text>
               </Column>
             </Row>
           
           </Section>
-          <Hr style={global.hr} />
-         
-          <Hr style={global.hr} />
+          
           
           <Hr style={global.hr} />
           <Section style={paddingY}>
@@ -151,7 +118,7 @@ export const OrderTemplate = ({ lineItems = [{title:"test",image:"/",amount:"20$
     </Html>
 )};
   
-  export default OrderTemplate;
+export default ShippingTemplate;
   
   const paddingX = {
     paddingLeft: '40px',
