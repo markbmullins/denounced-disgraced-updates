@@ -43,9 +43,7 @@ const Header = styled.div`
   cursor: pointer;
 `;
 
-const AnimatedChevron = styled(ChevronDown)`
-  transition: all 0.2s ease-in-out;
-`;
+
 
 const DynamicContent = styled.div`
   overflow: hidden;
@@ -185,7 +183,7 @@ const FilterItem = ({
       <ContentWrapper>
         <Header onClick={handleChevronClick}>
           {propertyNameToDisplayName(property)}
-          <AnimatedChevron ref={chevronRef} />
+          <ChevronDown style={{transition:'all 0.2s ease-in-out'}} ref={chevronRef} />
         </Header>
         <DynamicContent ref={contentRef}>{displayFilterValues}</DynamicContent>
       </ContentWrapper>
