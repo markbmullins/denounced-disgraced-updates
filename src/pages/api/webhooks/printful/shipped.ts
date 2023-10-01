@@ -9,9 +9,7 @@ export default async function handler(
     // const body = JSON.parse(req.body);
     const body = req.body
 
-    console.log(req.body)
-
-    try {
+   
         const orderEmail = await sendEmail(
             'sbkobaidze@gmail.com',
             `Order ${body.data.shipment.id} has been shipped`,
@@ -22,11 +20,8 @@ export default async function handler(
         );
         
         res.status(200)
-    }catch(e) {
 
-        res.status(405).json({ message: e });
 
-    }
 
 
 
