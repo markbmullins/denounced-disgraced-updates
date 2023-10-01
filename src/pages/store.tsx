@@ -7,9 +7,9 @@ import Filter from "../components/Store/Filters/Filter";
 import MobileFilter from "../components/Store/Filters/MobileFilter";
 import { useWindowSize } from "../utils/hooks/useWindowSize";
 import { Loader } from "lucide-react";
-import { printful } from "../server/services/printful";
 import Image from "next/image";
 import { PrintfulProductType } from "../server/services/printful/types";
+import { createPrintfulGateway } from "../server/services/printful/gateway";
 
 export type FilterValueTypes = {
   productLine: string[];
@@ -182,6 +182,7 @@ export default function StorePage({
 }
 
 export const getServerSideProps = async () => {
+  const printful = createPrintfulGateway()
   const products = await printful.getProducts();
 
  
