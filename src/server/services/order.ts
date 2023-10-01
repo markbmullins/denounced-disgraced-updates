@@ -8,7 +8,6 @@ import { stripe, CheckoutParams, CheckoutSession } from "./stripe";
 import { printful } from "./printful";
 import { DeliveryDetails } from "./stripe";
 import { OrderItems, PrintfulShipping } from "./printful/types";
-
 const useMocks = ["development", "test"].includes(process.env.NODE_ENV);
 const orderDao: OrdersDao = useMocks ? MockOrdersDao : RealOrdersDao;
 
