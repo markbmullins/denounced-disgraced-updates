@@ -10,7 +10,7 @@ export default async function handler(
 
     try {
         const orderEmail = await sendEmail(
-            body.order.recipient.email,
+            'sbkobaidze@gmail.com',
             `Order ${body.data.shipment.id} has been shipped`,
             ShippingTemplate({
               orderId: body.order.recipient.email,

@@ -10,6 +10,7 @@ export const createPrintfulClient = () => {
     endpoint: string,
     method: string,
     options?: ApiCallOptions,
+    //@ts-ignore
   ): Promise<T> => {
     if (!API_KEY) throw new Error("No printful API key provided");
 

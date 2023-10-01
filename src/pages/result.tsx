@@ -71,6 +71,11 @@ const ResultPage = () => {
 
     const { data, isLoading, error } = trpc.orders.retrieveCheckout.useQuery({ checkoutId: query?.session_id!  as string})
     
+  if (!data) {
+    return null
+      
+    }
+  
     if (isLoading ) {
         return (
           <SpinnerDiv>

@@ -1,5 +1,5 @@
 import { v2 as cloudinary, AdminAndResourceOptions } from "cloudinary";
-import { Product } from "../routers/products/schema";
+import { Product } from "../../routers/products/schema";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUDNAME,
