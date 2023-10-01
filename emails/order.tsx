@@ -309,7 +309,7 @@ export const OrderTemplate = ({ lineItems = [{title:"test",image:"/",amount:"20$
     },
     text: {
       fontWeight: '500',
-      color: '#000',
+      color: '#FFF',
     },
   };
   

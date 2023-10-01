@@ -16,7 +16,7 @@ export const createPrintfulClient = () => {
 
     const { body } = options || {};
 
-    console.log(body)
+    console.log(process.env.PRINTFUL_API_KEY)
     try {
 
       console.log(`${BASE_URL}/${endpoint}`)

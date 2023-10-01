@@ -67,7 +67,7 @@ export const ShippingTemplate = ({ orderId = '123',orderDate }: { orderId:string
                 <Text style={track.number}>{orderId}</Text>
               </Column>
               <Column>
-                <Text style={global.paragraphWithBold}>Order Date</Text>
+                <Text style={global.paragraphWithBold}>Fullfillment Date</Text>
                 <Text style={track.number}>{orderDate.toString() }</Text>
               </Column>
             </Row>
@@ -276,7 +276,7 @@ export default ShippingTemplate;
     },
     text: {
       fontWeight: '500',
-      color: '#000',
+      color: '#FFF',
     },
   };
   
