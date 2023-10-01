@@ -3,8 +3,8 @@ import { trpc } from "../../utils/trpc";
 import styled from "styled-components";
 import Images from "../../components/Product/Images";
 import ProductInfo from "../../components/Product/ProductInfo";
-import { printful } from "../../server/services/printful";
 import { PrintfulProductType } from "../../server/services/printful/types";
+import { createPrintfulGateway } from "../../server/services/printful/gateway";
 
 const ProductContainer = styled.div`
   display: flex;
@@ -36,6 +36,7 @@ export default function ProductPage({ product }: { product: PrintfulProductType 
 export const getServerSideProps = async (context) => {
 
   const id = context.params.id 
+  const printful = createPrintfulGateway()
 
   const product = await printful.getProductInfo(id);
 
