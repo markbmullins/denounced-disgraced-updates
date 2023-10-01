@@ -6,9 +6,10 @@ export default async function handler(
     res: NextApiResponse
 ) {
 
-    const body = JSON.parse(req.body);
+    // const body = JSON.parse(req.body);
+    const body = req.body
 
-    console.log(body)
+    console.log(req.body)
 
     try {
         const orderEmail = await sendEmail(
