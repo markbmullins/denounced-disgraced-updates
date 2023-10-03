@@ -53,10 +53,12 @@ export const createCheckout = async (
     return result;
   }, []);
 
+  console.log(deliveryDetails.rate)
+
   const shippingInfo = {
     shipping_rate_data: {
       fixed_amount: {
-        amount: parseFloat(deliveryDetails.rate) * 100,
+        amount: parseFloat(deliveryDetails.rate).toFixed(0) * 100,
         currency: "USD",
       },
       display_name: "Shipping",

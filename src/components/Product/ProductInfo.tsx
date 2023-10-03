@@ -161,6 +161,8 @@ const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
     toast(` ${product.sync_product.name} - added to cart!`);
   };
 
+
+
   return (
     <ProductInfoContainer>
       <ProductTitle>{product.sync_product.name}</ProductTitle>

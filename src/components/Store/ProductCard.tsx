@@ -81,7 +81,9 @@ export const ProductCard = ({
 
   const variantWithLowestPrice = product.sync_variants.reduce((lowest, currentProduct) => {
     return parseFloat(currentProduct.retail_price) < parseFloat(lowest.retail_price) ? currentProduct : lowest;
-}, product.sync_variants[0]);
+  }, product.sync_variants[0]);
+  
+  console.log(variantWithLowestPrice.retail_price,'test')
   
   // const lowestPrice = product.snyc_variants.sort( )
   const uniqueColorImages = product.sync_variants.reduce((acc:any, variant) => {

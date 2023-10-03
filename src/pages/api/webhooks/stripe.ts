@@ -17,7 +17,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_TEST!, {
   apiVersion: "2023-08-16",
 });
 
-const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret: string = "whsec_d14c0b45d3a65cac4025b8bd3c6b29c2e9423e35cba5d49b5b5d6a9628b1123a";
 
 export const config = {
   api: {
