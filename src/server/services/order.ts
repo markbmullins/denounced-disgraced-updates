@@ -58,6 +58,7 @@ export const createCheckout = async (
   const shippingInfo = {
     shipping_rate_data: {
       fixed_amount: {
+        //@ts-ignore
         amount: parseFloat(deliveryDetails.rate).toFixed(0) * 100,
         currency: "USD",
       },
