@@ -48,6 +48,21 @@ export const createPrintfulGateway = (client = createPrintfulClient()) => {
     return await client.post(url,{body:data} );
   }
 
+
+  const getAllPrintOptions = async (id: string):Promise<any> =>   {
+      const url = `mockup-generator/printfiles/${id}`
+    return await client.get(url);
+
+  }
+
+  const getFile = async (id: string): Promise<any> => {
+    
+    console.log(id)
+    const url = `files/${id}`
+  return await client.get(url);
+
+}
+
   
 
 
@@ -61,5 +76,5 @@ export const createPrintfulGateway = (client = createPrintfulClient()) => {
 
 
 
-  return { getProducts,getProductTemplates,getProductTemplate, createOrder, getProductInfo,createMockUpImages,calculateShipping,retrieveMockUpImages,subscribeToWebhook  };
+  return { getProducts,getFile,getAllPrintOptions,getProductTemplates,getProductTemplate, createOrder, getProductInfo,createMockUpImages,calculateShipping,retrieveMockUpImages,subscribeToWebhook  };
 };

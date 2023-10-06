@@ -18,7 +18,7 @@ const ProductContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-export default function ProductPage({ product }: { product: PrintfulProductType }) {
+export default function ProductPage({ product,id }: { product: PrintfulProductType,id:string }) {
   
 
 
@@ -26,7 +26,7 @@ export default function ProductPage({ product }: { product: PrintfulProductType 
   return (
     <ProductContainer>
       {/*change title later */}
-      <Images product={product} />
+      <Images product={product} id={id} />
       <ProductInfo product={product} />
     </ProductContainer>
   );
@@ -55,6 +55,7 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       product: product,
+      id:id
     },
   };
 }

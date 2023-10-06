@@ -1,9 +1,17 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import { useAtom } from "jotai/react";
 import { proudctColorsAtom } from "../../utils/jotai";
 import { PrintfulProductType } from "../../server/services/printful/types";
+import { trpc } from "../../utils/trpc";
+
+export type MockupSchema = {
+  title: string;
+  option?: string;
+  option_group?: string;
+  url: string;
+};
 const ImagesContainer = styled.div`
   display: flex;
   @media screen and (max-width: 850px) {
@@ -74,41 +82,56 @@ const SideImage = styled.div<{ active: boolean }>`
   border-radius: 5px;
 `;
 
-const Images = ({ product }: { product:PrintfulProductType }) => {
-  const [activeImage, setActiveImage] = useState('');
+const Images = ({
+  product,
+  id,
+}: {
+  product: PrintfulProductType;
+  id: string;
+}) => {
+  const images = trpc.products.getProductMockups.useQuery({ id: id });
+
+
+
+
+  const [allImages, setAllImages] = useState<MockupSchema[]>([]);
+  const [defaultImage, setDefaultImage] = useState("");
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isTransparent, setIsTransparent] = useState(false);
   const [color] = useAtom(proudctColorsAtom);
 
   useEffect(() => {
-    if (color) {
-      const activeVariant = product.sync_variants.find((item) => { return item.color === color })
-      setActiveImage(activeVariant?.product.image!)
+    if (color && images.data) {
+      const activeVariant = images?.data?.find((item) => item[color])!;
+
+      setAllImages(activeVariant[color]);
+      setDefaultImage(
+        activeVariant[color].find((item) => item.title === "main").url
+      );
     }
+  }, [color, images]);
 
-  }, [color])
-
-  
-
-
-
+  if (!images.data || images.error) {
+    return <div>Images are not available for this product</div>
+    
+  }
 
   return (
     <ImagesContainer>
       <SideImageContainer>
-        {/* {images?.map((item, index) => {
+        {allImages?.map((item, index) => {
           return (
             <SideImage
               active={activeImageIndex === index}
               onClick={() => {
-                setActiveImageIndex(index), setActiveImage(item);
+                setActiveImageIndex(index), setDefaultImage(item.url);
               }}
               key={index}
             >
-              <Image src={item} alt={title} fill />
+              <Image src={item.url} alt={product.sync_product.name} fill />
             </SideImage>
           );
-        })} */}
+        })}
       </SideImageContainer>
       <MainImage
         onMouseOver={() => {
@@ -120,7 +143,7 @@ const Images = ({ product }: { product:PrintfulProductType }) => {
         isTransparent={isTransparent}
       >
         <Image
-          src={activeImage}
+          src={defaultImage || ""}
           fill
           alt={product.sync_product.name}
           style={{ position: "absolute" }}
