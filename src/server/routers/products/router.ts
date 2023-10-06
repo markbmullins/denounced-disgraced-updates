@@ -1,7 +1,6 @@
 import { procedure, router } from "../../trpc";
 import { z ,any} from "zod";
 import { fetchAllProducts, fetchProductById } from "../../services/product";
-import mockups from '../../../../mockups.json'
 
 export const productsRouter = router({
   getAll: procedure.query(async () => {
@@ -9,16 +8,7 @@ export const productsRouter = router({
     return fetchAllProducts();
   }),
 
-  getProductMockups: procedure
-  .input(
-    z.object({
-      id: any(),
-    }),
-  )
-    .query(async (opts) => {
-    return  mockups[opts.input.id];
-    ;
-  }),
+
 
   
 

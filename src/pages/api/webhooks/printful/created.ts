@@ -2,19 +2,33 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { printful } from "../../../../server/services/printful";
 import fs from "fs";
+import prisma from "../../../../utils/prisma/prisma";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   // const body = req.body
-  const body = req.body;
+  const body = {
+    type: "product_updated",
+    created: 1622456737,
+    retries: 2,
+    store: 12,
+    data: {
+      sync_product: {
+        id: 322597722,
+        external_id: "322597722",
+        name: "T-shirt",
+        thumbnail: "*http://your-domain.com/path/to/thumbnail.png",
+        is_ignored: true,
+      },
+    },
+  };
 
   //   const subscribe = await printful.subscribeToWebhook({
   //     url: "https://test-ten-alpha-56.vercel.app/api/webhooks/printful/created",
   //     types: ["package_shipped", "product_updated"],
   //   });
-
 
   const product = await printful.getProductInfo(body.data.sync_product.id);
   const productId = product.sync_variants[0].product.product_id;
@@ -89,33 +103,14 @@ export default async function handler(
           return acc;
         }, []);
 
-        if (fs.existsSync("mockups.json")) {
-          // If it exists, read the file
-          const existingData = JSON.parse(
-            fs.readFileSync("mockups.json", "utf8")
-          );
+        const save = await prisma.product.create({
+          data: {
+            printfulId: product.sync_product.id,
+            images: JSON.stringify(sortedMockups),
+          },
+        });
 
-          // Add the new data to the existing data
-          existingData[product.sync_product.id] = sortedMockups;
-
-          // Write the updated data back to the file
-          fs.writeFileSync(
-            "mockups.json",
-            JSON.stringify(existingData, null, 2),
-            "utf8"
-          );
-        } else {
-          // If the file doesn't exist, write the new data to a new file
-          fs.writeFileSync(
-            "mockups.json",
-            JSON.stringify(
-              { [product.sync_product.id]: sortedMockups },
-              null,
-              2
-            ),
-            "utf8"
-          );
-        }
+        console.log(save);
 
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {

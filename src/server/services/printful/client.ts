@@ -18,7 +18,7 @@ export const createPrintfulClient = () => {
 
     try {
 
-      console.log(`${BASE_URL}/${endpoint}`)
+      // console.log(`${BASE_URL}/${endpoint}`)
       const response = await fetch(`${BASE_URL}/${endpoint}`, {
         method,
         headers: {

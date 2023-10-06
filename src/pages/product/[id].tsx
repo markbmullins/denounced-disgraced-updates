@@ -5,7 +5,8 @@ import Images from "../../components/Product/Images";
 import ProductInfo from "../../components/Product/ProductInfo";
 import { PrintfulProductType } from "../../server/services/printful/types";
 import { createPrintfulGateway } from "../../server/services/printful/gateway";
-
+import prisma from "../../utils/prisma/prisma";
+import { Product } from "@prisma/client";
 const ProductContainer = styled.div`
   display: flex;
   @media screen and (max-width: 850px) {
@@ -18,7 +19,7 @@ const ProductContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-export default function ProductPage({ product,id }: { product: PrintfulProductType,id:string }) {
+export default function ProductPage({ product,images }: { product: PrintfulProductType,images:Product }) {
   
 
 
@@ -26,7 +27,7 @@ export default function ProductPage({ product,id }: { product: PrintfulProductTy
   return (
     <ProductContainer>
       {/*change title later */}
-      <Images product={product} id={id} />
+      <Images product={product} imagesData={images} />
       <ProductInfo product={product} />
     </ProductContainer>
   );
@@ -40,6 +41,7 @@ export const getServerSideProps = async (context) => {
 
   const product = await printful.getProductInfo(id);
 
+
   if (!product) {
     return {
       redirect: {
@@ -47,6 +49,12 @@ export const getServerSideProps = async (context) => {
       }
     }
   }
+  const images = await prisma.product.findFirst({
+    where: {
+      printfulId:parseInt(id)
+    },
+    
+  })
 
   
 
@@ -55,7 +63,7 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       product: product,
-      id:id
+      images:images
     },
   };
 }

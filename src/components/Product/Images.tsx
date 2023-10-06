@@ -84,14 +84,14 @@ const SideImage = styled.div<{ active: boolean }>`
 
 const Images = ({
   product,
-  id,
+  imagesData
 }: {
   product: PrintfulProductType;
-  id: string;
+  imagesData:any
 }) => {
-  const images = trpc.products.getProductMockups.useQuery({ id: id });
 
 
+  console.log(imagesData)
 
 
   const [allImages, setAllImages] = useState<MockupSchema[]>([]);
@@ -101,17 +101,19 @@ const Images = ({
   const [color] = useAtom(proudctColorsAtom);
 
   useEffect(() => {
-    if (color && images.data) {
-      const activeVariant = images?.data?.find((item) => item[color])!;
+    if (color && imagesData) {
+      const parsedImages = JSON.parse(imagesData.images)
+
+      const activeVariant = parsedImages?.find((item) => item[color])!;
 
       setAllImages(activeVariant[color]);
       setDefaultImage(
         activeVariant[color].find((item) => item.title === "main").url
       );
     }
-  }, [color, images]);
+  }, [color, imagesData]);
 
-  if (!images.data || images.error) {
+  if (!imagesData) {
     return <div>Images are not available for this product</div>
     
   }
