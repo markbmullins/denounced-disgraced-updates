@@ -53,9 +53,6 @@ export default async function handler(
     product_template_id: currentTemplate.id,
   });
 
-  const retrieveMockupTask = await printful.retrieveMockUpImages(
-    runMockupTask.task_key
-  );
   // console.log(retrieveMockupTask)
 
   let retries = 0; // Count retries
