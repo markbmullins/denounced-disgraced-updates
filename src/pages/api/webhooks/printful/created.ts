@@ -8,22 +8,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // const body = req.body
-  const body = {
-    type: "product_updated",
-    created: 1622456737,
-    retries: 2,
-    store: 12,
-    data: {
-      sync_product: {
-        id: 322597722,
-        external_id: "322597722",
-        name: "T-shirt",
-        thumbnail: "*http://your-domain.com/path/to/thumbnail.png",
-        is_ignored: true,
-      },
-    },
-  };
+  const body = req.body
+
 
   //   const subscribe = await printful.subscribeToWebhook({
   //     url: "https://test-ten-alpha-56.vercel.app/api/webhooks/printful/created",
