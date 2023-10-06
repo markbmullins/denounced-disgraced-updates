@@ -22,8 +22,6 @@ const ProductContainer = styled.div`
 export default function ProductPage({ product,images }: { product: PrintfulProductType,images:Product }) {
   
 
-
-
   return (
     <ProductContainer>
       {/*change title later */}
