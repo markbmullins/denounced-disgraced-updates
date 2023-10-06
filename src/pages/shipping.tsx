@@ -52,6 +52,15 @@ const InputContainer = styled.div`
   flex-direction: column;
 `;
 
+const CheckBoxContainer = styled.div`
+display: flex;
+width: 100%;
+gap:5px;
+align-items: center;
+padding-bottom:5px;
+
+`
+
 const CountriesSelect = styled.select`
   height: 40px;
   border-radius: 3px;
@@ -99,6 +108,7 @@ const Shipping = () => {
   const cart = useShoppingCart();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [subscribe,setSubscribe] = useState(true)
 
   const [shippingData, setShippingData] = useState({
     email: "",
@@ -133,6 +143,7 @@ const Shipping = () => {
 
   const orderMutation = trpc.orders.stripeCheckout.useMutation();
   const shippingMutation = trpc.orders.calculateShipping.useMutation();
+  const subscribeMutation = trpc.orders.joinsNewsLetter.useMutation();
 
   const createCheckout = async () => {
     for (let key in shippingData) {
@@ -160,6 +171,11 @@ const Shipping = () => {
       toast("Please provide a valid email address.");
       return;
     }
+
+    if (subscribe) {
+      const sub = await subscribeMutation.mutateAsync({ email: shippingData.email });
+
+    }
     setIsLoading(true);
 
     const calculateShipping = await shippingMutation.mutateAsync({
@@ -176,7 +192,6 @@ const Shipping = () => {
       },
     });
 
-    console.log(calculateShipping);
 
     const checkoutSessionId = await orderMutation.mutateAsync({
       cartData: cartDetails,
@@ -294,6 +309,12 @@ const Shipping = () => {
             value={shippingData.phone}
           />
         </InputContainer>
+        <CheckBoxContainer>
+        <input type='checkbox'checked={subscribe} onChange={() => setSubscribe(!subscribe)} ></input>
+
+            <Label>Subscribe to newsletter</Label>
+          </CheckBoxContainer>
+
         <NextButton
           active
           onClick={() => {
@@ -310,7 +331,6 @@ const Shipping = () => {
       <SummaryContainer>
         <CartSummary />
 
-        <Newsletter />
       </SummaryContainer>
     </ShippingContainer>
   );

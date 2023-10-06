@@ -49,7 +49,7 @@ const CartBlockPrice = styled.div`
   font-family: Bruno;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ margin?: boolean }>`
   border-radius: 100%;
   width: 30px;
   height: 30px;
@@ -58,6 +58,9 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   border: 1px solid white;
+  margin-right: ${({ margin }) => margin ? '10px' : '0'} ;
+
+ 
   :hover {
     opacity: 0.8;
   }
@@ -119,7 +122,7 @@ const CartBlock = ({ data }: { data: ExpandedCartEntry }) => {
   return (
     <_CartBlock>
       <CartBlockItem>
-        <Button onClick={cartRemove}>
+        <Button onClick={cartRemove} margin={true}>
           <X size={20} color="white" />
         </Button>
         <Link href={`/product/${data.product_data?.metadata?.id}`}>
