@@ -36,11 +36,15 @@ export default async function handler(
 
   console.log(variantIdByColor);
 
-  const productTemplates = await printful.getProductTemplates();
+    const productTemplates = await printful.getProductTemplates();
+    
+    console.log(productTemplates[0])
 
   const currentTemplate = productTemplates.items.find(
     (item) => item.title === product.sync_product.name
-  );
+    );
+    
+    console.log(currentTemplate)
 
   const allOptions = await printful.getAllPrintOptions(productId);
 
