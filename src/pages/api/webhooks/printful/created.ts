@@ -15,6 +15,8 @@ export default async function handler(
   //     types: ["package_shipped", "product_updated"],
   //   });
 
+  console.log(body)
+
   const product = await printful.getProductInfo(body.data.sync_product.id);
 
   const productId = product.sync_variants[0].product.product_id;
@@ -40,6 +42,7 @@ export default async function handler(
     (item) => item.title === product.sync_product.name
   );
 
+  console.log(currentTemplate)
 
   if (!currentTemplate) {
     res.json({ message: "Could not find the template", data: currentTemplate });
