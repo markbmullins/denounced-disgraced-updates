@@ -15,7 +15,6 @@ export default async function handler(
   //     types: ["package_shipped", "product_updated"],
   //   });
 
-  console.log(body)
 
   const product = await printful.getProductInfo(body.data.sync_product.id);
 
