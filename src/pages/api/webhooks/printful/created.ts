@@ -105,12 +105,12 @@ export default async function handler(
           return acc;
         }, {});
 
-        // const save = await prisma.product.create({
-        //   data: {
-        //     printfulId: product.sync_product.id,
-        //     images: JSON.stringify(sortedMockups),
-        //   },
-        // });
+        const save = await prisma.product.create({
+          data: {
+            printfulId: product.sync_product.id,
+            images: JSON.stringify(sortedMockups),
+          },
+        });
 
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {
