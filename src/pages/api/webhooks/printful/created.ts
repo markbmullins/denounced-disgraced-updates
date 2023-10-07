@@ -40,7 +40,6 @@ export default async function handler(
     (item) => item.title === product.sync_product.name
   );
 
-  console.log(currentTemplate);
 
   if (!currentTemplate) {
     res.json({ message: "Could not find the template", data: currentTemplate });
@@ -48,7 +47,6 @@ export default async function handler(
 
   const allOptions = await printful.getAllPrintOptions(productId);
 
-  console.log(allOptions);
 
   // console.log(file)
 
@@ -112,6 +110,8 @@ export default async function handler(
           },
         });
 
+        console.log(sortedMockups)
+        console.log(save)
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {
         res.json({ message: "Max retries reached", data: retrieveMockupTask });
