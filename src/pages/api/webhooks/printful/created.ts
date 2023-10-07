@@ -9,6 +9,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const body = req.body
+  
 
   //   const subscribe = await printful.subscribeToWebhook({
   //     url: "https://test-ten-alpha-56.vercel.app/api/webhooks/printful/created",
@@ -49,6 +50,8 @@ export default async function handler(
 
   const allOptions = await printful.getAllPrintOptions(productId);
 
+  console.log(allOptions)
+
   // console.log(file)
 
   const runMockupTask = await printful.createMockUpImages(productId, {
@@ -56,6 +59,7 @@ export default async function handler(
     format: "png",
     options: allOptions.options,
     product_template_id: currentTemplate.id,
+    option_groups:allOptions.option_groups
   });
 
   // console.log(retrieveMockupTask)
@@ -73,7 +77,7 @@ export default async function handler(
     if (retrieveMockupTask.status !== "pending" || retries >= maxRetries) {
       clearInterval(intervalId);
 
-      console.log(retrieveMockupTask);
+      console.log(retrieveMockupTask.mockups[0].extra);
 
       if (retrieveMockupTask.status !== "pending") {
         const sortedMockups = retrieveMockupTask.mockups.reduce((acc, item) => {
@@ -105,12 +109,12 @@ export default async function handler(
           return acc;
         }, {});
 
-        const save = await prisma.product.create({
-          data: {
-            printfulId: product.sync_product.id,
-            images: JSON.stringify(sortedMockups),
-          },
-        });
+        // const save = await prisma.product.create({
+        //   data: {
+        //     printfulId: product.sync_product.id,
+        //     images: JSON.stringify(sortedMockups),
+        //   },
+        // });
 
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {
