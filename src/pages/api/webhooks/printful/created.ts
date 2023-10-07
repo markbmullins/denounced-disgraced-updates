@@ -8,9 +8,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const body = req.body
-
-  console.log(body)
+  const body = {
+    type: 'product_updated',
+    created: 1696671827,
+    retries: 0,
+    store: 12252824,
+    data: {
+      sync_product: {
+        id: 323336769,
+        external_id: '65212853130118',
+        name: 'Unisex eco sweatshirt',
+        variants: 20,
+        synced: 20,
+        thumbnail_url: null,
+        is_ignored: false
+      }
+    }
+  }
 
   //   const subscribe = await printful.subscribeToWebhook({
   //     url: "https://test-ten-alpha-56.vercel.app/api/webhooks/printful/created",
@@ -19,6 +33,12 @@ export default async function handler(
 
   const product = await printful.getProductInfo(body.data.sync_product.id);
   const productId = product.sync_variants[0].product.product_id;
+
+  const allVariantIds = product.sync_variants.map((item) => {
+    return item.variant_id
+  })
+  
+
 
   const variantIdByColor = product.sync_variants.reduce(
     (accumulator, variant) => {
@@ -35,19 +55,18 @@ export default async function handler(
     {}
   );
 
-        
-    const productTemplates = await printful.getProductTemplates();
-    
-  
-    
+  const productTemplates = await printful.getProductTemplates();
 
   const currentTemplate = productTemplates.items.find(
     (item) => item.title === product.sync_product.name
-    );
-    
-    console.log(currentTemplate)
+  );
+
+  if (!currentTemplate) {
+    res.json({ message: "Could not find the template", data: currentTemplate });
+  }
 
   const allOptions = await printful.getAllPrintOptions(productId);
+
 
   // console.log(file)
 
@@ -73,6 +92,8 @@ export default async function handler(
     if (retrieveMockupTask.status !== "pending" || retries >= maxRetries) {
       clearInterval(intervalId);
 
+      console.log(retrieveMockupTask);
+
       if (retrieveMockupTask.status !== "pending") {
         const sortedMockups = retrieveMockupTask.mockups.reduce((acc, item) => {
           const mockupColor = Object.keys(variantIdByColor).find((color) =>
@@ -80,16 +101,25 @@ export default async function handler(
               variantIdByColor[color].includes(variantId)
             )
           );
-          acc.push({
-            //@ts-ignore
+        
+          const mockupData = item.extra
+            ? [...item.extra, { title: item.placement, url: item.mockup_url }]
+            : [{
+              title: item.placement, url: item.mockup_url
+                      //@ts-ignore
+}];
+          if (acc[mockupColor]) {
+                      //@ts-ignore
 
-            [mockupColor]: [
-              ...item.extra,
-              { title: "main", url: item.mockup_url },
-            ],
-          });
+            acc[mockupColor].push(...mockupData);
+          } else {
+            //@ts-ignore
+            acc[mockupColor] = mockupData;
+          }
+        
           return acc;
-        }, []);
+        }, {})
+
 
         const save = await prisma.product.create({
           data: {
@@ -97,7 +127,6 @@ export default async function handler(
             images: JSON.stringify(sortedMockups),
           },
         });
-
 
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {
