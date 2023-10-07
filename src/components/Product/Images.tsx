@@ -104,11 +104,11 @@ const Images = ({
     if (color && imagesData) {
       const parsedImages = JSON.parse(imagesData.images)
 
-      const activeVariant = parsedImages?.find((item) => item[color])!;
+      const activeVariant = parsedImages[color];
 
-      setAllImages(activeVariant[color]);
+      setAllImages(activeVariant);
       setDefaultImage(
-        activeVariant[color].find((item) => item.title === "main").url
+        activeVariant[0].url
       );
     }
   }, [color, imagesData]);
