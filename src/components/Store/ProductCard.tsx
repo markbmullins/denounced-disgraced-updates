@@ -83,13 +83,12 @@ export const ProductCard = ({
     return parseFloat(currentProduct.retail_price) < parseFloat(lowest.retail_price) ? currentProduct : lowest;
   }, product.sync_variants[0]);
   
-  console.log(variantWithLowestPrice.retail_price,'test')
   
   // const lowestPrice = product.snyc_variants.sort( )
   const uniqueColorImages = product.sync_variants.reduce((acc:any, variant) => {
     // If the color is not already in the accumulator, add the thumbnail
     if (!acc.some(item => item.color === variant.color)) {
-        acc.push({ color: variant.color, thumbnail: variant.product.image });
+      acc.push({ color: variant.color, thumbnail: variant.files.find(item => item.type ==='preview')?.preview_url });
     }
     return acc;
 }, []);

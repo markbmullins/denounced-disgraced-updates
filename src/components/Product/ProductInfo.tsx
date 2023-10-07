@@ -89,20 +89,19 @@ const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState(product.sync_variants[0].size);
   const [currentVariant, setCurrentVariant] = useState<SyncProductVariant>();
-  const [color,setColor] = useAtom(proudctColorsAtom);
+  const [color, setColor] = useAtom(proudctColorsAtom);
 
   const cart = useShoppingCart();
   const { addItem, cartDetails } = cart;
 
-  const sizes = product.sync_variants.reduce((acc:any, product) => {
+  const sizes = product.sync_variants.reduce((acc: any, product) => {
     if (!acc.includes(product.size)) {
       acc.push(product.size);
-
     }
-    return acc
-  },[]);
+    return acc;
+  }, []);
 
-  const colors = product.sync_variants.reduce((acc:any, product) => {
+  const colors = product.sync_variants.reduce((acc: any, product) => {
     if (!acc.includes(product.color)) {
       acc.push(product.color);
     }
@@ -113,24 +112,19 @@ const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
     if (color) {
       const variant = product.sync_variants.find(
         (item) => item.size === size && item.color === color
-
       );
       setCurrentVariant(variant);
-
     }
-
   }, [color, size]);
 
   useEffect(() => {
-    setColor(product.sync_variants[0].color)
+    setColor(product.sync_variants[0].color);
+  }, [product]);
 
-  },[product])
-  
-  console.log(product)
 
   const handleAddToCart = () => {
     if (!size || !color) return toast("Please select size & color");
-    
+
     addItem(
       {
         name: product.sync_product.name,
@@ -147,21 +141,18 @@ const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
             size: size,
             color: color,
             id: product.sync_product.id!,
-            variant_id:  currentVariant?.product.variant_id,
+            variant_id: currentVariant?.product.variant_id,
             sync_variant_id: currentVariant?.id,
 
             quantity: quantity,
             retail_price: currentVariant?.retail_price!,
-
           },
         },
       },
-      { count: quantity },
+      { count: quantity }
     );
     toast(` ${product.sync_product.name} - added to cart!`);
   };
-
-
 
   return (
     <ProductInfoContainer>
@@ -227,9 +218,9 @@ const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
         </ButtonsContainer>
       </ProductSelect>
       <AddToCartButton
-      onClick={() => {
-        handleAddToCart();
-      }}
+        onClick={() => {
+          handleAddToCart();
+        }}
       >
         Add To Cart
       </AddToCartButton>

@@ -9,7 +9,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const body = req.body
-  
 
   //   const subscribe = await printful.subscribeToWebhook({
   //     url: "https://test-ten-alpha-56.vercel.app/api/webhooks/printful/created",
@@ -17,9 +16,8 @@ export default async function handler(
   //   });
 
   const product = await printful.getProductInfo(body.data.sync_product.id);
-  const productId = product.sync_variants[0].product.product_id;
 
- 
+  const productId = product.sync_variants[0].product.product_id;
 
   const variantIdByColor = product.sync_variants.reduce(
     (accumulator, variant) => {
@@ -42,13 +40,15 @@ export default async function handler(
     (item) => item.title === product.sync_product.name
   );
 
+  console.log(currentTemplate);
+
   if (!currentTemplate) {
     res.json({ message: "Could not find the template", data: currentTemplate });
   }
 
   const allOptions = await printful.getAllPrintOptions(productId);
 
-  console.log(allOptions)
+  console.log(allOptions);
 
   // console.log(file)
 
@@ -57,7 +57,7 @@ export default async function handler(
     format: "png",
     options: allOptions.options,
     product_template_id: currentTemplate.id,
-    option_groups:allOptions.option_groups
+    option_groups: allOptions.option_groups,
   });
 
   // console.log(retrieveMockupTask)
@@ -74,8 +74,6 @@ export default async function handler(
     // If status is not pending or max retries reached, clear the interval
     if (retrieveMockupTask.status !== "pending" || retries >= maxRetries) {
       clearInterval(intervalId);
-
-      console.log(retrieveMockupTask.mockups[0].extra);
 
       if (retrieveMockupTask.status !== "pending") {
         const sortedMockups = retrieveMockupTask.mockups.reduce((acc, item) => {
@@ -107,12 +105,12 @@ export default async function handler(
           return acc;
         }, {});
 
-        const save = await prisma.product.create({
-          data: {
-            printfulId: product.sync_product.id,
-            images: JSON.stringify(sortedMockups),
-          },
-        });
+        // const save = await prisma.product.create({
+        //   data: {
+        //     printfulId: product.sync_product.id,
+        //     images: JSON.stringify(sortedMockups),
+        //   },
+        // });
 
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {
