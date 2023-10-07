@@ -8,23 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const body = {
-    type: "product_updated",
-    created: 1696671827,
-    retries: 0,
-    store: 12252824,
-    data: {
-      sync_product: {
-        id: 323336769,
-        external_id: "65212853130118",
-        name: "Unisex eco sweatshirt",
-        variants: 20,
-        synced: 20,
-        thumbnail_url: null,
-        is_ignored: false,
-      },
-    },
-  };
+  const body = req.body
 
   //   const subscribe = await printful.subscribeToWebhook({
   //     url: "https://test-ten-alpha-56.vercel.app/api/webhooks/printful/created",
