@@ -84,15 +84,11 @@ const SideImage = styled.div<{ active: boolean }>`
 
 const Images = ({
   product,
-  imagesData
+  imagesData,
 }: {
   product: PrintfulProductType;
-  imagesData:any
+  imagesData: any;
 }) => {
-
-
-  console.log(imagesData)
-
 
   const [allImages, setAllImages] = useState<MockupSchema[]>([]);
   const [defaultImage, setDefaultImage] = useState("");
@@ -102,38 +98,41 @@ const Images = ({
 
   useEffect(() => {
     if (color && imagesData) {
-      const parsedImages = JSON.parse(imagesData.images)
+      const parsedImages = JSON.parse(imagesData.images);
 
       const activeVariant = parsedImages[color];
 
       setAllImages(activeVariant);
+      setDefaultImage(activeVariant[0].url);
+    } else {
+      const activeVariant = product.sync_variants.find((item) => {
+        return item.color === color;
+      });
       setDefaultImage(
-        activeVariant[0].url
+        activeVariant?.files.find((item) => item.type === "preview")
+          ?.preview_url!
       );
     }
   }, [color, imagesData]);
 
-  if (!imagesData) {
-    return <div>Images are not available for this product</div>
-    
-  }
-
   return (
     <ImagesContainer>
       <SideImageContainer>
-        {allImages?.map((item, index) => {
-          return (
-            <SideImage
-              active={activeImageIndex === index}
-              onClick={() => {
-                setActiveImageIndex(index), setDefaultImage(item.url);
-              }}
-              key={index}
-            >
-              <Image src={item.url} alt={product.sync_product.name} fill />
-            </SideImage>
-          );
-        })}
+        {imagesData
+          ? allImages?.map((item, index) => {
+              return (
+                <SideImage
+                  active={activeImageIndex === index}
+                  onClick={() => {
+                    setActiveImageIndex(index), setDefaultImage(item.url);
+                  }}
+                  key={index}
+                >
+                  <Image src={item.url} alt={product.sync_product.name} fill />
+                </SideImage>
+              );
+            })
+          : null}
       </SideImageContainer>
       <MainImage
         onMouseOver={() => {
@@ -145,7 +144,7 @@ const Images = ({
         isTransparent={isTransparent}
       >
         <Image
-          src={defaultImage || ""}
+          src={defaultImage}
           fill
           alt={product.sync_product.name}
           style={{ position: "absolute" }}
