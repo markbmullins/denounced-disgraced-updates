@@ -19,9 +19,7 @@ export default async function handler(
   const product = await printful.getProductInfo(body.data.sync_product.id);
   const productId = product.sync_variants[0].product.product_id;
 
-  const allVariantIds = product.sync_variants.map((item) => {
-    return item.variant_id;
-  });
+ 
 
   const variantIdByColor = product.sync_variants.reduce(
     (accumulator, variant) => {
@@ -109,12 +107,12 @@ export default async function handler(
           return acc;
         }, {});
 
-        // const save = await prisma.product.create({
-        //   data: {
-        //     printfulId: product.sync_product.id,
-        //     images: JSON.stringify(sortedMockups),
-        //   },
-        // });
+        const save = await prisma.product.create({
+          data: {
+            printfulId: product.sync_product.id,
+            images: JSON.stringify(sortedMockups),
+          },
+        });
 
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {
