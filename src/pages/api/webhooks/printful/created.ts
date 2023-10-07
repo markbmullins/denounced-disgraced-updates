@@ -35,11 +35,9 @@ export default async function handler(
     {}
   );
 
-  console.log(variantIdByColor);
         
     const productTemplates = await printful.getProductTemplates();
     
-    console.log(productTemplates)
   
     
 
@@ -100,7 +98,6 @@ export default async function handler(
           },
         });
 
-        console.log(save);
 
         res.status(200).json({ message: "saved", data: retrieveMockupTask });
       } else {
