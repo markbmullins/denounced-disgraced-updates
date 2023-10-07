@@ -10,6 +10,7 @@ export default async function handler(
 ) {
   const body = req.body
 
+  console.log(body)
 
   //   const subscribe = await printful.subscribeToWebhook({
   //     url: "https://test-ten-alpha-56.vercel.app/api/webhooks/printful/created",
