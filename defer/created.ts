@@ -33,7 +33,7 @@ export const createImages = async (id: number) => {
   console.log(currentTemplate)
 
   if (!currentTemplate) {
-    return false
+    return 
   }
 
   const allOptions = await printful.getAllPrintOptions(productId);
@@ -103,9 +103,9 @@ export const createImages = async (id: number) => {
 
         console.log(sortedMockups)
           console.log(save)
-          return false
+          return 
       } else {
-        return true
+        return 
       }
     }
 

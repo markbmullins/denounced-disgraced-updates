@@ -95,7 +95,6 @@ const Images = ({
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isTransparent, setIsTransparent] = useState(false);
   const [color] = useAtom(proudctColorsAtom);
-console.log(imagesData)
 
   useEffect(() => {
     if (color && imagesData) {

@@ -91,6 +91,8 @@ const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
   const [currentVariant, setCurrentVariant] = useState<SyncProductVariant>();
   const [color, setColor] = useAtom(proudctColorsAtom);
 
+  console.log(currentVariant,'varrr')
+
   const cart = useShoppingCart();
   const { addItem, cartDetails } = cart;
 
@@ -130,12 +132,12 @@ const ProductInfo = ({ product }: { product: PrintfulProductType }) => {
         name: product.sync_product.name,
         description: "test",
         id: currentVariant?.variant_id?.toString()!,
-        image: currentVariant?.product.image!,
+        image: currentVariant?.files.find(item => item.type ==='preview')?.preview_url!,
         price: parseFloat(currentVariant?.retail_price!) * 100,
 
         currency: "USD",
         product_data: {
-          images: [currentVariant?.product.image!],
+          images: [currentVariant?.files.find(item => item.type ==='preview')?.preview_url!],
           name: product.sync_product.name,
           metadata: {
             size: size,
