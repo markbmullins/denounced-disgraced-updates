@@ -35,13 +35,11 @@ export default async function handler(
   );
 
   console.log(variantIdByColor);
-    try {
         
-        const productTemplates = await printful.getProductTemplates();
-    } catch (e) {
-        console.log(e)
-
-    }
+    const productTemplates = await printful.getProductTemplates();
+    
+    console.log(productTemplates)
+  
     
 
   const currentTemplate = productTemplates.items.find(
