@@ -2,9 +2,7 @@ import { defer } from "@defer/client";
 import prisma from "../src/utils/prisma/prisma";
 import { printful } from "../src/server/services/printful";
 
- const createImages = async (id: number) => {
-    
-    
+const createImages = async (id: number) => {
   const product = await printful.getProductInfo(id);
 
   const productId = product.sync_variants[0].product.product_id;
@@ -30,14 +28,13 @@ import { printful } from "../src/server/services/printful";
     (item) => item.title === product.sync_product.name
   );
 
-  console.log(currentTemplate)
+  console.log(currentTemplate);
 
   if (!currentTemplate) {
-    return 
+    return;
   }
 
   const allOptions = await printful.getAllPrintOptions(productId);
-
 
   // console.log(file)
 
@@ -50,6 +47,8 @@ import { printful } from "../src/server/services/printful";
   });
 
 
+  console.log(runMockupTask)
+
   let retries = 0; // Count retries
   const maxRetries = 10; // Set a maximum retry count
   const intervalTime = 5000; // 5 seconds
@@ -59,7 +58,7 @@ import { printful } from "../src/server/services/printful";
       runMockupTask.task_key
     );
 
-    console.log(retrieveMockupTask,'testt')
+    console.log(retrieveMockupTask, "testt");
 
     // If status is not pending or max retries reached, clear the interval
     if (retrieveMockupTask.status !== "pending" || retries >= maxRetries) {
@@ -102,18 +101,16 @@ import { printful } from "../src/server/services/printful";
           },
         });
 
-        console.log(sortedMockups)
-          console.log(save)
-          return 
+        console.log(sortedMockups);
+        console.log(save);
+        return;
       } else {
-        return 
+        return;
       }
     }
 
     retries++;
   }, intervalTime);
-
-}
+};
 
 export default defer(createImages);
-
