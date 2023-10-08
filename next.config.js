@@ -4,6 +4,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  experimental: {
+    serverMinification: false,
+  },
   images: {
     domains: ["res.cloudinary.com", "files.cdn.printful.com", "printful-upload.s3-accelerate.amazonaws.com"],
   },

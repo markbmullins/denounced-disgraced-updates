@@ -49,7 +49,6 @@ import { printful } from "../src/server/services/printful";
     option_groups: allOptions.option_groups,
   });
 
-  // console.log(retrieveMockupTask)
 
   let retries = 0; // Count retries
   const maxRetries = 10; // Set a maximum retry count
