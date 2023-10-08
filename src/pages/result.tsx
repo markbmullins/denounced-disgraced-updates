@@ -74,7 +74,6 @@ const ResultPage = () => {
   if (!data) {
     return null
     }
-  
     if (isLoading ) {
         return (
           <SpinnerDiv>
