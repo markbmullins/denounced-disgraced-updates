@@ -90,6 +90,8 @@ const Images = ({
   imagesData: any;
 }) => {
 
+  console.log(imagesData)
+
   const [allImages, setAllImages] = useState<MockupSchema[]>([]);
   const [defaultImage, setDefaultImage] = useState("");
   const [activeImageIndex, setActiveImageIndex] = useState(0);

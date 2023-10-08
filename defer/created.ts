@@ -60,6 +60,8 @@ export const createImages = async (id: number) => {
       runMockupTask.task_key
     );
 
+    console.log(retrieveMockupTask,'testt')
+
     // If status is not pending or max retries reached, clear the interval
     if (retrieveMockupTask.status !== "pending" || retries >= maxRetries) {
       clearInterval(intervalId);
