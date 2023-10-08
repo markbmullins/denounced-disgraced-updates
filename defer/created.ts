@@ -2,9 +2,10 @@ import { defer } from "@defer/client";
 import prisma from "../src/utils/prisma/prisma";
 import { printful } from "../src/server/services/printful";
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 const createImages = async (id: number) => {
   const product = await printful.getProductInfo(id);
-
   const productId = product.sync_variants[0].product.product_id;
 
   const variantIdByColor = product.sync_variants.reduce(
@@ -19,17 +20,13 @@ const createImages = async (id: number) => {
   );
 
   const productTemplates = await printful.getProductTemplates();
-
-  const currentTemplate = productTemplates.items.find(
-    (item) => item.title === product.sync_product.name
-  );
+  const currentTemplate = productTemplates.items.find(item => item.title === product.sync_product.name);
 
   if (!currentTemplate) {
     return;
   }
 
   const allOptions = await printful.getAllPrintOptions(productId);
-
   const runMockupTask = await printful.createMockUpImages(productId, {
     variant_ids: currentTemplate.available_variant_ids,
     format: "png",
@@ -42,54 +39,38 @@ const createImages = async (id: number) => {
   const maxRetries = 10;
   const intervalTime = 5000;
 
-  const checkMockupTaskStatus = async () => {
+  let taskStatus = "pending";
+  while (taskStatus === "pending" && retries < maxRetries) {
     const retrieveMockupTask = await printful.retrieveMockUpImages(runMockupTask.task_key);
-    if (retrieveMockupTask.status !== "pending" || retries >= maxRetries) {
-      if (retrieveMockupTask.status !== "pending") {
-        const sortedMockups = retrieveMockupTask.mockups.reduce((acc, item) => {
-          const mockupColor = Object.keys(variantIdByColor).find((color) =>
-            item.variant_ids.some((variantId) =>
-              variantIdByColor[color].includes(variantId)
-            )
-          );
+    taskStatus = retrieveMockupTask.status;
+    
+    if (taskStatus !== "pending") {
+      const sortedMockups = retrieveMockupTask.mockups.reduce((acc, item) => {
+        const mockupColor = Object.keys(variantIdByColor).find(color => item.variant_ids.some(variantId => variantIdByColor[color].includes(variantId)));
+        const mockupData = item.extra ? [...item.extra, { title: item.placement, url: item.mockup_url }] : [{ title: item.placement, url: item.mockup_url }];
+        //@ts-ignore
+        if (acc[mockupColor]) {
+          acc[mockupColor].push(...mockupData);
+        } else {
+          //@ts-ignore
+          acc[mockupColor] = mockupData;
+        }
 
-          const mockupData = item.extra
-            ? [...item.extra, { title: item.placement, url: item.mockup_url }]
-            : [
-                {
-                  title: item.placement,
-                  url: item.mockup_url,
-                },
-              ];
-              //@ts-ignore
-          if (acc[mockupColor]) {
-                          //@ts-ignore
-            acc[mockupColor].push(...mockupData);
-          } else {              //@ts-ignore
-            acc[mockupColor] = mockupData;
-          }
+        return acc;
+      }, {});
 
-          return acc;
-        }, {});
-
-        await prisma.product.create({
-          data: {
-            printfulId: product.sync_product.id,
-            images: JSON.stringify(sortedMockups),
-          },
-        });
-
-        return;
-      } else {
-        return;
-      }
+     const data=  await prisma.product.create({
+        data: {
+          printfulId: product.sync_product.id,
+          images: JSON.stringify(sortedMockups),
+        },
+     });
+      console.log(data)
     } else {
       retries++;
-      setTimeout(checkMockupTaskStatus, intervalTime);
+      await delay(intervalTime);
     }
-  };
-
-  await checkMockupTaskStatus();
+  }
 };
 
 export default defer(createImages);
