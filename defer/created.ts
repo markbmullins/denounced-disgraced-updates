@@ -2,7 +2,7 @@ import { defer } from "@defer/client";
 import prisma from "../src/utils/prisma/prisma";
 import { printful } from "../src/server/services/printful";
 
-export const createImages = async (id: number) => {
+ const createImages = async (id: number) => {
     
     
   const product = await printful.getProductInfo(id);
