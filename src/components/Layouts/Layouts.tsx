@@ -1,5 +1,6 @@
+import React from "react";
 import styled from "styled-components";
-import {desktopAndLandscape} from "../../utils/mediaQueries";
+import { desktopAndLandscape } from "../../utils/mediaQueries";
 
 const _ColumnCentered = styled.div`
   display: flex;
@@ -12,6 +13,8 @@ const _ColumnCentered = styled.div`
   }
 `;
 
-export const ColumnCentered = ({children}) => {
-    return <_ColumnCentered>{children}</_ColumnCentered>;
+
+
+export const ColumnCentered = ({ children }: { children: React.ReactNode }) => {
+  return <_ColumnCentered>{children}</_ColumnCentered>;
 };

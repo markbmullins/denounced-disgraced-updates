@@ -1,0 +1,35 @@
+import React, { useState } from "react";
+import { ShoppingCart } from "lucide-react";
+import styled from "styled-components";
+import Link from "next/link";
+import { useShoppingCart } from "use-shopping-cart";
+import CartBlock from "./CartBlock";
+
+const CartContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  font-family: Bruno;
+  align-items: center;
+`;
+
+const Cart = () => {
+  const [_, setDesktopCart] = useState(false);
+  const { cartDetails } = useShoppingCart();
+  const totalCartItems = Object.values(cartDetails ?? {}).reduce((acc: any, entry: any) => acc + entry.quantity, 0);
+
+
+  return (
+    <Link href="/cart">
+      <CartContainer
+        onClick={() => {
+          setDesktopCart(true);
+        }}
+      >
+        <ShoppingCart />
+        {totalCartItems || 0}
+      </CartContainer>
+    </Link>
+  );
+};
+
+export default Cart;
